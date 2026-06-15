@@ -1,0 +1,10 @@
+/* GameWindow — 视口容器，内部处理滚动 */
+.game-window {
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  background: #1a1a2e;
+  color: #eaeaea;
+}
