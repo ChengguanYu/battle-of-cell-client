@@ -1,11 +1,7 @@
-import './App.css'
+import { Routes, Route } from "react-router-dom"
+import { LoginPage } from "./pages/LoginPage"
+import { RegisterPage } from "./pages/RegisterPage"
 
-/**
- * GameWindow — 游戏视口容器
- *
- * 占满 100vw × 100vh，内部 overflow-y: auto 处理滚动。
- * 所有游戏内容都应挂在此组件下。
- */
 function GameWindow() {
   return (
     <div className="game-window">
@@ -15,7 +11,13 @@ function GameWindow() {
 }
 
 function App() {
-  return <GameWindow />
+  return (
+    <Routes>
+      <Route path="/" element={<GameWindow />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+    </Routes>
+  )
 }
 
 export default App
