@@ -54,11 +54,11 @@ export function HomePage() {
       <div className="flex h-full">
         {/* 左侧排行榜 */}
         <aside className="flex w-1/3 flex-col p-4">
-          <div className="overflow-hidden rounded-xl border border-border bg-card shadow-lg">
-            <div className="px-5 py-4">
+          <div className="flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-lg">
+            <div className="shrink-0 px-5 py-4">
               <h2 className="text-lg font-bold text-foreground">🏆 排行榜</h2>
             </div>
-            <div className="max-h-[calc(100vh-8rem)] overflow-y-auto">
+            <div className="flex-1 overflow-y-auto">
               {MOCK_LEADERBOARD.map((entry) => (
                 <LeaderboardCard key={entry.rank} entry={entry} />
               ))}
