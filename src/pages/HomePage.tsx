@@ -58,7 +58,7 @@ export function HomePage() {
             <div className="shrink-0 px-5 py-4">
               <h2 className="text-lg font-bold text-foreground">🏆 排行榜</h2>
             </div>
-            <div className="flex-1 overflow-y-auto">
+            <div className="scrollbar-theme flex-1 overflow-y-auto">
               {MOCK_LEADERBOARD.map((entry) => (
                 <LeaderboardCard key={entry.rank} entry={entry} />
               ))}

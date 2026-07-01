@@ -82,3 +82,21 @@ body {
   overflow-x: hidden;
   position: relative;
 }
+
+/* 自定义滚动条 — 深绿主题 */
+.scrollbar-theme::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrollbar-theme::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-theme::-webkit-scrollbar-thumb {
+  background: hsl(150, 15%, 25%);
+  border-radius: 999px;
+}
+
+.scrollbar-theme::-webkit-scrollbar-thumb:hover {
+  background: hsl(142, 40%, 35%);
+}
