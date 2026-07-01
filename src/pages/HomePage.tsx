@@ -115,9 +115,12 @@ export function HomePage() {
           <div className="flex justify-end px-6 pb-8">
             <button
               type="button"
-              className="cursor-pointer rounded-xl bg-emerald-500 px-10 py-3 text-base font-bold text-white shadow-lg shadow-emerald-500/25 transition-all hover:bg-emerald-400 hover:shadow-emerald-400/40 active:scale-[0.97]"
+              className="cursor-pointer rounded-2xl bg-emerald-500 px-14 py-4 text-lg font-bold text-white shadow-lg shadow-emerald-500/25 transition-all hover:bg-emerald-400 hover:shadow-emerald-400/40 active:scale-[0.97]"
             >
-              开始匹配
+              <span className="flex items-center gap-3">
+                <span>⚔️</span>
+                开始匹配
+              </span>
             </button>
           </div>
         </main>
