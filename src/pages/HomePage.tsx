@@ -26,7 +26,7 @@ function LeaderboardCard({ entry }: { entry: LeaderboardEntry }) {
   const rankColors = ["text-yellow-400", "text-slate-300", "text-amber-600"]
 
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-border bg-card/50 px-4 py-3 transition-colors hover:bg-accent">
+    <div className="flex items-center gap-3 border-b border-border/50 px-4 py-3 last:border-b-0">
       <span
         className={`w-6 text-center text-sm font-bold ${
           isTopThree ? rankColors[entry.rank - 1] : "text-muted-foreground"
@@ -53,14 +53,16 @@ export function HomePage() {
     <div className="game-window">
       <div className="flex h-full">
         {/* 左侧排行榜 */}
-        <aside className="flex w-1/3 flex-col border-r border-border bg-card/30">
-          <div className="border-b border-border px-5 py-4">
-            <h2 className="text-lg font-bold text-foreground">🏆 排行榜</h2>
-          </div>
-          <div className="flex-1 space-y-2 overflow-y-auto px-4 py-3">
-            {MOCK_LEADERBOARD.map((entry) => (
-              <LeaderboardCard key={entry.rank} entry={entry} />
-            ))}
+        <aside className="flex w-1/3 flex-col p-4">
+          <div className="overflow-hidden rounded-xl border border-border bg-card shadow-lg">
+            <div className="px-5 py-4">
+              <h2 className="text-lg font-bold text-foreground">🏆 排行榜</h2>
+            </div>
+            <div className="max-h-[calc(100vh-8rem)] overflow-y-auto">
+              {MOCK_LEADERBOARD.map((entry) => (
+                <LeaderboardCard key={entry.rank} entry={entry} />
+              ))}
+            </div>
           </div>
         </aside>
 
