@@ -66,13 +66,41 @@ export function HomePage() {
 
         {/* 右侧主区域 */}
         <main className="relative flex flex-1 flex-col">
-          {/* 右上角头像 */}
+          {/* 右上角玩家卡片 */}
           <div className="flex justify-end px-6 pt-5">
             <Link
               to="/user"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/20 text-lg text-emerald-400 ring-1 ring-emerald-500/30 transition-colors hover:bg-emerald-500/30"
+              className="group flex w-56 items-center gap-3 rounded-xl border border-border bg-card p-3 transition-colors hover:border-emerald-500/40 hover:bg-accent"
             >
-              😎
+              {/* 头像 */}
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-lg ring-1 ring-emerald-500/25">
+                🧬
+              </span>
+
+              {/* 信息 */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-xs font-medium text-emerald-400">
+                    Lv.15
+                  </span>
+                  <span className="truncate text-sm font-medium text-foreground">
+                    细胞之主
+                  </span>
+                </div>
+
+                {/* 经验进度条 */}
+                <div className="mt-1.5 flex items-center gap-2">
+                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
+                    <div
+                      className="h-full rounded-full bg-emerald-500 transition-all"
+                      style={{ width: "65%" }}
+                    />
+                  </div>
+                  <span className="text-[11px] text-muted-foreground">
+                    65%
+                  </span>
+                </div>
+              </div>
             </Link>
           </div>
 
