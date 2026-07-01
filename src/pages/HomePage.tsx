@@ -53,7 +53,7 @@ export function HomePage() {
     <div className="game-window">
       <div className="flex h-full">
         {/* 左侧排行榜 */}
-        <aside className="flex w-1/3 flex-col p-4">
+        <aside className="flex w-1/3 flex-col p-5">
           <div className="flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-lg">
             <div className="shrink-0 px-5 py-4">
               <h2 className="text-lg font-bold text-foreground">🏆 排行榜</h2>
@@ -67,9 +67,9 @@ export function HomePage() {
         </aside>
 
         {/* 右侧主区域 */}
-        <main className="relative flex flex-1 flex-col">
+        <main className="relative flex flex-1 flex-col p-5">
           {/* 右上角玩家卡片 */}
-          <div className="flex justify-end px-6 pt-5">
+          <div className="flex justify-end">
             <Link
               to="/user"
               className="group flex w-56 items-center gap-3 rounded-xl border border-border bg-card p-3 transition-colors hover:border-emerald-500/40 hover:bg-accent"
@@ -112,7 +112,7 @@ export function HomePage() {
           </div>
 
           {/* 右下角开始匹配按钮 */}
-          <div className="flex justify-end px-6 pb-8">
+          <div className="flex justify-end">
             <button
               type="button"
               className="cursor-pointer rounded-2xl bg-emerald-500 px-14 py-4 text-lg font-bold text-white shadow-lg shadow-emerald-500/25 transition-all hover:bg-emerald-400 hover:shadow-emerald-400/40 active:scale-[0.97]"
