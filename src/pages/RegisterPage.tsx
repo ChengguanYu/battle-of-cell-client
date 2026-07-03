@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { toast } from "sonner"
 
 import type { RegisterRequest } from "../types/auth"
 import { registerSchema, type RegisterFormData } from "../schemas/auth"
+import { useAuth } from "../hooks/AuthContext"
 import { AuthLayout } from "../components/AuthLayout"
 import { Button } from "../components/ui/button"
 import {
@@ -24,12 +26,10 @@ function buildRegisterRequest(data: RegisterFormData): RegisterRequest {
   }
 }
 
-function placeholderRegister(req: RegisterRequest) {
-  // TODO: 替换为真实 API 调用
-  console.log("Register request payload:", req)
-}
-
 export function RegisterPage() {
+  const navigate = useNavigate()
+  const { register: registerUser } = useAuth()
+
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -40,9 +40,15 @@ export function RegisterPage() {
     },
   })
 
-  function onSubmit(data: RegisterFormData) {
-    const request = buildRegisterRequest(data)
-    placeholderRegister(request)
+  async function onSubmit(data: RegisterFormData) {
+    try {
+      const request = buildRegisterRequest(data)
+      await registerUser(request)
+      toast.success("注册成功")
+      navigate("/login", { replace: true })
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "注册失败")
+    }
   }
 
   return (

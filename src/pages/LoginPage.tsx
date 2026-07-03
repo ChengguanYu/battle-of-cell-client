@@ -1,9 +1,11 @@
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { toast } from "sonner"
 
-import type { LoginRequest } from "../types/auth"
 import { loginSchema, type LoginFormData } from "../schemas/auth"
+import { useAuth } from "../hooks/AuthContext"
 import { AuthLayout } from "../components/AuthLayout"
 import { Button } from "../components/ui/button"
 import {
@@ -16,30 +18,31 @@ import {
 } from "../components/ui/form"
 import { Input } from "../components/ui/input"
 
-function buildLoginRequest(data: LoginFormData): LoginRequest {
-  return {
-    username: data.username,
-    password: data.password,
-  }
-}
-
-function placeholderLogin(req: LoginRequest) {
-  // TODO: 替换为真实 API 调用
-  console.log("Login request payload:", req)
-}
-
 export function LoginPage() {
+  const navigate = useNavigate()
+  const { login, isAuthenticated } = useAuth()
+
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: "",
+      account: "",
       password: "",
     },
   })
 
-  function onSubmit(data: LoginFormData) {
-    const request = buildLoginRequest(data)
-    placeholderLogin(request)
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/home", { replace: true })
+    }
+  }, [isAuthenticated, navigate])
+
+  async function onSubmit(data: LoginFormData) {
+    try {
+      await login(data.account, data.password)
+      toast.success("登录成功")
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "登录失败")
+    }
   }
 
   return (
@@ -48,12 +51,12 @@ export function LoginPage() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
-            name="username"
+            name="account"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>用户名</FormLabel>
+                <FormLabel>邮箱 / 账号</FormLabel>
                 <FormControl>
-                  <Input placeholder="请输入用户名" {...field} />
+                  <Input placeholder="请输入邮箱或账号" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
