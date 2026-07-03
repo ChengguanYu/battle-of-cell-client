@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useAuth } from "../hooks/AuthContext"
 
 interface LeaderboardEntry {
   rank: number
@@ -49,6 +50,14 @@ function LeaderboardCard({ entry }: { entry: LeaderboardEntry }) {
 }
 
 export function HomePage() {
+  const { logout } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    navigate("/login", { replace: true })
+  }
+
   return (
     <div className="game-window">
       <div className="flex h-full">
@@ -68,8 +77,15 @@ export function HomePage() {
 
         {/* 右侧主区域 */}
         <main className="relative flex flex-1 flex-col p-5">
-          {/* 右上角玩家卡片 */}
-          <div className="flex justify-end">
+          {/* 右上角退出 + 玩家卡片 */}
+          <div className="flex items-start justify-end gap-3">
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="mt-3 cursor-pointer rounded-lg border border-border bg-card px-4 py-2 text-sm text-muted-foreground transition-colors hover:border-red-500/40 hover:text-red-400"
+            >
+              退出登录
+            </button>
             <Link
               to="/user"
               className="group flex w-56 items-center gap-3 rounded-xl border border-border bg-card p-3 transition-colors hover:border-emerald-500/40 hover:bg-accent"
