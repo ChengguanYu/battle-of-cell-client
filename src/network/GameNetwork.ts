@@ -5,7 +5,7 @@ export type ConnectionStatus = "disconnected" | "connecting" | "connected"
 type MessageHandler = (body: ArrayBuffer, rpcId: number) => void
 type StatusCallback = (status: ConnectionStatus) => void
 
-export class GameConnection {
+class GameNetwork {
   private ws: WebSocket | null = null
   private status: ConnectionStatus = "disconnected"
   private messageHandlers = new Map<number, MessageHandler>()
@@ -78,7 +78,7 @@ export class GameConnection {
 
   send(opcode: number, body: Uint8Array): void {
     if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
-      console.warn(`GameConnection: cannot send, not connected (opcode=${opcode})`)
+      console.warn(`GameNetwork: cannot send, not connected (opcode=${opcode})`)
       return
     }
     const buffer = packPacket(opcode, body)
@@ -110,5 +110,4 @@ export class GameConnection {
   }
 }
 
-// 文件末尾 — 全局单例实例
-export const gameConnection = new GameConnection()
+export const gameNetwork = new GameNetwork()
