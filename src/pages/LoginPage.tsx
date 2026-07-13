@@ -30,6 +30,8 @@ export function LoginPage() {
     },
   })
 
+  const { isSubmitting } = form.formState
+
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/home", { replace: true })
@@ -79,8 +81,12 @@ export function LoginPage() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
-            登录
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "登录中..." : "登录"}
           </Button>
         </form>
       </Form>
