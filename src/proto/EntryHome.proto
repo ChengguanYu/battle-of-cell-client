@@ -1,0 +1,14 @@
+syntax = "proto3";
+package BattleOfCell.Message;
+
+/// 客户端进家园请求
+message EntryHomeReq // IRequest,EntryHomeRes
+{
+    string token = 1;
+}
+
+/// 客户端进家园响应
+message EntryHomeRes // IResponse
+{
+    uint32 status = 1;
+}
