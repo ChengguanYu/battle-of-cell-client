@@ -4,7 +4,7 @@ export const loginSchema = z.object({
   account: z.string().min(1, "请输入账号或邮箱"),
   password: z
     .string()
-    .min(6, "密码至少 6 个字符")
+    .min(8, "密码至少 8 个字符")
     .max(32, "密码最多 32 个字符"),
 })
 
