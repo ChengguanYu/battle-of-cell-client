@@ -6,9 +6,13 @@ import {
   useState,
 } from "react"
 import type { ReactNode } from "react"
-import type { LoginResponseData } from "../types/api"
 import { authApi } from "../services/auth"
 import type { RegisterRequest } from "../types/auth"
+import { gameNetwork } from "../network/GameNetwork"
+import { BattleOfCell } from "../proto/bundle"
+import { CONFIG } from "../network/config"
+import { OpCode } from "../proto/OpCode"
+import { StatusCode } from "../entity/dtos"
 
 interface User {
   uuid: string
@@ -46,7 +50,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState(loadSession)
 
   const login = useCallback(async (account: string, password: string) => {
+    // 1. HTTP 登录认证
     const data = await authApi.login(account, password)
+
+    // 2. 连接 WebSocket（如果尚未连接）
+    if (!gameNetwork.isConnected) {
+      const wsAddress = `ws://${CONFIG.WS_HOST}:${CONFIG.WS_PORT}`
+      await gameNetwork.connect(wsAddress)
+    }
+
+    // 3. 编码 EntryHomeReq（携带 token）并发送
+    const reqBody = BattleOfCell.Message.EntryHomeReq.encode(
+      BattleOfCell.Message.EntryHomeReq.create({
+        token: data.token,
+      }),
+    ).finish()
+
+    // 4. 等待 EntryHomeRes（确认游戏会话已建立）
+    const respBuffer = await gameNetwork.request(
+      OpCode.EntryHomeReq,
+      reqBody,
+      OpCode.EntryHomeRes,
+    )
+
+    // 解码并检查响应
+    const entryRes = BattleOfCell.Message.EntryHomeRes.decode(
+      new Uint8Array(respBuffer),
+    )
+    console.log("[Login] EntryHomeRes:", JSON.stringify(entryRes))
+
+    if (entryRes.status !== StatusCode.Ok) {
+      throw new Error("进入游戏失败")
+    }
+
+    // 5. 保存会话
     sessionStorage.setItem("token", data.token)
     sessionStorage.setItem("user", JSON.stringify(data.user))
     setSession({ token: data.token, user: data.user })
