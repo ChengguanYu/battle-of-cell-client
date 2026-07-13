@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../hooks/AuthContext"
+import { ChatRoom } from "../components/ChatRoom"
 
 interface LeaderboardEntry {
   rank: number
@@ -88,7 +89,7 @@ export function HomePage() {
             </button>
             <Link
               to="/user"
-              className="group flex w-56 items-center gap-3 rounded-xl border border-border bg-card p-3 transition-colors hover:border-emerald-500/40 hover:bg-accent"
+              className="group flex w-72 items-center gap-3 rounded-xl border border-border bg-card p-3 transition-colors hover:border-emerald-500/40 hover:bg-accent"
             >
               {/* 头像 */}
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-lg ring-1 ring-emerald-500/25">
@@ -122,18 +123,18 @@ export function HomePage() {
             </Link>
           </div>
 
-          {/* 中间弹性区 */}
-          <div className="flex flex-1 items-center justify-center">
-            {/* 后续内容占位 */}
+          {/* 中间弹性区 — 聊天室 */}
+          <div className="flex flex-1 items-end justify-end pb-4">
+            <ChatRoom />
           </div>
 
           {/* 右下角开始匹配按钮 */}
           <div className="flex justify-end">
             <button
               type="button"
-              className="cursor-pointer rounded-2xl bg-emerald-500 px-14 py-4 text-lg font-bold text-white shadow-lg shadow-emerald-500/25 transition-all hover:bg-emerald-400 hover:shadow-emerald-400/40 active:scale-[0.97]"
+              className="h-14 w-72 cursor-pointer rounded-2xl bg-emerald-500 text-lg font-bold text-white shadow-lg shadow-emerald-500/25 transition-all hover:bg-emerald-400 hover:shadow-emerald-400/40 active:scale-[0.97]"
             >
-              <span className="flex items-center gap-3">
+              <span className="flex items-center justify-center gap-3">
                 <span>⚔️</span>
                 开始匹配
               </span>
