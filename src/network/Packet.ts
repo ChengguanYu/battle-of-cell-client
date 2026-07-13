@@ -16,7 +16,7 @@ export const HEAD_LENGTH = 20
  * 将 opcode + body 打包为完整二进制帧
  * 小端序匹配 C# 默认端序
  */
-export function packPacket(opcode: number, body: Uint8Array): ArrayBuffer {
+export function packPacket(opcode: number, body: Uint8Array, rpcId = 0): ArrayBuffer {
   const bodyLength = body.byteLength
   const buffer = new ArrayBuffer(HEAD_LENGTH + bodyLength)
   const view = new DataView(buffer)
@@ -27,8 +27,8 @@ export function packPacket(opcode: number, body: Uint8Array): ArrayBuffer {
   // ProtocolCode: OpCode
   view.setUint32(4, opcode, true)
 
-  // RpcId: 客户端发消息填 0
-  view.setUint32(8, 0, true)
+  // RpcId: 用于请求-响应关联
+  view.setUint32(8, rpcId, true)
 
   // [padding]: 8 字节占位，初始化后默认为 0
 
