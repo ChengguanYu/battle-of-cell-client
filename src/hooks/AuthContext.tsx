@@ -9,51 +9,12 @@ import type { ReactNode } from "react"
 import { authApi } from "../services/auth"
 import type { RegisterRequest } from "../types/auth"
 import { gameNetwork } from "../network/GameNetwork"
+import { wsService } from "../services/wsService"
 import { BattleOfCell } from "../proto/bundle"
 import { CONFIG } from "../network/config"
 import { OpCode } from "../proto/OpCode"
 import { StatusCode } from "../entity/dtos"
 import { formatRespError } from "../proto/utils"
-
-// --- Heartbeat ---
-let heartbeatTimer: ReturnType<typeof setInterval> | null = null
-
-/** 将整数编码为无符号 varint */
-function encodeVarint(value: number): Uint8Array {
-  const bytes: number[] = []
-  while (value >= 0x80) {
-    bytes.push((value & 0x7F) | 0x80)
-    value = Math.floor(value / 128)
-  }
-  bytes.push(value & 0x7F)
-  return new Uint8Array(bytes)
-}
-
-/** 手动编码 SessionHeartbeatPing（uint64 timestamp = 1） */
-function encodeHeartbeatPing(): Uint8Array {
-  const timestamp = Date.now()
-  // field 1, wire type varint → tag = (1 << 3) | 0 = 0x08
-  const tag = new Uint8Array([0x08])
-  const value = encodeVarint(timestamp)
-  const result = new Uint8Array(1 + value.length)
-  result.set(tag)
-  result.set(value, 1)
-  return result
-}
-
-function startHeartbeat() {
-  stopHeartbeat()
-  heartbeatTimer = setInterval(() => {
-    gameNetwork.send(OpCode.SessionHeartbeatPing, encodeHeartbeatPing())
-  }, CONFIG.HEARTBEAT_INTERVAL_MS)
-}
-
-function stopHeartbeat() {
-  if (heartbeatTimer !== null) {
-    clearInterval(heartbeatTimer)
-    heartbeatTimer = null
-  }
-}
 
 interface User {
   uuid: string
@@ -95,9 +56,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const data = await authApi.login(account, password)
 
     // 2. 连接 WebSocket（如果尚未连接）
-    if (!gameNetwork.isConnected) {
+    if (!wsService.isConnected) {
       const wsAddress = `ws://${CONFIG.WS_HOST}:${CONFIG.WS_PORT}`
-      await gameNetwork.connect(wsAddress)
+      await wsService.connect(wsAddress)
     }
 
     // 3. 编码 EntryHomeReq（携带 token）并发送
@@ -125,8 +86,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       sessionStorage.setItem("token", data.token)
       sessionStorage.setItem("user", JSON.stringify(data.user))
       setSession({ token: data.token, user: data.user })
-      startHeartbeat()
+      wsService.notifyAuthSuccess()
+      wsService.startHeartbeat()
     } else {
+      wsService.notifyAuthFail()
       // meta.status_code !== 0 → 逐个通知错误
       const errors = entryResp.error ?? []
       for (const err of errors) {
@@ -145,7 +108,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const logout = useCallback(() => {
-    stopHeartbeat()
+    wsService.disconnect()
     sessionStorage.removeItem("token")
     sessionStorage.removeItem("user")
     setSession({ token: null, user: null })

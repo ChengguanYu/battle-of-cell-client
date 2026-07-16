@@ -4,11 +4,11 @@ export const OpCode = {
   EntryHomeReq: 268445457,
   EntryHomeResp: 402663185,
   MetaData:134227729,
-  PlayerMatchReq:268445458,
-  PlayerMatchResp:402663186,
+  PlayerRoomsReq:268445458,
+  PlayerRoomsResp:402663186,
   RespError:134227730,
-  SessionHeartbeatPing:134227731,
-  SessionHeartbeatPong:134227732,
+  SessionHeartbeatPing:268445459,
+  SessionHeartbeatPong:402663187,
 } as const
 
 export type OpCode = (typeof OpCode)[keyof typeof OpCode]

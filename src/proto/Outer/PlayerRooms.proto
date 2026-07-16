@@ -1,0 +1,29 @@
+syntax = "proto3";
+package BattleOfCell.Message;
+import "Outer/Meta.proto";
+
+/// 客户端 -> Gate 房间匹配入口（IRequest，由 Gate Handler 接收鉴权）
+message PlayerRoomsReq // IRequest,PlayerRoomsResp
+{
+}
+
+message PlayerRoomsResp // IResponse
+{
+  MetaData meta = 1;
+  repeated RespError error = 2;
+  /// 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段）
+  bool ok = 3;
+}
+
+/// Gate -> Rooms 透传：与 PlayerRooms 同字段的 Outer 漫游协议（非 Inner 换包）
+/// Rooms Scene 业务处理此协议；Gate 鉴权后 roaming.Call 并回填 PlayerRoomsResp
+message G2Rooms_PlayerRoomsReq // IRoamingRequest,Rooms2G_PlayerRoomsResp,RoomsRoamingType
+{
+}
+
+message Rooms2G_PlayerRoomsResp // IRoamingResponse
+{
+  MetaData meta = 1;
+  repeated RespError error = 2;
+  bool ok = 3;
+}

@@ -170,7 +170,6 @@ class GameNetwork {
 
   disconnect(): void {
     this.messageHandlers.clear()
-    this.statusCallbacks.clear()
     this.rejectAllPending(new Error("GameNetwork: disconnected"))
 
     if (this.ws) {

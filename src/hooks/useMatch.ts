@@ -42,21 +42,21 @@ export function useMatch() {
         }
       }
 
-      const reqBody = BattleOfCell.Message.PlayerMatchReq.encode(
-        BattleOfCell.Message.PlayerMatchReq.create({}),
+      const reqBody = BattleOfCell.Message.PlayerRoomsReq.encode(
+        BattleOfCell.Message.PlayerRoomsReq.create({}),
       ).finish()
 
       const respBuffer = await gameNetwork.request(
-        OpCode.PlayerMatchReq,
+        OpCode.PlayerRoomsReq,
         reqBody,
-        OpCode.PlayerMatchResp,
+        OpCode.PlayerRoomsResp,
         timeout,
       )
 
-      const resp = BattleOfCell.Message.PlayerMatchResp.decode(
+      const resp = BattleOfCell.Message.PlayerRoomsResp.decode(
         new Uint8Array(respBuffer),
       )
-      console.log("[Match] PlayerMatchResp:", JSON.stringify(resp))
+      console.log("[Match] PlayerRoomsResp:", JSON.stringify(resp))
 
       if (resp.ok && (!resp.meta || resp.meta.statusCode === StatusCode.Ok)) {
         return

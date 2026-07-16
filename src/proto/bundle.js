@@ -293,7 +293,7 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
              * @typedef {Object} BattleOfCell.Message.EntryHomeResp.$Properties
              * @property {BattleOfCell.Message.MetaData.$Properties|null} [meta] EntryHomeResp meta
              * @property {Array.<BattleOfCell.Message.RespError.$Properties>|null} [error] EntryHomeResp error
-             * @property {boolean|null} [ok] EntryHomeResp ok
+             * @property {boolean|null} [ok] 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段）
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
@@ -343,7 +343,7 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             EntryHomeResp.prototype.error = $util.emptyArray;
 
             /**
-             * EntryHomeResp ok.
+             * 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段）
              * @member {boolean} ok
              * @memberof BattleOfCell.Message.EntryHomeResp
              * @instance
@@ -1232,36 +1232,37 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             return RespError;
         })();
 
-        Message.PlayerMatchReq = (function() {
+        Message.SessionHeartbeatPing = (function() {
 
             /**
-             * Properties of a PlayerMatchReq.
-             * @typedef {Object} BattleOfCell.Message.PlayerMatchReq.$Properties
+             * Properties of a SessionHeartbeatPing.
+             * @typedef {Object} BattleOfCell.Message.SessionHeartbeatPing.$Properties
+             * @property {number|Long|null} [timestamp] SessionHeartbeatPing timestamp
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
-             * Properties of a PlayerMatchReq.
+             * Properties of a SessionHeartbeatPing.
              * @memberof BattleOfCell.Message
-             * @interface IPlayerMatchReq
-             * @augments BattleOfCell.Message.PlayerMatchReq.$Properties
-             * @deprecated Use BattleOfCell.Message.PlayerMatchReq.$Properties instead.
+             * @interface ISessionHeartbeatPing
+             * @augments BattleOfCell.Message.SessionHeartbeatPing.$Properties
+             * @deprecated Use BattleOfCell.Message.SessionHeartbeatPing.$Properties instead.
              */
 
             /**
-             * Shape of a PlayerMatchReq.
-             * @typedef {BattleOfCell.Message.PlayerMatchReq.$Properties} BattleOfCell.Message.PlayerMatchReq.$Shape
+             * Shape of a SessionHeartbeatPing.
+             * @typedef {BattleOfCell.Message.SessionHeartbeatPing.$Properties} BattleOfCell.Message.SessionHeartbeatPing.$Shape
              */
 
             /**
-             * Constructs a new PlayerMatchReq.
+             * Constructs a new SessionHeartbeatPing.
              * @memberof BattleOfCell.Message
-             * @classdesc 客户端发起匹配请求
+             * @classdesc 客户端心跳。sequence 在单次连接内从 1 开始递增，0 保留。
              * @constructor
-             * @param {BattleOfCell.Message.PlayerMatchReq.$Properties=} [properties] Properties to set
+             * @param {BattleOfCell.Message.SessionHeartbeatPing.$Properties=} [properties] Properties to set
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            const PlayerMatchReq = function (properties) {
+            const SessionHeartbeatPing = function (properties) {
                 if (properties)
                     for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
@@ -1269,31 +1270,582 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Creates a new PlayerMatchReq instance using the specified properties.
+             * SessionHeartbeatPing timestamp.
+             * @member {number|Long} timestamp
+             * @memberof BattleOfCell.Message.SessionHeartbeatPing
+             * @instance
+             */
+            SessionHeartbeatPing.prototype.timestamp = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+            /**
+             * Creates a new SessionHeartbeatPing instance using the specified properties.
              * @function create
-             * @memberof BattleOfCell.Message.PlayerMatchReq
+             * @memberof BattleOfCell.Message.SessionHeartbeatPing
              * @static
-             * @param {BattleOfCell.Message.PlayerMatchReq.$Properties=} [properties] Properties to set
-             * @returns {BattleOfCell.Message.PlayerMatchReq} PlayerMatchReq instance
+             * @param {BattleOfCell.Message.SessionHeartbeatPing.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.SessionHeartbeatPing} SessionHeartbeatPing instance
              * @type {{
-             *   (properties: BattleOfCell.Message.PlayerMatchReq.$Shape): BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape;
-             *   (properties?: BattleOfCell.Message.PlayerMatchReq.$Properties): BattleOfCell.Message.PlayerMatchReq;
+             *   (properties: BattleOfCell.Message.SessionHeartbeatPing.$Shape): BattleOfCell.Message.SessionHeartbeatPing & BattleOfCell.Message.SessionHeartbeatPing.$Shape;
+             *   (properties?: BattleOfCell.Message.SessionHeartbeatPing.$Properties): BattleOfCell.Message.SessionHeartbeatPing;
              * }}
              */
-            PlayerMatchReq.create = function(properties) {
-                return new PlayerMatchReq(properties);
+            SessionHeartbeatPing.create = function(properties) {
+                return new SessionHeartbeatPing(properties);
             };
 
             /**
-             * Encodes the specified PlayerMatchReq message. Does not implicitly {@link BattleOfCell.Message.PlayerMatchReq.verify|verify} messages.
+             * Encodes the specified SessionHeartbeatPing message. Does not implicitly {@link BattleOfCell.Message.SessionHeartbeatPing.verify|verify} messages.
              * @function encode
-             * @memberof BattleOfCell.Message.PlayerMatchReq
+             * @memberof BattleOfCell.Message.SessionHeartbeatPing
              * @static
-             * @param {BattleOfCell.Message.PlayerMatchReq.$Properties} message PlayerMatchReq message or plain object to encode
+             * @param {BattleOfCell.Message.SessionHeartbeatPing.$Properties} message SessionHeartbeatPing message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PlayerMatchReq.encode = function (message, writer, _depth) {
+            SessionHeartbeatPing.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.timestamp != null && $Object.hasOwnProperty.call(message, "timestamp") && (typeof message.timestamp === "object" ? message.timestamp.low || message.timestamp.high : message.timestamp !== 0))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.timestamp);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified SessionHeartbeatPing message, length delimited. Does not implicitly {@link BattleOfCell.Message.SessionHeartbeatPing.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.SessionHeartbeatPing
+             * @static
+             * @param {BattleOfCell.Message.SessionHeartbeatPing.$Properties} message SessionHeartbeatPing message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SessionHeartbeatPing.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a SessionHeartbeatPing message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.SessionHeartbeatPing
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.SessionHeartbeatPing & BattleOfCell.Message.SessionHeartbeatPing.$Shape} SessionHeartbeatPing
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SessionHeartbeatPing.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.SessionHeartbeatPing(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (typeof (value = reader.uint64()) === "object" ? value.low || value.high : value !== 0)
+                                message.timestamp = value;
+                            else
+                                delete message.timestamp;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a SessionHeartbeatPing message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.SessionHeartbeatPing
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.SessionHeartbeatPing & BattleOfCell.Message.SessionHeartbeatPing.$Shape} SessionHeartbeatPing
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SessionHeartbeatPing.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a SessionHeartbeatPing message.
+             * @function verify
+             * @memberof BattleOfCell.Message.SessionHeartbeatPing
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SessionHeartbeatPing.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.timestamp != null && $Object.hasOwnProperty.call(message, "timestamp"))
+                    if (!$util.isInteger(message.timestamp) && !(message.timestamp && $util.isInteger(message.timestamp.low) && $util.isInteger(message.timestamp.high)))
+                        return "timestamp: integer|Long expected";
+                return null;
+            };
+
+            /**
+             * Creates a SessionHeartbeatPing message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.SessionHeartbeatPing
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.SessionHeartbeatPing} SessionHeartbeatPing
+             */
+            SessionHeartbeatPing.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.SessionHeartbeatPing)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.SessionHeartbeatPing: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.BattleOfCell.Message.SessionHeartbeatPing();
+                if (object.timestamp != null)
+                    if (typeof object.timestamp === "object" ? object.timestamp.low || object.timestamp.high : $Number(object.timestamp) !== 0)
+                        if ($util.Long)
+                            message.timestamp = $util.Long.fromValue(object.timestamp, true);
+                        else if (typeof object.timestamp === "string")
+                            message.timestamp = $parseInt(object.timestamp, 10);
+                        else if (typeof object.timestamp === "number")
+                            message.timestamp = object.timestamp;
+                        else if (typeof object.timestamp === "object")
+                            message.timestamp = new $util.LongBits(object.timestamp.low >>> 0, object.timestamp.high >>> 0).toNumber(true);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a SessionHeartbeatPing message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.SessionHeartbeatPing
+             * @static
+             * @param {BattleOfCell.Message.SessionHeartbeatPing} message SessionHeartbeatPing
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SessionHeartbeatPing.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults)
+                    if ($util.Long) {
+                        let long = new $util.Long(0, 0, true);
+                        object.timestamp = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
+                    } else
+                        object.timestamp = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
+                if (message.timestamp != null && $Object.hasOwnProperty.call(message, "timestamp"))
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.timestamp = typeof message.timestamp === "number" ? $BigInt(message.timestamp) : $util.Long.fromBits(message.timestamp.low >>> 0, message.timestamp.high >>> 0, true).toBigInt();
+                    else if (typeof message.timestamp === "number")
+                        object.timestamp = options.longs === $String ? $String(message.timestamp) : message.timestamp;
+                    else
+                        object.timestamp = options.longs === $String ? $util.Long.prototype.toString.call(message.timestamp) : options.longs === $Number ? new $util.LongBits(message.timestamp.low >>> 0, message.timestamp.high >>> 0).toNumber(true) : message.timestamp;
+                return object;
+            };
+
+            /**
+             * Converts this SessionHeartbeatPing to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.SessionHeartbeatPing
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SessionHeartbeatPing.prototype.toJSON = function() {
+                return SessionHeartbeatPing.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for SessionHeartbeatPing
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.SessionHeartbeatPing
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            SessionHeartbeatPing.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.SessionHeartbeatPing";
+            };
+
+            return SessionHeartbeatPing;
+        })();
+
+        Message.SessionHeartbeatPong = (function() {
+
+            /**
+             * Properties of a SessionHeartbeatPong.
+             * @typedef {Object} BattleOfCell.Message.SessionHeartbeatPong.$Properties
+             * @property {number|Long|null} [timestamp] SessionHeartbeatPong timestamp
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a SessionHeartbeatPong.
+             * @memberof BattleOfCell.Message
+             * @interface ISessionHeartbeatPong
+             * @augments BattleOfCell.Message.SessionHeartbeatPong.$Properties
+             * @deprecated Use BattleOfCell.Message.SessionHeartbeatPong.$Properties instead.
+             */
+
+            /**
+             * Shape of a SessionHeartbeatPong.
+             * @typedef {BattleOfCell.Message.SessionHeartbeatPong.$Properties} BattleOfCell.Message.SessionHeartbeatPong.$Shape
+             */
+
+            /**
+             * Constructs a new SessionHeartbeatPong.
+             * @memberof BattleOfCell.Message
+             * @classdesc 服务端心跳确认。sequence 原样回显 SessionHeartbeatPing.sequence。
+             * @constructor
+             * @param {BattleOfCell.Message.SessionHeartbeatPong.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const SessionHeartbeatPong = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * SessionHeartbeatPong timestamp.
+             * @member {number|Long} timestamp
+             * @memberof BattleOfCell.Message.SessionHeartbeatPong
+             * @instance
+             */
+            SessionHeartbeatPong.prototype.timestamp = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+            /**
+             * Creates a new SessionHeartbeatPong instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.SessionHeartbeatPong
+             * @static
+             * @param {BattleOfCell.Message.SessionHeartbeatPong.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.SessionHeartbeatPong} SessionHeartbeatPong instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.SessionHeartbeatPong.$Shape): BattleOfCell.Message.SessionHeartbeatPong & BattleOfCell.Message.SessionHeartbeatPong.$Shape;
+             *   (properties?: BattleOfCell.Message.SessionHeartbeatPong.$Properties): BattleOfCell.Message.SessionHeartbeatPong;
+             * }}
+             */
+            SessionHeartbeatPong.create = function(properties) {
+                return new SessionHeartbeatPong(properties);
+            };
+
+            /**
+             * Encodes the specified SessionHeartbeatPong message. Does not implicitly {@link BattleOfCell.Message.SessionHeartbeatPong.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.SessionHeartbeatPong
+             * @static
+             * @param {BattleOfCell.Message.SessionHeartbeatPong.$Properties} message SessionHeartbeatPong message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SessionHeartbeatPong.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.timestamp != null && $Object.hasOwnProperty.call(message, "timestamp") && (typeof message.timestamp === "object" ? message.timestamp.low || message.timestamp.high : message.timestamp !== 0))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.timestamp);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified SessionHeartbeatPong message, length delimited. Does not implicitly {@link BattleOfCell.Message.SessionHeartbeatPong.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.SessionHeartbeatPong
+             * @static
+             * @param {BattleOfCell.Message.SessionHeartbeatPong.$Properties} message SessionHeartbeatPong message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SessionHeartbeatPong.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a SessionHeartbeatPong message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.SessionHeartbeatPong
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.SessionHeartbeatPong & BattleOfCell.Message.SessionHeartbeatPong.$Shape} SessionHeartbeatPong
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SessionHeartbeatPong.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.SessionHeartbeatPong(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (typeof (value = reader.uint64()) === "object" ? value.low || value.high : value !== 0)
+                                message.timestamp = value;
+                            else
+                                delete message.timestamp;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a SessionHeartbeatPong message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.SessionHeartbeatPong
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.SessionHeartbeatPong & BattleOfCell.Message.SessionHeartbeatPong.$Shape} SessionHeartbeatPong
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SessionHeartbeatPong.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a SessionHeartbeatPong message.
+             * @function verify
+             * @memberof BattleOfCell.Message.SessionHeartbeatPong
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SessionHeartbeatPong.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.timestamp != null && $Object.hasOwnProperty.call(message, "timestamp"))
+                    if (!$util.isInteger(message.timestamp) && !(message.timestamp && $util.isInteger(message.timestamp.low) && $util.isInteger(message.timestamp.high)))
+                        return "timestamp: integer|Long expected";
+                return null;
+            };
+
+            /**
+             * Creates a SessionHeartbeatPong message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.SessionHeartbeatPong
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.SessionHeartbeatPong} SessionHeartbeatPong
+             */
+            SessionHeartbeatPong.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.SessionHeartbeatPong)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.SessionHeartbeatPong: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.BattleOfCell.Message.SessionHeartbeatPong();
+                if (object.timestamp != null)
+                    if (typeof object.timestamp === "object" ? object.timestamp.low || object.timestamp.high : $Number(object.timestamp) !== 0)
+                        if ($util.Long)
+                            message.timestamp = $util.Long.fromValue(object.timestamp, true);
+                        else if (typeof object.timestamp === "string")
+                            message.timestamp = $parseInt(object.timestamp, 10);
+                        else if (typeof object.timestamp === "number")
+                            message.timestamp = object.timestamp;
+                        else if (typeof object.timestamp === "object")
+                            message.timestamp = new $util.LongBits(object.timestamp.low >>> 0, object.timestamp.high >>> 0).toNumber(true);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a SessionHeartbeatPong message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.SessionHeartbeatPong
+             * @static
+             * @param {BattleOfCell.Message.SessionHeartbeatPong} message SessionHeartbeatPong
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SessionHeartbeatPong.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults)
+                    if ($util.Long) {
+                        let long = new $util.Long(0, 0, true);
+                        object.timestamp = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
+                    } else
+                        object.timestamp = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
+                if (message.timestamp != null && $Object.hasOwnProperty.call(message, "timestamp"))
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.timestamp = typeof message.timestamp === "number" ? $BigInt(message.timestamp) : $util.Long.fromBits(message.timestamp.low >>> 0, message.timestamp.high >>> 0, true).toBigInt();
+                    else if (typeof message.timestamp === "number")
+                        object.timestamp = options.longs === $String ? $String(message.timestamp) : message.timestamp;
+                    else
+                        object.timestamp = options.longs === $String ? $util.Long.prototype.toString.call(message.timestamp) : options.longs === $Number ? new $util.LongBits(message.timestamp.low >>> 0, message.timestamp.high >>> 0).toNumber(true) : message.timestamp;
+                return object;
+            };
+
+            /**
+             * Converts this SessionHeartbeatPong to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.SessionHeartbeatPong
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SessionHeartbeatPong.prototype.toJSON = function() {
+                return SessionHeartbeatPong.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for SessionHeartbeatPong
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.SessionHeartbeatPong
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            SessionHeartbeatPong.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.SessionHeartbeatPong";
+            };
+
+            return SessionHeartbeatPong;
+        })();
+
+        Message.PlayerRoomsReq = (function() {
+
+            /**
+             * Properties of a PlayerRoomsReq.
+             * @typedef {Object} BattleOfCell.Message.PlayerRoomsReq.$Properties
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a PlayerRoomsReq.
+             * @memberof BattleOfCell.Message
+             * @interface IPlayerRoomsReq
+             * @augments BattleOfCell.Message.PlayerRoomsReq.$Properties
+             * @deprecated Use BattleOfCell.Message.PlayerRoomsReq.$Properties instead.
+             */
+
+            /**
+             * Shape of a PlayerRoomsReq.
+             * @typedef {BattleOfCell.Message.PlayerRoomsReq.$Properties} BattleOfCell.Message.PlayerRoomsReq.$Shape
+             */
+
+            /**
+             * Constructs a new PlayerRoomsReq.
+             * @memberof BattleOfCell.Message
+             * @classdesc 客户端 -> Gate 房间匹配入口（IRequest，由 Gate Handler 接收鉴权）
+             * @constructor
+             * @param {BattleOfCell.Message.PlayerRoomsReq.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const PlayerRoomsReq = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * Creates a new PlayerRoomsReq instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.PlayerRoomsReq
+             * @static
+             * @param {BattleOfCell.Message.PlayerRoomsReq.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.PlayerRoomsReq} PlayerRoomsReq instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.PlayerRoomsReq.$Shape): BattleOfCell.Message.PlayerRoomsReq & BattleOfCell.Message.PlayerRoomsReq.$Shape;
+             *   (properties?: BattleOfCell.Message.PlayerRoomsReq.$Properties): BattleOfCell.Message.PlayerRoomsReq;
+             * }}
+             */
+            PlayerRoomsReq.create = function(properties) {
+                return new PlayerRoomsReq(properties);
+            };
+
+            /**
+             * Encodes the specified PlayerRoomsReq message. Does not implicitly {@link BattleOfCell.Message.PlayerRoomsReq.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.PlayerRoomsReq
+             * @static
+             * @param {BattleOfCell.Message.PlayerRoomsReq.$Properties} message PlayerRoomsReq message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            PlayerRoomsReq.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
                 if (_depth === $undefined)
@@ -1307,37 +1859,37 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Encodes the specified PlayerMatchReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerMatchReq.verify|verify} messages.
+             * Encodes the specified PlayerRoomsReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerRoomsReq.verify|verify} messages.
              * @function encodeDelimited
-             * @memberof BattleOfCell.Message.PlayerMatchReq
+             * @memberof BattleOfCell.Message.PlayerRoomsReq
              * @static
-             * @param {BattleOfCell.Message.PlayerMatchReq.$Properties} message PlayerMatchReq message or plain object to encode
+             * @param {BattleOfCell.Message.PlayerRoomsReq.$Properties} message PlayerRoomsReq message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PlayerMatchReq.encodeDelimited = function(message, writer) {
+            PlayerRoomsReq.encodeDelimited = function(message, writer) {
                 return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
-             * Decodes a PlayerMatchReq message from the specified reader or buffer.
+             * Decodes a PlayerRoomsReq message from the specified reader or buffer.
              * @function decode
-             * @memberof BattleOfCell.Message.PlayerMatchReq
+             * @memberof BattleOfCell.Message.PlayerRoomsReq
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape} PlayerMatchReq
+             * @returns {BattleOfCell.Message.PlayerRoomsReq & BattleOfCell.Message.PlayerRoomsReq.$Shape} PlayerRoomsReq
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PlayerMatchReq.decode = function (reader, length, _end, _depth, _target) {
+            PlayerRoomsReq.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
                     throw $Error("max depth exceeded");
-                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.PlayerMatchReq();
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.PlayerRoomsReq();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
@@ -1357,30 +1909,30 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Decodes a PlayerMatchReq message from the specified reader or buffer, length delimited.
+             * Decodes a PlayerRoomsReq message from the specified reader or buffer, length delimited.
              * @function decodeDelimited
-             * @memberof BattleOfCell.Message.PlayerMatchReq
+             * @memberof BattleOfCell.Message.PlayerRoomsReq
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape} PlayerMatchReq
+             * @returns {BattleOfCell.Message.PlayerRoomsReq & BattleOfCell.Message.PlayerRoomsReq.$Shape} PlayerRoomsReq
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PlayerMatchReq.decodeDelimited = function(reader) {
+            PlayerRoomsReq.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
             };
 
             /**
-             * Verifies a PlayerMatchReq message.
+             * Verifies a PlayerRoomsReq message.
              * @function verify
-             * @memberof BattleOfCell.Message.PlayerMatchReq
+             * @memberof BattleOfCell.Message.PlayerRoomsReq
              * @static
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            PlayerMatchReq.verify = function (message, _depth) {
+            PlayerRoomsReq.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (_depth === $undefined)
@@ -1391,99 +1943,99 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Creates a PlayerMatchReq message from a plain object. Also converts values to their respective internal types.
+             * Creates a PlayerRoomsReq message from a plain object. Also converts values to their respective internal types.
              * @function fromObject
-             * @memberof BattleOfCell.Message.PlayerMatchReq
+             * @memberof BattleOfCell.Message.PlayerRoomsReq
              * @static
              * @param {Object.<string,*>} object Plain object
-             * @returns {BattleOfCell.Message.PlayerMatchReq} PlayerMatchReq
+             * @returns {BattleOfCell.Message.PlayerRoomsReq} PlayerRoomsReq
              */
-            PlayerMatchReq.fromObject = function (object, _depth) {
-                if (object instanceof $root.BattleOfCell.Message.PlayerMatchReq)
+            PlayerRoomsReq.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.PlayerRoomsReq)
                     return object;
                 if (!$util.isObject(object))
-                    throw $TypeError(".BattleOfCell.Message.PlayerMatchReq: object expected");
+                    throw $TypeError(".BattleOfCell.Message.PlayerRoomsReq: object expected");
                 if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     throw $Error("max depth exceeded");
-                return new $root.BattleOfCell.Message.PlayerMatchReq();
+                return new $root.BattleOfCell.Message.PlayerRoomsReq();
             };
 
             /**
-             * Creates a plain object from a PlayerMatchReq message. Also converts values to other types if specified.
+             * Creates a plain object from a PlayerRoomsReq message. Also converts values to other types if specified.
              * @function toObject
-             * @memberof BattleOfCell.Message.PlayerMatchReq
+             * @memberof BattleOfCell.Message.PlayerRoomsReq
              * @static
-             * @param {BattleOfCell.Message.PlayerMatchReq} message PlayerMatchReq
+             * @param {BattleOfCell.Message.PlayerRoomsReq} message PlayerRoomsReq
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            PlayerMatchReq.toObject = function () {
+            PlayerRoomsReq.toObject = function () {
                 return {};
             };
 
             /**
-             * Converts this PlayerMatchReq to JSON.
+             * Converts this PlayerRoomsReq to JSON.
              * @function toJSON
-             * @memberof BattleOfCell.Message.PlayerMatchReq
+             * @memberof BattleOfCell.Message.PlayerRoomsReq
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            PlayerMatchReq.prototype.toJSON = function() {
-                return PlayerMatchReq.toObject(this, $protobuf.util.toJSONOptions);
+            PlayerRoomsReq.prototype.toJSON = function() {
+                return PlayerRoomsReq.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
-             * Gets the type url for PlayerMatchReq
+             * Gets the type url for PlayerRoomsReq
              * @function getTypeUrl
-             * @memberof BattleOfCell.Message.PlayerMatchReq
+             * @memberof BattleOfCell.Message.PlayerRoomsReq
              * @static
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            PlayerMatchReq.getTypeUrl = function(prefix) {
+            PlayerRoomsReq.getTypeUrl = function(prefix) {
                 if (prefix === $undefined)
                     prefix = "type.googleapis.com";
-                return prefix + "/BattleOfCell.Message.PlayerMatchReq";
+                return prefix + "/BattleOfCell.Message.PlayerRoomsReq";
             };
 
-            return PlayerMatchReq;
+            return PlayerRoomsReq;
         })();
 
-        Message.PlayerMatchResp = (function() {
+        Message.PlayerRoomsResp = (function() {
 
             /**
-             * Properties of a PlayerMatchResp.
-             * @typedef {Object} BattleOfCell.Message.PlayerMatchResp.$Properties
-             * @property {BattleOfCell.Message.MetaData.$Properties|null} [meta] PlayerMatchResp meta
-             * @property {Array.<BattleOfCell.Message.RespError.$Properties>|null} [error] PlayerMatchResp error
-             * @property {boolean|null} [ok] PlayerMatchResp ok
+             * Properties of a PlayerRoomsResp.
+             * @typedef {Object} BattleOfCell.Message.PlayerRoomsResp.$Properties
+             * @property {BattleOfCell.Message.MetaData.$Properties|null} [meta] PlayerRoomsResp meta
+             * @property {Array.<BattleOfCell.Message.RespError.$Properties>|null} [error] PlayerRoomsResp error
+             * @property {boolean|null} [ok] 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段）
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
-             * Properties of a PlayerMatchResp.
+             * Properties of a PlayerRoomsResp.
              * @memberof BattleOfCell.Message
-             * @interface IPlayerMatchResp
-             * @augments BattleOfCell.Message.PlayerMatchResp.$Properties
-             * @deprecated Use BattleOfCell.Message.PlayerMatchResp.$Properties instead.
+             * @interface IPlayerRoomsResp
+             * @augments BattleOfCell.Message.PlayerRoomsResp.$Properties
+             * @deprecated Use BattleOfCell.Message.PlayerRoomsResp.$Properties instead.
              */
 
             /**
-             * Shape of a PlayerMatchResp.
-             * @typedef {BattleOfCell.Message.PlayerMatchResp.$Properties} BattleOfCell.Message.PlayerMatchResp.$Shape
+             * Shape of a PlayerRoomsResp.
+             * @typedef {BattleOfCell.Message.PlayerRoomsResp.$Properties} BattleOfCell.Message.PlayerRoomsResp.$Shape
              */
 
             /**
-             * Constructs a new PlayerMatchResp.
+             * Constructs a new PlayerRoomsResp.
              * @memberof BattleOfCell.Message
-             * @classdesc Represents a PlayerMatchResp.
+             * @classdesc Represents a PlayerRoomsResp.
              * @constructor
-             * @param {BattleOfCell.Message.PlayerMatchResp.$Properties=} [properties] Properties to set
+             * @param {BattleOfCell.Message.PlayerRoomsResp.$Properties=} [properties] Properties to set
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            const PlayerMatchResp = function (properties) {
+            const PlayerRoomsResp = function (properties) {
                 this.error = [];
                 if (properties)
                     for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
@@ -1492,55 +2044,55 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * PlayerMatchResp meta.
+             * PlayerRoomsResp meta.
              * @member {BattleOfCell.Message.MetaData.$Properties|null|undefined} meta
-             * @memberof BattleOfCell.Message.PlayerMatchResp
+             * @memberof BattleOfCell.Message.PlayerRoomsResp
              * @instance
              */
-            PlayerMatchResp.prototype.meta = null;
+            PlayerRoomsResp.prototype.meta = null;
 
             /**
-             * PlayerMatchResp error.
+             * PlayerRoomsResp error.
              * @member {Array.<BattleOfCell.Message.RespError.$Properties>} error
-             * @memberof BattleOfCell.Message.PlayerMatchResp
+             * @memberof BattleOfCell.Message.PlayerRoomsResp
              * @instance
              */
-            PlayerMatchResp.prototype.error = $util.emptyArray;
+            PlayerRoomsResp.prototype.error = $util.emptyArray;
 
             /**
-             * PlayerMatchResp ok.
+             * 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段）
              * @member {boolean} ok
-             * @memberof BattleOfCell.Message.PlayerMatchResp
+             * @memberof BattleOfCell.Message.PlayerRoomsResp
              * @instance
              */
-            PlayerMatchResp.prototype.ok = false;
+            PlayerRoomsResp.prototype.ok = false;
 
             /**
-             * Creates a new PlayerMatchResp instance using the specified properties.
+             * Creates a new PlayerRoomsResp instance using the specified properties.
              * @function create
-             * @memberof BattleOfCell.Message.PlayerMatchResp
+             * @memberof BattleOfCell.Message.PlayerRoomsResp
              * @static
-             * @param {BattleOfCell.Message.PlayerMatchResp.$Properties=} [properties] Properties to set
-             * @returns {BattleOfCell.Message.PlayerMatchResp} PlayerMatchResp instance
+             * @param {BattleOfCell.Message.PlayerRoomsResp.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.PlayerRoomsResp} PlayerRoomsResp instance
              * @type {{
-             *   (properties: BattleOfCell.Message.PlayerMatchResp.$Shape): BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape;
-             *   (properties?: BattleOfCell.Message.PlayerMatchResp.$Properties): BattleOfCell.Message.PlayerMatchResp;
+             *   (properties: BattleOfCell.Message.PlayerRoomsResp.$Shape): BattleOfCell.Message.PlayerRoomsResp & BattleOfCell.Message.PlayerRoomsResp.$Shape;
+             *   (properties?: BattleOfCell.Message.PlayerRoomsResp.$Properties): BattleOfCell.Message.PlayerRoomsResp;
              * }}
              */
-            PlayerMatchResp.create = function(properties) {
-                return new PlayerMatchResp(properties);
+            PlayerRoomsResp.create = function(properties) {
+                return new PlayerRoomsResp(properties);
             };
 
             /**
-             * Encodes the specified PlayerMatchResp message. Does not implicitly {@link BattleOfCell.Message.PlayerMatchResp.verify|verify} messages.
+             * Encodes the specified PlayerRoomsResp message. Does not implicitly {@link BattleOfCell.Message.PlayerRoomsResp.verify|verify} messages.
              * @function encode
-             * @memberof BattleOfCell.Message.PlayerMatchResp
+             * @memberof BattleOfCell.Message.PlayerRoomsResp
              * @static
-             * @param {BattleOfCell.Message.PlayerMatchResp.$Properties} message PlayerMatchResp message or plain object to encode
+             * @param {BattleOfCell.Message.PlayerRoomsResp.$Properties} message PlayerRoomsResp message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PlayerMatchResp.encode = function (message, writer, _depth) {
+            PlayerRoomsResp.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
                 if (_depth === $undefined)
@@ -1561,37 +2113,37 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Encodes the specified PlayerMatchResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerMatchResp.verify|verify} messages.
+             * Encodes the specified PlayerRoomsResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerRoomsResp.verify|verify} messages.
              * @function encodeDelimited
-             * @memberof BattleOfCell.Message.PlayerMatchResp
+             * @memberof BattleOfCell.Message.PlayerRoomsResp
              * @static
-             * @param {BattleOfCell.Message.PlayerMatchResp.$Properties} message PlayerMatchResp message or plain object to encode
+             * @param {BattleOfCell.Message.PlayerRoomsResp.$Properties} message PlayerRoomsResp message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PlayerMatchResp.encodeDelimited = function(message, writer) {
+            PlayerRoomsResp.encodeDelimited = function(message, writer) {
                 return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
-             * Decodes a PlayerMatchResp message from the specified reader or buffer.
+             * Decodes a PlayerRoomsResp message from the specified reader or buffer.
              * @function decode
-             * @memberof BattleOfCell.Message.PlayerMatchResp
+             * @memberof BattleOfCell.Message.PlayerRoomsResp
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape} PlayerMatchResp
+             * @returns {BattleOfCell.Message.PlayerRoomsResp & BattleOfCell.Message.PlayerRoomsResp.$Shape} PlayerRoomsResp
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PlayerMatchResp.decode = function (reader, length, _end, _depth, _target) {
+            PlayerRoomsResp.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
                     throw $Error("max depth exceeded");
-                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.PlayerMatchResp(), value;
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.PlayerRoomsResp(), value;
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
@@ -1637,30 +2189,30 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Decodes a PlayerMatchResp message from the specified reader or buffer, length delimited.
+             * Decodes a PlayerRoomsResp message from the specified reader or buffer, length delimited.
              * @function decodeDelimited
-             * @memberof BattleOfCell.Message.PlayerMatchResp
+             * @memberof BattleOfCell.Message.PlayerRoomsResp
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape} PlayerMatchResp
+             * @returns {BattleOfCell.Message.PlayerRoomsResp & BattleOfCell.Message.PlayerRoomsResp.$Shape} PlayerRoomsResp
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PlayerMatchResp.decodeDelimited = function(reader) {
+            PlayerRoomsResp.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
             };
 
             /**
-             * Verifies a PlayerMatchResp message.
+             * Verifies a PlayerRoomsResp message.
              * @function verify
-             * @memberof BattleOfCell.Message.PlayerMatchResp
+             * @memberof BattleOfCell.Message.PlayerRoomsResp
              * @static
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            PlayerMatchResp.verify = function (message, _depth) {
+            PlayerRoomsResp.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (_depth === $undefined)
@@ -1688,35 +2240,35 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Creates a PlayerMatchResp message from a plain object. Also converts values to their respective internal types.
+             * Creates a PlayerRoomsResp message from a plain object. Also converts values to their respective internal types.
              * @function fromObject
-             * @memberof BattleOfCell.Message.PlayerMatchResp
+             * @memberof BattleOfCell.Message.PlayerRoomsResp
              * @static
              * @param {Object.<string,*>} object Plain object
-             * @returns {BattleOfCell.Message.PlayerMatchResp} PlayerMatchResp
+             * @returns {BattleOfCell.Message.PlayerRoomsResp} PlayerRoomsResp
              */
-            PlayerMatchResp.fromObject = function (object, _depth) {
-                if (object instanceof $root.BattleOfCell.Message.PlayerMatchResp)
+            PlayerRoomsResp.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.PlayerRoomsResp)
                     return object;
                 if (!$util.isObject(object))
-                    throw $TypeError(".BattleOfCell.Message.PlayerMatchResp: object expected");
+                    throw $TypeError(".BattleOfCell.Message.PlayerRoomsResp: object expected");
                 if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     throw $Error("max depth exceeded");
-                let message = new $root.BattleOfCell.Message.PlayerMatchResp();
+                let message = new $root.BattleOfCell.Message.PlayerRoomsResp();
                 if (object.meta != null) {
                     if (!$util.isObject(object.meta))
-                        throw $TypeError(".BattleOfCell.Message.PlayerMatchResp.meta: object expected");
+                        throw $TypeError(".BattleOfCell.Message.PlayerRoomsResp.meta: object expected");
                     message.meta = $root.BattleOfCell.Message.MetaData.fromObject(object.meta, _depth + 1);
                 }
                 if (object.error) {
                     if (!$Array.isArray(object.error))
-                        throw $TypeError(".BattleOfCell.Message.PlayerMatchResp.error: array expected");
+                        throw $TypeError(".BattleOfCell.Message.PlayerRoomsResp.error: array expected");
                     message.error = $Array(object.error.length);
                     for (let i = 0; i < object.error.length; ++i) {
                         if (!$util.isObject(object.error[i]))
-                            throw $TypeError(".BattleOfCell.Message.PlayerMatchResp.error: object expected");
+                            throw $TypeError(".BattleOfCell.Message.PlayerRoomsResp.error: object expected");
                         message.error[i] = $root.BattleOfCell.Message.RespError.fromObject(object.error[i], _depth + 1);
                     }
                 }
@@ -1727,15 +2279,15 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Creates a plain object from a PlayerMatchResp message. Also converts values to other types if specified.
+             * Creates a plain object from a PlayerRoomsResp message. Also converts values to other types if specified.
              * @function toObject
-             * @memberof BattleOfCell.Message.PlayerMatchResp
+             * @memberof BattleOfCell.Message.PlayerRoomsResp
              * @static
-             * @param {BattleOfCell.Message.PlayerMatchResp} message PlayerMatchResp
+             * @param {BattleOfCell.Message.PlayerRoomsResp} message PlayerRoomsResp
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            PlayerMatchResp.toObject = function (message, options, _depth) {
+            PlayerRoomsResp.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
                 if (_depth === $undefined)
@@ -1762,31 +2314,588 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Converts this PlayerMatchResp to JSON.
+             * Converts this PlayerRoomsResp to JSON.
              * @function toJSON
-             * @memberof BattleOfCell.Message.PlayerMatchResp
+             * @memberof BattleOfCell.Message.PlayerRoomsResp
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            PlayerMatchResp.prototype.toJSON = function() {
-                return PlayerMatchResp.toObject(this, $protobuf.util.toJSONOptions);
+            PlayerRoomsResp.prototype.toJSON = function() {
+                return PlayerRoomsResp.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
-             * Gets the type url for PlayerMatchResp
+             * Gets the type url for PlayerRoomsResp
              * @function getTypeUrl
-             * @memberof BattleOfCell.Message.PlayerMatchResp
+             * @memberof BattleOfCell.Message.PlayerRoomsResp
              * @static
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            PlayerMatchResp.getTypeUrl = function(prefix) {
+            PlayerRoomsResp.getTypeUrl = function(prefix) {
                 if (prefix === $undefined)
                     prefix = "type.googleapis.com";
-                return prefix + "/BattleOfCell.Message.PlayerMatchResp";
+                return prefix + "/BattleOfCell.Message.PlayerRoomsResp";
             };
 
-            return PlayerMatchResp;
+            return PlayerRoomsResp;
+        })();
+
+        Message.G2Rooms_PlayerRoomsReq = (function() {
+
+            /**
+             * Properties of a G2Rooms_PlayerRoomsReq.
+             * @typedef {Object} BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a G2Rooms_PlayerRoomsReq.
+             * @memberof BattleOfCell.Message
+             * @interface IG2Rooms_PlayerRoomsReq
+             * @augments BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties
+             * @deprecated Use BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties instead.
+             */
+
+            /**
+             * Shape of a G2Rooms_PlayerRoomsReq.
+             * @typedef {BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties} BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape
+             */
+
+            /**
+             * Constructs a new G2Rooms_PlayerRoomsReq.
+             * @memberof BattleOfCell.Message
+             * @classdesc Rooms Scene 业务处理此协议；Gate 鉴权后 roaming.Call 并回填 PlayerRoomsResp
+             * @constructor
+             * @param {BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const G2Rooms_PlayerRoomsReq = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * Creates a new G2Rooms_PlayerRoomsReq instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
+             * @static
+             * @param {BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.G2Rooms_PlayerRoomsReq} G2Rooms_PlayerRoomsReq instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape): BattleOfCell.Message.G2Rooms_PlayerRoomsReq & BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape;
+             *   (properties?: BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties): BattleOfCell.Message.G2Rooms_PlayerRoomsReq;
+             * }}
+             */
+            G2Rooms_PlayerRoomsReq.create = function(properties) {
+                return new G2Rooms_PlayerRoomsReq(properties);
+            };
+
+            /**
+             * Encodes the specified G2Rooms_PlayerRoomsReq message. Does not implicitly {@link BattleOfCell.Message.G2Rooms_PlayerRoomsReq.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
+             * @static
+             * @param {BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties} message G2Rooms_PlayerRoomsReq message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            G2Rooms_PlayerRoomsReq.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified G2Rooms_PlayerRoomsReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.G2Rooms_PlayerRoomsReq.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
+             * @static
+             * @param {BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties} message G2Rooms_PlayerRoomsReq message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            G2Rooms_PlayerRoomsReq.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a G2Rooms_PlayerRoomsReq message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.G2Rooms_PlayerRoomsReq & BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape} G2Rooms_PlayerRoomsReq
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            G2Rooms_PlayerRoomsReq.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.G2Rooms_PlayerRoomsReq();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    reader.skipType(tag & 7, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a G2Rooms_PlayerRoomsReq message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.G2Rooms_PlayerRoomsReq & BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape} G2Rooms_PlayerRoomsReq
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            G2Rooms_PlayerRoomsReq.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a G2Rooms_PlayerRoomsReq message.
+             * @function verify
+             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            G2Rooms_PlayerRoomsReq.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                return null;
+            };
+
+            /**
+             * Creates a G2Rooms_PlayerRoomsReq message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.G2Rooms_PlayerRoomsReq} G2Rooms_PlayerRoomsReq
+             */
+            G2Rooms_PlayerRoomsReq.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.G2Rooms_PlayerRoomsReq)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.G2Rooms_PlayerRoomsReq: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                return new $root.BattleOfCell.Message.G2Rooms_PlayerRoomsReq();
+            };
+
+            /**
+             * Creates a plain object from a G2Rooms_PlayerRoomsReq message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
+             * @static
+             * @param {BattleOfCell.Message.G2Rooms_PlayerRoomsReq} message G2Rooms_PlayerRoomsReq
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            G2Rooms_PlayerRoomsReq.toObject = function () {
+                return {};
+            };
+
+            /**
+             * Converts this G2Rooms_PlayerRoomsReq to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            G2Rooms_PlayerRoomsReq.prototype.toJSON = function() {
+                return G2Rooms_PlayerRoomsReq.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for G2Rooms_PlayerRoomsReq
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            G2Rooms_PlayerRoomsReq.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.G2Rooms_PlayerRoomsReq";
+            };
+
+            return G2Rooms_PlayerRoomsReq;
+        })();
+
+        Message.Rooms2G_PlayerRoomsResp = (function() {
+
+            /**
+             * Properties of a Rooms2G_PlayerRoomsResp.
+             * @typedef {Object} BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties
+             * @property {BattleOfCell.Message.MetaData.$Properties|null} [meta] Rooms2G_PlayerRoomsResp meta
+             * @property {Array.<BattleOfCell.Message.RespError.$Properties>|null} [error] Rooms2G_PlayerRoomsResp error
+             * @property {boolean|null} [ok] Rooms2G_PlayerRoomsResp ok
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a Rooms2G_PlayerRoomsResp.
+             * @memberof BattleOfCell.Message
+             * @interface IRooms2G_PlayerRoomsResp
+             * @augments BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties
+             * @deprecated Use BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties instead.
+             */
+
+            /**
+             * Shape of a Rooms2G_PlayerRoomsResp.
+             * @typedef {BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties} BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape
+             */
+
+            /**
+             * Constructs a new Rooms2G_PlayerRoomsResp.
+             * @memberof BattleOfCell.Message
+             * @classdesc Represents a Rooms2G_PlayerRoomsResp.
+             * @constructor
+             * @param {BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const Rooms2G_PlayerRoomsResp = function (properties) {
+                this.error = [];
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * Rooms2G_PlayerRoomsResp meta.
+             * @member {BattleOfCell.Message.MetaData.$Properties|null|undefined} meta
+             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
+             * @instance
+             */
+            Rooms2G_PlayerRoomsResp.prototype.meta = null;
+
+            /**
+             * Rooms2G_PlayerRoomsResp error.
+             * @member {Array.<BattleOfCell.Message.RespError.$Properties>} error
+             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
+             * @instance
+             */
+            Rooms2G_PlayerRoomsResp.prototype.error = $util.emptyArray;
+
+            /**
+             * Rooms2G_PlayerRoomsResp ok.
+             * @member {boolean} ok
+             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
+             * @instance
+             */
+            Rooms2G_PlayerRoomsResp.prototype.ok = false;
+
+            /**
+             * Creates a new Rooms2G_PlayerRoomsResp instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
+             * @static
+             * @param {BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.Rooms2G_PlayerRoomsResp} Rooms2G_PlayerRoomsResp instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape): BattleOfCell.Message.Rooms2G_PlayerRoomsResp & BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape;
+             *   (properties?: BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties): BattleOfCell.Message.Rooms2G_PlayerRoomsResp;
+             * }}
+             */
+            Rooms2G_PlayerRoomsResp.create = function(properties) {
+                return new Rooms2G_PlayerRoomsResp(properties);
+            };
+
+            /**
+             * Encodes the specified Rooms2G_PlayerRoomsResp message. Does not implicitly {@link BattleOfCell.Message.Rooms2G_PlayerRoomsResp.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
+             * @static
+             * @param {BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties} message Rooms2G_PlayerRoomsResp message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Rooms2G_PlayerRoomsResp.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta"))
+                    $root.BattleOfCell.Message.MetaData.encode(message.meta, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+                if (message.error != null && message.error.length)
+                    for (let i = 0; i < message.error.length; ++i)
+                        $root.BattleOfCell.Message.RespError.encode(message.error[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
+                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok") && message.ok !== false)
+                    writer.uint32(/* id 3, wireType 0 =*/24).bool(message.ok);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified Rooms2G_PlayerRoomsResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.Rooms2G_PlayerRoomsResp.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
+             * @static
+             * @param {BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties} message Rooms2G_PlayerRoomsResp message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Rooms2G_PlayerRoomsResp.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a Rooms2G_PlayerRoomsResp message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.Rooms2G_PlayerRoomsResp & BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape} Rooms2G_PlayerRoomsResp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Rooms2G_PlayerRoomsResp.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.Rooms2G_PlayerRoomsResp(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            message.meta = $root.BattleOfCell.Message.MetaData.decode(reader, reader.uint32(), $undefined, _depth + 1, message.meta);
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            if (!(message.error && message.error.length))
+                                message.error = [];
+                            message.error.push($root.BattleOfCell.Message.RespError.decode(reader, reader.uint32(), $undefined, _depth + 1));
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.bool())
+                                message.ok = value;
+                            else
+                                delete message.ok;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a Rooms2G_PlayerRoomsResp message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.Rooms2G_PlayerRoomsResp & BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape} Rooms2G_PlayerRoomsResp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Rooms2G_PlayerRoomsResp.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a Rooms2G_PlayerRoomsResp message.
+             * @function verify
+             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Rooms2G_PlayerRoomsResp.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta")) {
+                    let error = $root.BattleOfCell.Message.MetaData.verify(message.meta, _depth + 1);
+                    if (error)
+                        return "meta." + error;
+                }
+                if (message.error != null && $Object.hasOwnProperty.call(message, "error")) {
+                    if (!$Array.isArray(message.error))
+                        return "error: array expected";
+                    for (let i = 0; i < message.error.length; ++i) {
+                        let error = $root.BattleOfCell.Message.RespError.verify(message.error[i], _depth + 1);
+                        if (error)
+                            return "error." + error;
+                    }
+                }
+                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
+                    if (typeof message.ok !== "boolean")
+                        return "ok: boolean expected";
+                return null;
+            };
+
+            /**
+             * Creates a Rooms2G_PlayerRoomsResp message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.Rooms2G_PlayerRoomsResp} Rooms2G_PlayerRoomsResp
+             */
+            Rooms2G_PlayerRoomsResp.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.Rooms2G_PlayerRoomsResp)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.Rooms2G_PlayerRoomsResp: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.BattleOfCell.Message.Rooms2G_PlayerRoomsResp();
+                if (object.meta != null) {
+                    if (!$util.isObject(object.meta))
+                        throw $TypeError(".BattleOfCell.Message.Rooms2G_PlayerRoomsResp.meta: object expected");
+                    message.meta = $root.BattleOfCell.Message.MetaData.fromObject(object.meta, _depth + 1);
+                }
+                if (object.error) {
+                    if (!$Array.isArray(object.error))
+                        throw $TypeError(".BattleOfCell.Message.Rooms2G_PlayerRoomsResp.error: array expected");
+                    message.error = $Array(object.error.length);
+                    for (let i = 0; i < object.error.length; ++i) {
+                        if (!$util.isObject(object.error[i]))
+                            throw $TypeError(".BattleOfCell.Message.Rooms2G_PlayerRoomsResp.error: object expected");
+                        message.error[i] = $root.BattleOfCell.Message.RespError.fromObject(object.error[i], _depth + 1);
+                    }
+                }
+                if (object.ok != null)
+                    if (object.ok)
+                        message.ok = $Boolean(object.ok);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a Rooms2G_PlayerRoomsResp message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
+             * @static
+             * @param {BattleOfCell.Message.Rooms2G_PlayerRoomsResp} message Rooms2G_PlayerRoomsResp
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Rooms2G_PlayerRoomsResp.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.arrays || options.defaults)
+                    object.error = [];
+                if (options.defaults) {
+                    object.meta = null;
+                    object.ok = false;
+                }
+                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta"))
+                    object.meta = $root.BattleOfCell.Message.MetaData.toObject(message.meta, options, _depth + 1);
+                if (message.error && message.error.length) {
+                    object.error = $Array(message.error.length);
+                    for (let j = 0; j < message.error.length; ++j)
+                        object.error[j] = $root.BattleOfCell.Message.RespError.toObject(message.error[j], options, _depth + 1);
+                }
+                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
+                    object.ok = message.ok;
+                return object;
+            };
+
+            /**
+             * Converts this Rooms2G_PlayerRoomsResp to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Rooms2G_PlayerRoomsResp.prototype.toJSON = function() {
+                return Rooms2G_PlayerRoomsResp.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for Rooms2G_PlayerRoomsResp
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            Rooms2G_PlayerRoomsResp.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.Rooms2G_PlayerRoomsResp";
+            };
+
+            return Rooms2G_PlayerRoomsResp;
         })();
 
         return Message;

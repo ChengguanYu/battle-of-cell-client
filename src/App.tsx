@@ -3,6 +3,7 @@ import { HomePage } from "./pages/HomePage"
 import { LoginPage } from "./pages/LoginPage"
 import { RegisterPage } from "./pages/RegisterPage"
 import { ProtectedRoute } from "./components/ProtectedRoute"
+import { WsGuard } from "./components/WsGuard"
 import { Toaster } from "./components/ui/toaster"
 
 function GameWindow() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
+      <WsGuard />
       <Toaster />
     </>
   )
