@@ -13,6 +13,7 @@ import { BattleOfCell } from "../proto/bundle"
 import { CONFIG } from "../network/config"
 import { OpCode } from "../proto/OpCode"
 import { StatusCode } from "../entity/dtos"
+import { formatRespError } from "../proto/utils"
 
 interface User {
   uuid: string
@@ -66,27 +67,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }),
     ).finish()
 
-    // 4. 等待 EntryHomeRes（确认游戏会话已建立）
+    // 4. 等待 EntryHomeResp（确认游戏会话已建立）
     const respBuffer = await gameNetwork.request(
       OpCode.EntryHomeReq,
       reqBody,
-      OpCode.EntryHomeRes,
+      OpCode.EntryHomeResp,
     )
 
-    // 解码并检查响应
-    const entryRes = BattleOfCell.Message.EntryHomeRes.decode(
+    // 解码 EntryHomeResp
+    const entryResp = BattleOfCell.Message.EntryHomeResp.decode(
       new Uint8Array(respBuffer),
     )
-    console.log("[Login] EntryHomeRes:", JSON.stringify(entryRes))
+    console.log("[Login] EntryHomeResp:", JSON.stringify(entryResp))
 
-    if (entryRes.status !== StatusCode.Ok) {
-      throw new Error("进入游戏失败")
+    if (entryResp.ok && (!entryResp.meta || entryResp.meta.statusCode === StatusCode.Ok)) {
+      // meta.status_code === 0 → 进入成功，保存会话
+      sessionStorage.setItem("token", data.token)
+      sessionStorage.setItem("user", JSON.stringify(data.user))
+      setSession({ token: data.token, user: data.user })
+    } else {
+      // meta.status_code !== 0 → 逐个通知错误
+      const errors = entryResp.error ?? []
+      for (const err of errors) {
+        console.error("[Login] entry error:", formatRespError(err))
+      }
+      throw new Error(
+        errors.length > 0
+          ? errors.map(formatRespError).join("; ")
+          : "进入游戏失败",
+      )
     }
-
-    // 5. 保存会话
-    sessionStorage.setItem("token", data.token)
-    sessionStorage.setItem("user", JSON.stringify(data.user))
-    setSession({ token: data.token, user: data.user })
   }, [])
 
   const register = useCallback(async (data: RegisterRequest) => {

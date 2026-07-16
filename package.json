@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "proto:build": "pbjs -t static-module -w es6 -o src/proto/bundle.js src/proto/*.proto && pbts -o src/proto/bundle.d.ts src/proto/bundle.js",
+    "proto:build": "pbjs -t static-module -w es6 -o src/proto/bundle.js --path src/proto src/proto/Outer/*.proto && pbts -o src/proto/bundle.d.ts src/proto/bundle.js",
     "dev": "npm run proto:build && vite",
     "build": "npm run proto:build && tsc -b && vite build",
     "lint": "eslint .",

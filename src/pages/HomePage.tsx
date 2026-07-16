@@ -1,5 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
+import { toast } from "sonner"
 import { useAuth } from "../hooks/AuthContext"
+import { useMatch } from "../hooks/useMatch"
 import { ChatRoom } from "../components/ChatRoom"
 
 interface LeaderboardEntry {
@@ -53,6 +55,16 @@ function LeaderboardCard({ entry }: { entry: LeaderboardEntry }) {
 export function HomePage() {
   const { logout } = useAuth()
   const navigate = useNavigate()
+  const { startMatch, pending } = useMatch()
+
+  const handleMatch = async () => {
+    try {
+      await startMatch()
+      toast.success("匹配成功")
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "匹配失败")
+    }
+  }
 
   const handleLogout = () => {
     logout()
@@ -132,11 +144,13 @@ export function HomePage() {
           <div className="flex justify-end">
             <button
               type="button"
-              className="h-14 w-72 cursor-pointer rounded-2xl bg-emerald-500 text-lg font-bold text-white shadow-lg shadow-emerald-500/25 transition-all hover:bg-emerald-400 hover:shadow-emerald-400/40 active:scale-[0.97]"
+              disabled={pending}
+              onClick={handleMatch}
+              className="h-14 w-72 cursor-pointer rounded-2xl bg-emerald-500 text-lg font-bold text-white shadow-lg shadow-emerald-500/25 transition-all hover:bg-emerald-400 hover:shadow-emerald-400/40 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-60"
             >
               <span className="flex items-center justify-center gap-3">
                 <span>⚔️</span>
-                开始匹配
+                {pending ? "匹配中..." : "开始匹配"}
               </span>
             </button>
           </div>
