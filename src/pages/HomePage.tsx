@@ -74,9 +74,19 @@ export function HomePage() {
   return (
     <div className="game-window">
       <div className="flex h-full">
-        {/* 左侧排行榜 */}
-        <aside className="flex w-1/3 flex-col p-5">
-          <div className="flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-lg">
+        {/* 左侧：退出按钮 + 排行榜 */}
+        <div className="flex w-1/3 flex-col p-5">
+          {/* 左上角退出按钮 */}
+          <div className="flex items-center pb-3">
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-colors hover:border-red-500/40 hover:text-red-400"
+            >
+              &lt;
+            </button>
+          </div>
+          <aside className="flex flex-1 flex-col overflow-hidden rounded-xl border border-border bg-card shadow-lg">
             <div className="shrink-0 px-5 py-4">
               <h2 className="text-lg font-bold text-foreground">🏆 排行榜</h2>
             </div>
@@ -85,20 +95,13 @@ export function HomePage() {
                 <LeaderboardCard key={entry.rank} entry={entry} />
               ))}
             </div>
-          </div>
-        </aside>
+          </aside>
+        </div>
 
         {/* 右侧主区域 */}
         <main className="relative flex flex-1 flex-col p-5">
-          {/* 右上角退出 + 玩家卡片 */}
+          {/* 右上角玩家卡片 */}
           <div className="flex items-start justify-end gap-3">
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="mt-3 cursor-pointer rounded-lg border border-border bg-card px-4 py-2 text-sm text-muted-foreground transition-colors hover:border-red-500/40 hover:text-red-400"
-            >
-              退出登录
-            </button>
             <Link
               to="/user"
               className="group flex w-72 items-center gap-3 rounded-xl border border-border bg-card p-3 transition-colors hover:border-emerald-500/40 hover:bg-accent"
