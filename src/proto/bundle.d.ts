@@ -734,232 +734,232 @@ export namespace BattleOfCell {
         }
 
         /**
-         * Properties of a PlayerRoomsReq.
-         * @deprecated Use BattleOfCell.Message.PlayerRoomsReq.$Properties instead.
+         * Properties of a PlayerMatchReq.
+         * @deprecated Use BattleOfCell.Message.PlayerMatchReq.$Properties instead.
          */
-        interface IPlayerRoomsReq extends BattleOfCell.Message.PlayerRoomsReq.$Properties {
+        interface IPlayerMatchReq extends BattleOfCell.Message.PlayerMatchReq.$Properties {
         }
 
-        /** 客户端 -> Gate 房间匹配入口（IRequest，由 Gate Handler 接收鉴权） */
-        class PlayerRoomsReq {
+        /** 客户端发起匹配请求 */
+        class PlayerMatchReq {
 
             /**
-             * Constructs a new PlayerRoomsReq.
+             * Constructs a new PlayerMatchReq.
              * @param [properties] Properties to set
              */
-            constructor(properties?: BattleOfCell.Message.PlayerRoomsReq.$Properties);
+            constructor(properties?: BattleOfCell.Message.PlayerMatchReq.$Properties);
 
             /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /**
-             * Creates a new PlayerRoomsReq instance using the specified properties.
+             * Creates a new PlayerMatchReq instance using the specified properties.
              * @param [properties] Properties to set
-             * @returns PlayerRoomsReq instance
+             * @returns PlayerMatchReq instance
              */
-            static create(properties: BattleOfCell.Message.PlayerRoomsReq.$Shape): BattleOfCell.Message.PlayerRoomsReq & BattleOfCell.Message.PlayerRoomsReq.$Shape;
-            static create(properties?: BattleOfCell.Message.PlayerRoomsReq.$Properties): BattleOfCell.Message.PlayerRoomsReq;
+            static create(properties: BattleOfCell.Message.PlayerMatchReq.$Shape): BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape;
+            static create(properties?: BattleOfCell.Message.PlayerMatchReq.$Properties): BattleOfCell.Message.PlayerMatchReq;
 
             /**
-             * Encodes the specified PlayerRoomsReq message. Does not implicitly {@link BattleOfCell.Message.PlayerRoomsReq.verify|verify} messages.
-             * @param message PlayerRoomsReq message or plain object to encode
+             * Encodes the specified PlayerMatchReq message. Does not implicitly {@link BattleOfCell.Message.PlayerMatchReq.verify|verify} messages.
+             * @param message PlayerMatchReq message or plain object to encode
              * @param [writer] Writer to encode to
              * @returns Writer
              */
-            static encode(message: BattleOfCell.Message.PlayerRoomsReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+            static encode(message: BattleOfCell.Message.PlayerMatchReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
             /**
-             * Encodes the specified PlayerRoomsReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerRoomsReq.verify|verify} messages.
-             * @param message PlayerRoomsReq message or plain object to encode
+             * Encodes the specified PlayerMatchReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerMatchReq.verify|verify} messages.
+             * @param message PlayerMatchReq message or plain object to encode
              * @param [writer] Writer to encode to
              * @returns Writer
              */
-            static encodeDelimited(message: BattleOfCell.Message.PlayerRoomsReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+            static encodeDelimited(message: BattleOfCell.Message.PlayerMatchReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
             /**
-             * Decodes a PlayerRoomsReq message from the specified reader or buffer.
+             * Decodes a PlayerMatchReq message from the specified reader or buffer.
              * @param reader Reader or buffer to decode from
              * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.PlayerRoomsReq & BattleOfCell.Message.PlayerRoomsReq.$Shape} PlayerRoomsReq
+             * @returns {BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape} PlayerMatchReq
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.PlayerRoomsReq & BattleOfCell.Message.PlayerRoomsReq.$Shape;
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape;
 
             /**
-             * Decodes a PlayerRoomsReq message from the specified reader or buffer, length delimited.
+             * Decodes a PlayerMatchReq message from the specified reader or buffer, length delimited.
              * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.PlayerRoomsReq & BattleOfCell.Message.PlayerRoomsReq.$Shape} PlayerRoomsReq
+             * @returns {BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape} PlayerMatchReq
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.PlayerRoomsReq & BattleOfCell.Message.PlayerRoomsReq.$Shape;
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape;
 
             /**
-             * Verifies a PlayerRoomsReq message.
+             * Verifies a PlayerMatchReq message.
              * @param message Plain object to verify
              * @returns `null` if valid, otherwise the reason why it is not
              */
             static verify(message: { [k: string]: any }): (string|null);
 
             /**
-             * Creates a PlayerRoomsReq message from a plain object. Also converts values to their respective internal types.
+             * Creates a PlayerMatchReq message from a plain object. Also converts values to their respective internal types.
              * @param object Plain object
-             * @returns PlayerRoomsReq
+             * @returns PlayerMatchReq
              */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.PlayerRoomsReq;
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.PlayerMatchReq;
 
             /**
-             * Creates a plain object from a PlayerRoomsReq message. Also converts values to other types if specified.
-             * @param message PlayerRoomsReq
+             * Creates a plain object from a PlayerMatchReq message. Also converts values to other types if specified.
+             * @param message PlayerMatchReq
              * @param [options] Conversion options
              * @returns Plain object
              */
-            static toObject(message: BattleOfCell.Message.PlayerRoomsReq, options?: $protobuf.IConversionOptions): { [k: string]: any };
+            static toObject(message: BattleOfCell.Message.PlayerMatchReq, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
             /**
-             * Converts this PlayerRoomsReq to JSON.
+             * Converts this PlayerMatchReq to JSON.
              * @returns JSON object
              */
             toJSON(): { [k: string]: any };
 
             /**
-             * Gets the type url for PlayerRoomsReq
+             * Gets the type url for PlayerMatchReq
              * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns The type url
              */
             static getTypeUrl(prefix?: string): string;
         }
 
-        namespace PlayerRoomsReq {
+        namespace PlayerMatchReq {
 
-            /** Properties of a PlayerRoomsReq. */
+            /** Properties of a PlayerMatchReq. */
             interface $Properties {
 
                 /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
-            /** Shape of a PlayerRoomsReq. */
-            type $Shape = BattleOfCell.Message.PlayerRoomsReq.$Properties;
+            /** Shape of a PlayerMatchReq. */
+            type $Shape = BattleOfCell.Message.PlayerMatchReq.$Properties;
         }
 
         /**
-         * Properties of a PlayerRoomsResp.
-         * @deprecated Use BattleOfCell.Message.PlayerRoomsResp.$Properties instead.
+         * Properties of a PlayerMatchResp.
+         * @deprecated Use BattleOfCell.Message.PlayerMatchResp.$Properties instead.
          */
-        interface IPlayerRoomsResp extends BattleOfCell.Message.PlayerRoomsResp.$Properties {
+        interface IPlayerMatchResp extends BattleOfCell.Message.PlayerMatchResp.$Properties {
         }
 
-        /** Represents a PlayerRoomsResp. */
-        class PlayerRoomsResp {
+        /** Represents a PlayerMatchResp. */
+        class PlayerMatchResp {
 
             /**
-             * Constructs a new PlayerRoomsResp.
+             * Constructs a new PlayerMatchResp.
              * @param [properties] Properties to set
              */
-            constructor(properties?: BattleOfCell.Message.PlayerRoomsResp.$Properties);
+            constructor(properties?: BattleOfCell.Message.PlayerMatchResp.$Properties);
 
             /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
-            /** PlayerRoomsResp meta. */
+            /** PlayerMatchResp meta. */
             meta?: (BattleOfCell.Message.MetaData.$Properties|null);
 
-            /** PlayerRoomsResp error. */
+            /** PlayerMatchResp error. */
             error: BattleOfCell.Message.RespError.$Properties[];
 
             /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
             ok: boolean;
 
             /**
-             * Creates a new PlayerRoomsResp instance using the specified properties.
+             * Creates a new PlayerMatchResp instance using the specified properties.
              * @param [properties] Properties to set
-             * @returns PlayerRoomsResp instance
+             * @returns PlayerMatchResp instance
              */
-            static create(properties: BattleOfCell.Message.PlayerRoomsResp.$Shape): BattleOfCell.Message.PlayerRoomsResp & BattleOfCell.Message.PlayerRoomsResp.$Shape;
-            static create(properties?: BattleOfCell.Message.PlayerRoomsResp.$Properties): BattleOfCell.Message.PlayerRoomsResp;
+            static create(properties: BattleOfCell.Message.PlayerMatchResp.$Shape): BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape;
+            static create(properties?: BattleOfCell.Message.PlayerMatchResp.$Properties): BattleOfCell.Message.PlayerMatchResp;
 
             /**
-             * Encodes the specified PlayerRoomsResp message. Does not implicitly {@link BattleOfCell.Message.PlayerRoomsResp.verify|verify} messages.
-             * @param message PlayerRoomsResp message or plain object to encode
+             * Encodes the specified PlayerMatchResp message. Does not implicitly {@link BattleOfCell.Message.PlayerMatchResp.verify|verify} messages.
+             * @param message PlayerMatchResp message or plain object to encode
              * @param [writer] Writer to encode to
              * @returns Writer
              */
-            static encode(message: BattleOfCell.Message.PlayerRoomsResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+            static encode(message: BattleOfCell.Message.PlayerMatchResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
             /**
-             * Encodes the specified PlayerRoomsResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerRoomsResp.verify|verify} messages.
-             * @param message PlayerRoomsResp message or plain object to encode
+             * Encodes the specified PlayerMatchResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerMatchResp.verify|verify} messages.
+             * @param message PlayerMatchResp message or plain object to encode
              * @param [writer] Writer to encode to
              * @returns Writer
              */
-            static encodeDelimited(message: BattleOfCell.Message.PlayerRoomsResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+            static encodeDelimited(message: BattleOfCell.Message.PlayerMatchResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
             /**
-             * Decodes a PlayerRoomsResp message from the specified reader or buffer.
+             * Decodes a PlayerMatchResp message from the specified reader or buffer.
              * @param reader Reader or buffer to decode from
              * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.PlayerRoomsResp & BattleOfCell.Message.PlayerRoomsResp.$Shape} PlayerRoomsResp
+             * @returns {BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape} PlayerMatchResp
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.PlayerRoomsResp & BattleOfCell.Message.PlayerRoomsResp.$Shape;
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape;
 
             /**
-             * Decodes a PlayerRoomsResp message from the specified reader or buffer, length delimited.
+             * Decodes a PlayerMatchResp message from the specified reader or buffer, length delimited.
              * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.PlayerRoomsResp & BattleOfCell.Message.PlayerRoomsResp.$Shape} PlayerRoomsResp
+             * @returns {BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape} PlayerMatchResp
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.PlayerRoomsResp & BattleOfCell.Message.PlayerRoomsResp.$Shape;
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape;
 
             /**
-             * Verifies a PlayerRoomsResp message.
+             * Verifies a PlayerMatchResp message.
              * @param message Plain object to verify
              * @returns `null` if valid, otherwise the reason why it is not
              */
             static verify(message: { [k: string]: any }): (string|null);
 
             /**
-             * Creates a PlayerRoomsResp message from a plain object. Also converts values to their respective internal types.
+             * Creates a PlayerMatchResp message from a plain object. Also converts values to their respective internal types.
              * @param object Plain object
-             * @returns PlayerRoomsResp
+             * @returns PlayerMatchResp
              */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.PlayerRoomsResp;
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.PlayerMatchResp;
 
             /**
-             * Creates a plain object from a PlayerRoomsResp message. Also converts values to other types if specified.
-             * @param message PlayerRoomsResp
+             * Creates a plain object from a PlayerMatchResp message. Also converts values to other types if specified.
+             * @param message PlayerMatchResp
              * @param [options] Conversion options
              * @returns Plain object
              */
-            static toObject(message: BattleOfCell.Message.PlayerRoomsResp, options?: $protobuf.IConversionOptions): { [k: string]: any };
+            static toObject(message: BattleOfCell.Message.PlayerMatchResp, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
             /**
-             * Converts this PlayerRoomsResp to JSON.
+             * Converts this PlayerMatchResp to JSON.
              * @returns JSON object
              */
             toJSON(): { [k: string]: any };
 
             /**
-             * Gets the type url for PlayerRoomsResp
+             * Gets the type url for PlayerMatchResp
              * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns The type url
              */
             static getTypeUrl(prefix?: string): string;
         }
 
-        namespace PlayerRoomsResp {
+        namespace PlayerMatchResp {
 
-            /** Properties of a PlayerRoomsResp. */
+            /** Properties of a PlayerMatchResp. */
             interface $Properties {
 
-                /** PlayerRoomsResp meta */
+                /** PlayerMatchResp meta */
                 meta?: (BattleOfCell.Message.MetaData.$Properties|null);
 
-                /** PlayerRoomsResp error */
+                /** PlayerMatchResp error */
                 error?: (BattleOfCell.Message.RespError.$Properties[]|null);
 
                 /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
@@ -969,248 +969,8 @@ export namespace BattleOfCell {
                 $unknowns?: Uint8Array[];
             }
 
-            /** Shape of a PlayerRoomsResp. */
-            type $Shape = BattleOfCell.Message.PlayerRoomsResp.$Properties;
-        }
-
-        /**
-         * Properties of a G2Rooms_PlayerRoomsReq.
-         * @deprecated Use BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties instead.
-         */
-        interface IG2Rooms_PlayerRoomsReq extends BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties {
-        }
-
-        /** Rooms Scene 业务处理此协议；Gate 鉴权后 roaming.Call 并回填 PlayerRoomsResp */
-        class G2Rooms_PlayerRoomsReq {
-
-            /**
-             * Constructs a new G2Rooms_PlayerRoomsReq.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties);
-
-            /** Unknown fields preserved while decoding when enabled */
-            $unknowns?: Uint8Array[];
-
-            /**
-             * Creates a new G2Rooms_PlayerRoomsReq instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns G2Rooms_PlayerRoomsReq instance
-             */
-            static create(properties: BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape): BattleOfCell.Message.G2Rooms_PlayerRoomsReq & BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape;
-            static create(properties?: BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties): BattleOfCell.Message.G2Rooms_PlayerRoomsReq;
-
-            /**
-             * Encodes the specified G2Rooms_PlayerRoomsReq message. Does not implicitly {@link BattleOfCell.Message.G2Rooms_PlayerRoomsReq.verify|verify} messages.
-             * @param message G2Rooms_PlayerRoomsReq message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encode(message: BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified G2Rooms_PlayerRoomsReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.G2Rooms_PlayerRoomsReq.verify|verify} messages.
-             * @param message G2Rooms_PlayerRoomsReq message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encodeDelimited(message: BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a G2Rooms_PlayerRoomsReq message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.G2Rooms_PlayerRoomsReq & BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape} G2Rooms_PlayerRoomsReq
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.G2Rooms_PlayerRoomsReq & BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape;
-
-            /**
-             * Decodes a G2Rooms_PlayerRoomsReq message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.G2Rooms_PlayerRoomsReq & BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape} G2Rooms_PlayerRoomsReq
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.G2Rooms_PlayerRoomsReq & BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape;
-
-            /**
-             * Verifies a G2Rooms_PlayerRoomsReq message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a G2Rooms_PlayerRoomsReq message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns G2Rooms_PlayerRoomsReq
-             */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.G2Rooms_PlayerRoomsReq;
-
-            /**
-             * Creates a plain object from a G2Rooms_PlayerRoomsReq message. Also converts values to other types if specified.
-             * @param message G2Rooms_PlayerRoomsReq
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            static toObject(message: BattleOfCell.Message.G2Rooms_PlayerRoomsReq, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this G2Rooms_PlayerRoomsReq to JSON.
-             * @returns JSON object
-             */
-            toJSON(): { [k: string]: any };
-
-            /**
-             * Gets the type url for G2Rooms_PlayerRoomsReq
-             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns The type url
-             */
-            static getTypeUrl(prefix?: string): string;
-        }
-
-        namespace G2Rooms_PlayerRoomsReq {
-
-            /** Properties of a G2Rooms_PlayerRoomsReq. */
-            interface $Properties {
-
-                /** Unknown fields preserved while decoding when enabled */
-                $unknowns?: Uint8Array[];
-            }
-
-            /** Shape of a G2Rooms_PlayerRoomsReq. */
-            type $Shape = BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties;
-        }
-
-        /**
-         * Properties of a Rooms2G_PlayerRoomsResp.
-         * @deprecated Use BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties instead.
-         */
-        interface IRooms2G_PlayerRoomsResp extends BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties {
-        }
-
-        /** Represents a Rooms2G_PlayerRoomsResp. */
-        class Rooms2G_PlayerRoomsResp {
-
-            /**
-             * Constructs a new Rooms2G_PlayerRoomsResp.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties);
-
-            /** Unknown fields preserved while decoding when enabled */
-            $unknowns?: Uint8Array[];
-
-            /** Rooms2G_PlayerRoomsResp meta. */
-            meta?: (BattleOfCell.Message.MetaData.$Properties|null);
-
-            /** Rooms2G_PlayerRoomsResp error. */
-            error: BattleOfCell.Message.RespError.$Properties[];
-
-            /** Rooms2G_PlayerRoomsResp ok. */
-            ok: boolean;
-
-            /**
-             * Creates a new Rooms2G_PlayerRoomsResp instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns Rooms2G_PlayerRoomsResp instance
-             */
-            static create(properties: BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape): BattleOfCell.Message.Rooms2G_PlayerRoomsResp & BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape;
-            static create(properties?: BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties): BattleOfCell.Message.Rooms2G_PlayerRoomsResp;
-
-            /**
-             * Encodes the specified Rooms2G_PlayerRoomsResp message. Does not implicitly {@link BattleOfCell.Message.Rooms2G_PlayerRoomsResp.verify|verify} messages.
-             * @param message Rooms2G_PlayerRoomsResp message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encode(message: BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified Rooms2G_PlayerRoomsResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.Rooms2G_PlayerRoomsResp.verify|verify} messages.
-             * @param message Rooms2G_PlayerRoomsResp message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encodeDelimited(message: BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a Rooms2G_PlayerRoomsResp message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.Rooms2G_PlayerRoomsResp & BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape} Rooms2G_PlayerRoomsResp
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.Rooms2G_PlayerRoomsResp & BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape;
-
-            /**
-             * Decodes a Rooms2G_PlayerRoomsResp message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.Rooms2G_PlayerRoomsResp & BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape} Rooms2G_PlayerRoomsResp
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.Rooms2G_PlayerRoomsResp & BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape;
-
-            /**
-             * Verifies a Rooms2G_PlayerRoomsResp message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a Rooms2G_PlayerRoomsResp message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns Rooms2G_PlayerRoomsResp
-             */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.Rooms2G_PlayerRoomsResp;
-
-            /**
-             * Creates a plain object from a Rooms2G_PlayerRoomsResp message. Also converts values to other types if specified.
-             * @param message Rooms2G_PlayerRoomsResp
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            static toObject(message: BattleOfCell.Message.Rooms2G_PlayerRoomsResp, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this Rooms2G_PlayerRoomsResp to JSON.
-             * @returns JSON object
-             */
-            toJSON(): { [k: string]: any };
-
-            /**
-             * Gets the type url for Rooms2G_PlayerRoomsResp
-             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns The type url
-             */
-            static getTypeUrl(prefix?: string): string;
-        }
-
-        namespace Rooms2G_PlayerRoomsResp {
-
-            /** Properties of a Rooms2G_PlayerRoomsResp. */
-            interface $Properties {
-
-                /** Rooms2G_PlayerRoomsResp meta */
-                meta?: (BattleOfCell.Message.MetaData.$Properties|null);
-
-                /** Rooms2G_PlayerRoomsResp error */
-                error?: (BattleOfCell.Message.RespError.$Properties[]|null);
-
-                /** Rooms2G_PlayerRoomsResp ok */
-                ok?: (boolean|null);
-
-                /** Unknown fields preserved while decoding when enabled */
-                $unknowns?: Uint8Array[];
-            }
-
-            /** Shape of a Rooms2G_PlayerRoomsResp. */
-            type $Shape = BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties;
+            /** Shape of a PlayerMatchResp. */
+            type $Shape = BattleOfCell.Message.PlayerMatchResp.$Properties;
         }
     }
 }

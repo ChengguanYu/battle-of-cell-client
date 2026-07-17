@@ -1784,36 +1784,36 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             return SessionHeartbeatPong;
         })();
 
-        Message.PlayerRoomsReq = (function() {
+        Message.PlayerMatchReq = (function() {
 
             /**
-             * Properties of a PlayerRoomsReq.
-             * @typedef {Object} BattleOfCell.Message.PlayerRoomsReq.$Properties
+             * Properties of a PlayerMatchReq.
+             * @typedef {Object} BattleOfCell.Message.PlayerMatchReq.$Properties
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
-             * Properties of a PlayerRoomsReq.
+             * Properties of a PlayerMatchReq.
              * @memberof BattleOfCell.Message
-             * @interface IPlayerRoomsReq
-             * @augments BattleOfCell.Message.PlayerRoomsReq.$Properties
-             * @deprecated Use BattleOfCell.Message.PlayerRoomsReq.$Properties instead.
+             * @interface IPlayerMatchReq
+             * @augments BattleOfCell.Message.PlayerMatchReq.$Properties
+             * @deprecated Use BattleOfCell.Message.PlayerMatchReq.$Properties instead.
              */
 
             /**
-             * Shape of a PlayerRoomsReq.
-             * @typedef {BattleOfCell.Message.PlayerRoomsReq.$Properties} BattleOfCell.Message.PlayerRoomsReq.$Shape
+             * Shape of a PlayerMatchReq.
+             * @typedef {BattleOfCell.Message.PlayerMatchReq.$Properties} BattleOfCell.Message.PlayerMatchReq.$Shape
              */
 
             /**
-             * Constructs a new PlayerRoomsReq.
+             * Constructs a new PlayerMatchReq.
              * @memberof BattleOfCell.Message
-             * @classdesc 客户端 -> Gate 房间匹配入口（IRequest，由 Gate Handler 接收鉴权）
+             * @classdesc 客户端发起匹配请求
              * @constructor
-             * @param {BattleOfCell.Message.PlayerRoomsReq.$Properties=} [properties] Properties to set
+             * @param {BattleOfCell.Message.PlayerMatchReq.$Properties=} [properties] Properties to set
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            const PlayerRoomsReq = function (properties) {
+            const PlayerMatchReq = function (properties) {
                 if (properties)
                     for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
@@ -1821,31 +1821,31 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Creates a new PlayerRoomsReq instance using the specified properties.
+             * Creates a new PlayerMatchReq instance using the specified properties.
              * @function create
-             * @memberof BattleOfCell.Message.PlayerRoomsReq
+             * @memberof BattleOfCell.Message.PlayerMatchReq
              * @static
-             * @param {BattleOfCell.Message.PlayerRoomsReq.$Properties=} [properties] Properties to set
-             * @returns {BattleOfCell.Message.PlayerRoomsReq} PlayerRoomsReq instance
+             * @param {BattleOfCell.Message.PlayerMatchReq.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.PlayerMatchReq} PlayerMatchReq instance
              * @type {{
-             *   (properties: BattleOfCell.Message.PlayerRoomsReq.$Shape): BattleOfCell.Message.PlayerRoomsReq & BattleOfCell.Message.PlayerRoomsReq.$Shape;
-             *   (properties?: BattleOfCell.Message.PlayerRoomsReq.$Properties): BattleOfCell.Message.PlayerRoomsReq;
+             *   (properties: BattleOfCell.Message.PlayerMatchReq.$Shape): BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape;
+             *   (properties?: BattleOfCell.Message.PlayerMatchReq.$Properties): BattleOfCell.Message.PlayerMatchReq;
              * }}
              */
-            PlayerRoomsReq.create = function(properties) {
-                return new PlayerRoomsReq(properties);
+            PlayerMatchReq.create = function(properties) {
+                return new PlayerMatchReq(properties);
             };
 
             /**
-             * Encodes the specified PlayerRoomsReq message. Does not implicitly {@link BattleOfCell.Message.PlayerRoomsReq.verify|verify} messages.
+             * Encodes the specified PlayerMatchReq message. Does not implicitly {@link BattleOfCell.Message.PlayerMatchReq.verify|verify} messages.
              * @function encode
-             * @memberof BattleOfCell.Message.PlayerRoomsReq
+             * @memberof BattleOfCell.Message.PlayerMatchReq
              * @static
-             * @param {BattleOfCell.Message.PlayerRoomsReq.$Properties} message PlayerRoomsReq message or plain object to encode
+             * @param {BattleOfCell.Message.PlayerMatchReq.$Properties} message PlayerMatchReq message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PlayerRoomsReq.encode = function (message, writer, _depth) {
+            PlayerMatchReq.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
                 if (_depth === $undefined)
@@ -1859,37 +1859,37 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Encodes the specified PlayerRoomsReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerRoomsReq.verify|verify} messages.
+             * Encodes the specified PlayerMatchReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerMatchReq.verify|verify} messages.
              * @function encodeDelimited
-             * @memberof BattleOfCell.Message.PlayerRoomsReq
+             * @memberof BattleOfCell.Message.PlayerMatchReq
              * @static
-             * @param {BattleOfCell.Message.PlayerRoomsReq.$Properties} message PlayerRoomsReq message or plain object to encode
+             * @param {BattleOfCell.Message.PlayerMatchReq.$Properties} message PlayerMatchReq message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PlayerRoomsReq.encodeDelimited = function(message, writer) {
+            PlayerMatchReq.encodeDelimited = function(message, writer) {
                 return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
-             * Decodes a PlayerRoomsReq message from the specified reader or buffer.
+             * Decodes a PlayerMatchReq message from the specified reader or buffer.
              * @function decode
-             * @memberof BattleOfCell.Message.PlayerRoomsReq
+             * @memberof BattleOfCell.Message.PlayerMatchReq
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.PlayerRoomsReq & BattleOfCell.Message.PlayerRoomsReq.$Shape} PlayerRoomsReq
+             * @returns {BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape} PlayerMatchReq
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PlayerRoomsReq.decode = function (reader, length, _end, _depth, _target) {
+            PlayerMatchReq.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
                     throw $Error("max depth exceeded");
-                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.PlayerRoomsReq();
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.PlayerMatchReq();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
@@ -1909,30 +1909,30 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Decodes a PlayerRoomsReq message from the specified reader or buffer, length delimited.
+             * Decodes a PlayerMatchReq message from the specified reader or buffer, length delimited.
              * @function decodeDelimited
-             * @memberof BattleOfCell.Message.PlayerRoomsReq
+             * @memberof BattleOfCell.Message.PlayerMatchReq
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.PlayerRoomsReq & BattleOfCell.Message.PlayerRoomsReq.$Shape} PlayerRoomsReq
+             * @returns {BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape} PlayerMatchReq
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PlayerRoomsReq.decodeDelimited = function(reader) {
+            PlayerMatchReq.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
             };
 
             /**
-             * Verifies a PlayerRoomsReq message.
+             * Verifies a PlayerMatchReq message.
              * @function verify
-             * @memberof BattleOfCell.Message.PlayerRoomsReq
+             * @memberof BattleOfCell.Message.PlayerMatchReq
              * @static
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            PlayerRoomsReq.verify = function (message, _depth) {
+            PlayerMatchReq.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (_depth === $undefined)
@@ -1943,99 +1943,99 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Creates a PlayerRoomsReq message from a plain object. Also converts values to their respective internal types.
+             * Creates a PlayerMatchReq message from a plain object. Also converts values to their respective internal types.
              * @function fromObject
-             * @memberof BattleOfCell.Message.PlayerRoomsReq
+             * @memberof BattleOfCell.Message.PlayerMatchReq
              * @static
              * @param {Object.<string,*>} object Plain object
-             * @returns {BattleOfCell.Message.PlayerRoomsReq} PlayerRoomsReq
+             * @returns {BattleOfCell.Message.PlayerMatchReq} PlayerMatchReq
              */
-            PlayerRoomsReq.fromObject = function (object, _depth) {
-                if (object instanceof $root.BattleOfCell.Message.PlayerRoomsReq)
+            PlayerMatchReq.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.PlayerMatchReq)
                     return object;
                 if (!$util.isObject(object))
-                    throw $TypeError(".BattleOfCell.Message.PlayerRoomsReq: object expected");
+                    throw $TypeError(".BattleOfCell.Message.PlayerMatchReq: object expected");
                 if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     throw $Error("max depth exceeded");
-                return new $root.BattleOfCell.Message.PlayerRoomsReq();
+                return new $root.BattleOfCell.Message.PlayerMatchReq();
             };
 
             /**
-             * Creates a plain object from a PlayerRoomsReq message. Also converts values to other types if specified.
+             * Creates a plain object from a PlayerMatchReq message. Also converts values to other types if specified.
              * @function toObject
-             * @memberof BattleOfCell.Message.PlayerRoomsReq
+             * @memberof BattleOfCell.Message.PlayerMatchReq
              * @static
-             * @param {BattleOfCell.Message.PlayerRoomsReq} message PlayerRoomsReq
+             * @param {BattleOfCell.Message.PlayerMatchReq} message PlayerMatchReq
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            PlayerRoomsReq.toObject = function () {
+            PlayerMatchReq.toObject = function () {
                 return {};
             };
 
             /**
-             * Converts this PlayerRoomsReq to JSON.
+             * Converts this PlayerMatchReq to JSON.
              * @function toJSON
-             * @memberof BattleOfCell.Message.PlayerRoomsReq
+             * @memberof BattleOfCell.Message.PlayerMatchReq
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            PlayerRoomsReq.prototype.toJSON = function() {
-                return PlayerRoomsReq.toObject(this, $protobuf.util.toJSONOptions);
+            PlayerMatchReq.prototype.toJSON = function() {
+                return PlayerMatchReq.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
-             * Gets the type url for PlayerRoomsReq
+             * Gets the type url for PlayerMatchReq
              * @function getTypeUrl
-             * @memberof BattleOfCell.Message.PlayerRoomsReq
+             * @memberof BattleOfCell.Message.PlayerMatchReq
              * @static
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            PlayerRoomsReq.getTypeUrl = function(prefix) {
+            PlayerMatchReq.getTypeUrl = function(prefix) {
                 if (prefix === $undefined)
                     prefix = "type.googleapis.com";
-                return prefix + "/BattleOfCell.Message.PlayerRoomsReq";
+                return prefix + "/BattleOfCell.Message.PlayerMatchReq";
             };
 
-            return PlayerRoomsReq;
+            return PlayerMatchReq;
         })();
 
-        Message.PlayerRoomsResp = (function() {
+        Message.PlayerMatchResp = (function() {
 
             /**
-             * Properties of a PlayerRoomsResp.
-             * @typedef {Object} BattleOfCell.Message.PlayerRoomsResp.$Properties
-             * @property {BattleOfCell.Message.MetaData.$Properties|null} [meta] PlayerRoomsResp meta
-             * @property {Array.<BattleOfCell.Message.RespError.$Properties>|null} [error] PlayerRoomsResp error
+             * Properties of a PlayerMatchResp.
+             * @typedef {Object} BattleOfCell.Message.PlayerMatchResp.$Properties
+             * @property {BattleOfCell.Message.MetaData.$Properties|null} [meta] PlayerMatchResp meta
+             * @property {Array.<BattleOfCell.Message.RespError.$Properties>|null} [error] PlayerMatchResp error
              * @property {boolean|null} [ok] 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段）
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
-             * Properties of a PlayerRoomsResp.
+             * Properties of a PlayerMatchResp.
              * @memberof BattleOfCell.Message
-             * @interface IPlayerRoomsResp
-             * @augments BattleOfCell.Message.PlayerRoomsResp.$Properties
-             * @deprecated Use BattleOfCell.Message.PlayerRoomsResp.$Properties instead.
+             * @interface IPlayerMatchResp
+             * @augments BattleOfCell.Message.PlayerMatchResp.$Properties
+             * @deprecated Use BattleOfCell.Message.PlayerMatchResp.$Properties instead.
              */
 
             /**
-             * Shape of a PlayerRoomsResp.
-             * @typedef {BattleOfCell.Message.PlayerRoomsResp.$Properties} BattleOfCell.Message.PlayerRoomsResp.$Shape
+             * Shape of a PlayerMatchResp.
+             * @typedef {BattleOfCell.Message.PlayerMatchResp.$Properties} BattleOfCell.Message.PlayerMatchResp.$Shape
              */
 
             /**
-             * Constructs a new PlayerRoomsResp.
+             * Constructs a new PlayerMatchResp.
              * @memberof BattleOfCell.Message
-             * @classdesc Represents a PlayerRoomsResp.
+             * @classdesc Represents a PlayerMatchResp.
              * @constructor
-             * @param {BattleOfCell.Message.PlayerRoomsResp.$Properties=} [properties] Properties to set
+             * @param {BattleOfCell.Message.PlayerMatchResp.$Properties=} [properties] Properties to set
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            const PlayerRoomsResp = function (properties) {
+            const PlayerMatchResp = function (properties) {
                 this.error = [];
                 if (properties)
                     for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
@@ -2044,55 +2044,55 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * PlayerRoomsResp meta.
+             * PlayerMatchResp meta.
              * @member {BattleOfCell.Message.MetaData.$Properties|null|undefined} meta
-             * @memberof BattleOfCell.Message.PlayerRoomsResp
+             * @memberof BattleOfCell.Message.PlayerMatchResp
              * @instance
              */
-            PlayerRoomsResp.prototype.meta = null;
+            PlayerMatchResp.prototype.meta = null;
 
             /**
-             * PlayerRoomsResp error.
+             * PlayerMatchResp error.
              * @member {Array.<BattleOfCell.Message.RespError.$Properties>} error
-             * @memberof BattleOfCell.Message.PlayerRoomsResp
+             * @memberof BattleOfCell.Message.PlayerMatchResp
              * @instance
              */
-            PlayerRoomsResp.prototype.error = $util.emptyArray;
+            PlayerMatchResp.prototype.error = $util.emptyArray;
 
             /**
              * 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段）
              * @member {boolean} ok
-             * @memberof BattleOfCell.Message.PlayerRoomsResp
+             * @memberof BattleOfCell.Message.PlayerMatchResp
              * @instance
              */
-            PlayerRoomsResp.prototype.ok = false;
+            PlayerMatchResp.prototype.ok = false;
 
             /**
-             * Creates a new PlayerRoomsResp instance using the specified properties.
+             * Creates a new PlayerMatchResp instance using the specified properties.
              * @function create
-             * @memberof BattleOfCell.Message.PlayerRoomsResp
+             * @memberof BattleOfCell.Message.PlayerMatchResp
              * @static
-             * @param {BattleOfCell.Message.PlayerRoomsResp.$Properties=} [properties] Properties to set
-             * @returns {BattleOfCell.Message.PlayerRoomsResp} PlayerRoomsResp instance
+             * @param {BattleOfCell.Message.PlayerMatchResp.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.PlayerMatchResp} PlayerMatchResp instance
              * @type {{
-             *   (properties: BattleOfCell.Message.PlayerRoomsResp.$Shape): BattleOfCell.Message.PlayerRoomsResp & BattleOfCell.Message.PlayerRoomsResp.$Shape;
-             *   (properties?: BattleOfCell.Message.PlayerRoomsResp.$Properties): BattleOfCell.Message.PlayerRoomsResp;
+             *   (properties: BattleOfCell.Message.PlayerMatchResp.$Shape): BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape;
+             *   (properties?: BattleOfCell.Message.PlayerMatchResp.$Properties): BattleOfCell.Message.PlayerMatchResp;
              * }}
              */
-            PlayerRoomsResp.create = function(properties) {
-                return new PlayerRoomsResp(properties);
+            PlayerMatchResp.create = function(properties) {
+                return new PlayerMatchResp(properties);
             };
 
             /**
-             * Encodes the specified PlayerRoomsResp message. Does not implicitly {@link BattleOfCell.Message.PlayerRoomsResp.verify|verify} messages.
+             * Encodes the specified PlayerMatchResp message. Does not implicitly {@link BattleOfCell.Message.PlayerMatchResp.verify|verify} messages.
              * @function encode
-             * @memberof BattleOfCell.Message.PlayerRoomsResp
+             * @memberof BattleOfCell.Message.PlayerMatchResp
              * @static
-             * @param {BattleOfCell.Message.PlayerRoomsResp.$Properties} message PlayerRoomsResp message or plain object to encode
+             * @param {BattleOfCell.Message.PlayerMatchResp.$Properties} message PlayerMatchResp message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PlayerRoomsResp.encode = function (message, writer, _depth) {
+            PlayerMatchResp.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
                 if (_depth === $undefined)
@@ -2113,37 +2113,37 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Encodes the specified PlayerRoomsResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerRoomsResp.verify|verify} messages.
+             * Encodes the specified PlayerMatchResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerMatchResp.verify|verify} messages.
              * @function encodeDelimited
-             * @memberof BattleOfCell.Message.PlayerRoomsResp
+             * @memberof BattleOfCell.Message.PlayerMatchResp
              * @static
-             * @param {BattleOfCell.Message.PlayerRoomsResp.$Properties} message PlayerRoomsResp message or plain object to encode
+             * @param {BattleOfCell.Message.PlayerMatchResp.$Properties} message PlayerMatchResp message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PlayerRoomsResp.encodeDelimited = function(message, writer) {
+            PlayerMatchResp.encodeDelimited = function(message, writer) {
                 return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
-             * Decodes a PlayerRoomsResp message from the specified reader or buffer.
+             * Decodes a PlayerMatchResp message from the specified reader or buffer.
              * @function decode
-             * @memberof BattleOfCell.Message.PlayerRoomsResp
+             * @memberof BattleOfCell.Message.PlayerMatchResp
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.PlayerRoomsResp & BattleOfCell.Message.PlayerRoomsResp.$Shape} PlayerRoomsResp
+             * @returns {BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape} PlayerMatchResp
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PlayerRoomsResp.decode = function (reader, length, _end, _depth, _target) {
+            PlayerMatchResp.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
                     throw $Error("max depth exceeded");
-                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.PlayerRoomsResp(), value;
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.PlayerMatchResp(), value;
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
@@ -2189,30 +2189,30 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Decodes a PlayerRoomsResp message from the specified reader or buffer, length delimited.
+             * Decodes a PlayerMatchResp message from the specified reader or buffer, length delimited.
              * @function decodeDelimited
-             * @memberof BattleOfCell.Message.PlayerRoomsResp
+             * @memberof BattleOfCell.Message.PlayerMatchResp
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.PlayerRoomsResp & BattleOfCell.Message.PlayerRoomsResp.$Shape} PlayerRoomsResp
+             * @returns {BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape} PlayerMatchResp
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PlayerRoomsResp.decodeDelimited = function(reader) {
+            PlayerMatchResp.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
             };
 
             /**
-             * Verifies a PlayerRoomsResp message.
+             * Verifies a PlayerMatchResp message.
              * @function verify
-             * @memberof BattleOfCell.Message.PlayerRoomsResp
+             * @memberof BattleOfCell.Message.PlayerMatchResp
              * @static
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            PlayerRoomsResp.verify = function (message, _depth) {
+            PlayerMatchResp.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (_depth === $undefined)
@@ -2240,35 +2240,35 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Creates a PlayerRoomsResp message from a plain object. Also converts values to their respective internal types.
+             * Creates a PlayerMatchResp message from a plain object. Also converts values to their respective internal types.
              * @function fromObject
-             * @memberof BattleOfCell.Message.PlayerRoomsResp
+             * @memberof BattleOfCell.Message.PlayerMatchResp
              * @static
              * @param {Object.<string,*>} object Plain object
-             * @returns {BattleOfCell.Message.PlayerRoomsResp} PlayerRoomsResp
+             * @returns {BattleOfCell.Message.PlayerMatchResp} PlayerMatchResp
              */
-            PlayerRoomsResp.fromObject = function (object, _depth) {
-                if (object instanceof $root.BattleOfCell.Message.PlayerRoomsResp)
+            PlayerMatchResp.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.PlayerMatchResp)
                     return object;
                 if (!$util.isObject(object))
-                    throw $TypeError(".BattleOfCell.Message.PlayerRoomsResp: object expected");
+                    throw $TypeError(".BattleOfCell.Message.PlayerMatchResp: object expected");
                 if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     throw $Error("max depth exceeded");
-                let message = new $root.BattleOfCell.Message.PlayerRoomsResp();
+                let message = new $root.BattleOfCell.Message.PlayerMatchResp();
                 if (object.meta != null) {
                     if (!$util.isObject(object.meta))
-                        throw $TypeError(".BattleOfCell.Message.PlayerRoomsResp.meta: object expected");
+                        throw $TypeError(".BattleOfCell.Message.PlayerMatchResp.meta: object expected");
                     message.meta = $root.BattleOfCell.Message.MetaData.fromObject(object.meta, _depth + 1);
                 }
                 if (object.error) {
                     if (!$Array.isArray(object.error))
-                        throw $TypeError(".BattleOfCell.Message.PlayerRoomsResp.error: array expected");
+                        throw $TypeError(".BattleOfCell.Message.PlayerMatchResp.error: array expected");
                     message.error = $Array(object.error.length);
                     for (let i = 0; i < object.error.length; ++i) {
                         if (!$util.isObject(object.error[i]))
-                            throw $TypeError(".BattleOfCell.Message.PlayerRoomsResp.error: object expected");
+                            throw $TypeError(".BattleOfCell.Message.PlayerMatchResp.error: object expected");
                         message.error[i] = $root.BattleOfCell.Message.RespError.fromObject(object.error[i], _depth + 1);
                     }
                 }
@@ -2279,15 +2279,15 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Creates a plain object from a PlayerRoomsResp message. Also converts values to other types if specified.
+             * Creates a plain object from a PlayerMatchResp message. Also converts values to other types if specified.
              * @function toObject
-             * @memberof BattleOfCell.Message.PlayerRoomsResp
+             * @memberof BattleOfCell.Message.PlayerMatchResp
              * @static
-             * @param {BattleOfCell.Message.PlayerRoomsResp} message PlayerRoomsResp
+             * @param {BattleOfCell.Message.PlayerMatchResp} message PlayerMatchResp
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            PlayerRoomsResp.toObject = function (message, options, _depth) {
+            PlayerMatchResp.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
                 if (_depth === $undefined)
@@ -2314,588 +2314,31 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * Converts this PlayerRoomsResp to JSON.
+             * Converts this PlayerMatchResp to JSON.
              * @function toJSON
-             * @memberof BattleOfCell.Message.PlayerRoomsResp
+             * @memberof BattleOfCell.Message.PlayerMatchResp
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            PlayerRoomsResp.prototype.toJSON = function() {
-                return PlayerRoomsResp.toObject(this, $protobuf.util.toJSONOptions);
+            PlayerMatchResp.prototype.toJSON = function() {
+                return PlayerMatchResp.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
-             * Gets the type url for PlayerRoomsResp
+             * Gets the type url for PlayerMatchResp
              * @function getTypeUrl
-             * @memberof BattleOfCell.Message.PlayerRoomsResp
+             * @memberof BattleOfCell.Message.PlayerMatchResp
              * @static
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            PlayerRoomsResp.getTypeUrl = function(prefix) {
+            PlayerMatchResp.getTypeUrl = function(prefix) {
                 if (prefix === $undefined)
                     prefix = "type.googleapis.com";
-                return prefix + "/BattleOfCell.Message.PlayerRoomsResp";
+                return prefix + "/BattleOfCell.Message.PlayerMatchResp";
             };
 
-            return PlayerRoomsResp;
-        })();
-
-        Message.G2Rooms_PlayerRoomsReq = (function() {
-
-            /**
-             * Properties of a G2Rooms_PlayerRoomsReq.
-             * @typedef {Object} BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
-             */
-
-            /**
-             * Properties of a G2Rooms_PlayerRoomsReq.
-             * @memberof BattleOfCell.Message
-             * @interface IG2Rooms_PlayerRoomsReq
-             * @augments BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties
-             * @deprecated Use BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties instead.
-             */
-
-            /**
-             * Shape of a G2Rooms_PlayerRoomsReq.
-             * @typedef {BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties} BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape
-             */
-
-            /**
-             * Constructs a new G2Rooms_PlayerRoomsReq.
-             * @memberof BattleOfCell.Message
-             * @classdesc Rooms Scene 业务处理此协议；Gate 鉴权后 roaming.Call 并回填 PlayerRoomsResp
-             * @constructor
-             * @param {BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
-             */
-            const G2Rooms_PlayerRoomsReq = function (properties) {
-                if (properties)
-                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
-                            this[keys[i]] = properties[keys[i]];
-            };
-
-            /**
-             * Creates a new G2Rooms_PlayerRoomsReq instance using the specified properties.
-             * @function create
-             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
-             * @static
-             * @param {BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties=} [properties] Properties to set
-             * @returns {BattleOfCell.Message.G2Rooms_PlayerRoomsReq} G2Rooms_PlayerRoomsReq instance
-             * @type {{
-             *   (properties: BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape): BattleOfCell.Message.G2Rooms_PlayerRoomsReq & BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape;
-             *   (properties?: BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties): BattleOfCell.Message.G2Rooms_PlayerRoomsReq;
-             * }}
-             */
-            G2Rooms_PlayerRoomsReq.create = function(properties) {
-                return new G2Rooms_PlayerRoomsReq(properties);
-            };
-
-            /**
-             * Encodes the specified G2Rooms_PlayerRoomsReq message. Does not implicitly {@link BattleOfCell.Message.G2Rooms_PlayerRoomsReq.verify|verify} messages.
-             * @function encode
-             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
-             * @static
-             * @param {BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties} message G2Rooms_PlayerRoomsReq message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            G2Rooms_PlayerRoomsReq.encode = function (message, writer, _depth) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    throw $Error("max depth exceeded");
-                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
-                    for (let i = 0; i < message.$unknowns.length; ++i)
-                        writer.raw(message.$unknowns[i]);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified G2Rooms_PlayerRoomsReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.G2Rooms_PlayerRoomsReq.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
-             * @static
-             * @param {BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Properties} message G2Rooms_PlayerRoomsReq message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            G2Rooms_PlayerRoomsReq.encodeDelimited = function(message, writer) {
-                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
-            };
-
-            /**
-             * Decodes a G2Rooms_PlayerRoomsReq message from the specified reader or buffer.
-             * @function decode
-             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.G2Rooms_PlayerRoomsReq & BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape} G2Rooms_PlayerRoomsReq
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            G2Rooms_PlayerRoomsReq.decode = function (reader, length, _end, _depth, _target) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $Reader.recursionLimit)
-                    throw $Error("max depth exceeded");
-                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.G2Rooms_PlayerRoomsReq();
-                while (reader.pos < end) {
-                    let start = reader.pos;
-                    let tag = reader.tag();
-                    if (tag === _end) {
-                        _end = $undefined;
-                        break;
-                    }
-                    reader.skipType(tag & 7, _depth, tag);
-                    if (!reader.discardUnknown) {
-                        $util.makeProp(message, "$unknowns", false);
-                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
-                    }
-                }
-                if (_end !== $undefined)
-                    throw $Error("missing end group");
-                return message;
-            };
-
-            /**
-             * Decodes a G2Rooms_PlayerRoomsReq message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.G2Rooms_PlayerRoomsReq & BattleOfCell.Message.G2Rooms_PlayerRoomsReq.$Shape} G2Rooms_PlayerRoomsReq
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            G2Rooms_PlayerRoomsReq.decodeDelimited = function(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a G2Rooms_PlayerRoomsReq message.
-             * @function verify
-             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            G2Rooms_PlayerRoomsReq.verify = function (message, _depth) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    return "max depth exceeded";
-                return null;
-            };
-
-            /**
-             * Creates a G2Rooms_PlayerRoomsReq message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {BattleOfCell.Message.G2Rooms_PlayerRoomsReq} G2Rooms_PlayerRoomsReq
-             */
-            G2Rooms_PlayerRoomsReq.fromObject = function (object, _depth) {
-                if (object instanceof $root.BattleOfCell.Message.G2Rooms_PlayerRoomsReq)
-                    return object;
-                if (!$util.isObject(object))
-                    throw $TypeError(".BattleOfCell.Message.G2Rooms_PlayerRoomsReq: object expected");
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    throw $Error("max depth exceeded");
-                return new $root.BattleOfCell.Message.G2Rooms_PlayerRoomsReq();
-            };
-
-            /**
-             * Creates a plain object from a G2Rooms_PlayerRoomsReq message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
-             * @static
-             * @param {BattleOfCell.Message.G2Rooms_PlayerRoomsReq} message G2Rooms_PlayerRoomsReq
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            G2Rooms_PlayerRoomsReq.toObject = function () {
-                return {};
-            };
-
-            /**
-             * Converts this G2Rooms_PlayerRoomsReq to JSON.
-             * @function toJSON
-             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            G2Rooms_PlayerRoomsReq.prototype.toJSON = function() {
-                return G2Rooms_PlayerRoomsReq.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            /**
-             * Gets the type url for G2Rooms_PlayerRoomsReq
-             * @function getTypeUrl
-             * @memberof BattleOfCell.Message.G2Rooms_PlayerRoomsReq
-             * @static
-             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns {string} The type url
-             */
-            G2Rooms_PlayerRoomsReq.getTypeUrl = function(prefix) {
-                if (prefix === $undefined)
-                    prefix = "type.googleapis.com";
-                return prefix + "/BattleOfCell.Message.G2Rooms_PlayerRoomsReq";
-            };
-
-            return G2Rooms_PlayerRoomsReq;
-        })();
-
-        Message.Rooms2G_PlayerRoomsResp = (function() {
-
-            /**
-             * Properties of a Rooms2G_PlayerRoomsResp.
-             * @typedef {Object} BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties
-             * @property {BattleOfCell.Message.MetaData.$Properties|null} [meta] Rooms2G_PlayerRoomsResp meta
-             * @property {Array.<BattleOfCell.Message.RespError.$Properties>|null} [error] Rooms2G_PlayerRoomsResp error
-             * @property {boolean|null} [ok] Rooms2G_PlayerRoomsResp ok
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
-             */
-
-            /**
-             * Properties of a Rooms2G_PlayerRoomsResp.
-             * @memberof BattleOfCell.Message
-             * @interface IRooms2G_PlayerRoomsResp
-             * @augments BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties
-             * @deprecated Use BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties instead.
-             */
-
-            /**
-             * Shape of a Rooms2G_PlayerRoomsResp.
-             * @typedef {BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties} BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape
-             */
-
-            /**
-             * Constructs a new Rooms2G_PlayerRoomsResp.
-             * @memberof BattleOfCell.Message
-             * @classdesc Represents a Rooms2G_PlayerRoomsResp.
-             * @constructor
-             * @param {BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
-             */
-            const Rooms2G_PlayerRoomsResp = function (properties) {
-                this.error = [];
-                if (properties)
-                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
-                            this[keys[i]] = properties[keys[i]];
-            };
-
-            /**
-             * Rooms2G_PlayerRoomsResp meta.
-             * @member {BattleOfCell.Message.MetaData.$Properties|null|undefined} meta
-             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
-             * @instance
-             */
-            Rooms2G_PlayerRoomsResp.prototype.meta = null;
-
-            /**
-             * Rooms2G_PlayerRoomsResp error.
-             * @member {Array.<BattleOfCell.Message.RespError.$Properties>} error
-             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
-             * @instance
-             */
-            Rooms2G_PlayerRoomsResp.prototype.error = $util.emptyArray;
-
-            /**
-             * Rooms2G_PlayerRoomsResp ok.
-             * @member {boolean} ok
-             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
-             * @instance
-             */
-            Rooms2G_PlayerRoomsResp.prototype.ok = false;
-
-            /**
-             * Creates a new Rooms2G_PlayerRoomsResp instance using the specified properties.
-             * @function create
-             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
-             * @static
-             * @param {BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties=} [properties] Properties to set
-             * @returns {BattleOfCell.Message.Rooms2G_PlayerRoomsResp} Rooms2G_PlayerRoomsResp instance
-             * @type {{
-             *   (properties: BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape): BattleOfCell.Message.Rooms2G_PlayerRoomsResp & BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape;
-             *   (properties?: BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties): BattleOfCell.Message.Rooms2G_PlayerRoomsResp;
-             * }}
-             */
-            Rooms2G_PlayerRoomsResp.create = function(properties) {
-                return new Rooms2G_PlayerRoomsResp(properties);
-            };
-
-            /**
-             * Encodes the specified Rooms2G_PlayerRoomsResp message. Does not implicitly {@link BattleOfCell.Message.Rooms2G_PlayerRoomsResp.verify|verify} messages.
-             * @function encode
-             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
-             * @static
-             * @param {BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties} message Rooms2G_PlayerRoomsResp message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Rooms2G_PlayerRoomsResp.encode = function (message, writer, _depth) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    throw $Error("max depth exceeded");
-                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta"))
-                    $root.BattleOfCell.Message.MetaData.encode(message.meta, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
-                if (message.error != null && message.error.length)
-                    for (let i = 0; i < message.error.length; ++i)
-                        $root.BattleOfCell.Message.RespError.encode(message.error[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
-                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok") && message.ok !== false)
-                    writer.uint32(/* id 3, wireType 0 =*/24).bool(message.ok);
-                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
-                    for (let i = 0; i < message.$unknowns.length; ++i)
-                        writer.raw(message.$unknowns[i]);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified Rooms2G_PlayerRoomsResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.Rooms2G_PlayerRoomsResp.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
-             * @static
-             * @param {BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Properties} message Rooms2G_PlayerRoomsResp message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            Rooms2G_PlayerRoomsResp.encodeDelimited = function(message, writer) {
-                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
-            };
-
-            /**
-             * Decodes a Rooms2G_PlayerRoomsResp message from the specified reader or buffer.
-             * @function decode
-             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.Rooms2G_PlayerRoomsResp & BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape} Rooms2G_PlayerRoomsResp
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Rooms2G_PlayerRoomsResp.decode = function (reader, length, _end, _depth, _target) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $Reader.recursionLimit)
-                    throw $Error("max depth exceeded");
-                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.Rooms2G_PlayerRoomsResp(), value;
-                while (reader.pos < end) {
-                    let start = reader.pos;
-                    let tag = reader.tag();
-                    if (tag === _end) {
-                        _end = $undefined;
-                        break;
-                    }
-                    let wireType = tag & 7;
-                    switch (tag >>>= 3) {
-                    case 1: {
-                            if (wireType !== 2)
-                                break;
-                            message.meta = $root.BattleOfCell.Message.MetaData.decode(reader, reader.uint32(), $undefined, _depth + 1, message.meta);
-                            continue;
-                        }
-                    case 2: {
-                            if (wireType !== 2)
-                                break;
-                            if (!(message.error && message.error.length))
-                                message.error = [];
-                            message.error.push($root.BattleOfCell.Message.RespError.decode(reader, reader.uint32(), $undefined, _depth + 1));
-                            continue;
-                        }
-                    case 3: {
-                            if (wireType !== 0)
-                                break;
-                            if (value = reader.bool())
-                                message.ok = value;
-                            else
-                                delete message.ok;
-                            continue;
-                        }
-                    }
-                    reader.skipType(wireType, _depth, tag);
-                    if (!reader.discardUnknown) {
-                        $util.makeProp(message, "$unknowns", false);
-                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
-                    }
-                }
-                if (_end !== $undefined)
-                    throw $Error("missing end group");
-                return message;
-            };
-
-            /**
-             * Decodes a Rooms2G_PlayerRoomsResp message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.Rooms2G_PlayerRoomsResp & BattleOfCell.Message.Rooms2G_PlayerRoomsResp.$Shape} Rooms2G_PlayerRoomsResp
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            Rooms2G_PlayerRoomsResp.decodeDelimited = function(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a Rooms2G_PlayerRoomsResp message.
-             * @function verify
-             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            Rooms2G_PlayerRoomsResp.verify = function (message, _depth) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    return "max depth exceeded";
-                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta")) {
-                    let error = $root.BattleOfCell.Message.MetaData.verify(message.meta, _depth + 1);
-                    if (error)
-                        return "meta." + error;
-                }
-                if (message.error != null && $Object.hasOwnProperty.call(message, "error")) {
-                    if (!$Array.isArray(message.error))
-                        return "error: array expected";
-                    for (let i = 0; i < message.error.length; ++i) {
-                        let error = $root.BattleOfCell.Message.RespError.verify(message.error[i], _depth + 1);
-                        if (error)
-                            return "error." + error;
-                    }
-                }
-                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
-                    if (typeof message.ok !== "boolean")
-                        return "ok: boolean expected";
-                return null;
-            };
-
-            /**
-             * Creates a Rooms2G_PlayerRoomsResp message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {BattleOfCell.Message.Rooms2G_PlayerRoomsResp} Rooms2G_PlayerRoomsResp
-             */
-            Rooms2G_PlayerRoomsResp.fromObject = function (object, _depth) {
-                if (object instanceof $root.BattleOfCell.Message.Rooms2G_PlayerRoomsResp)
-                    return object;
-                if (!$util.isObject(object))
-                    throw $TypeError(".BattleOfCell.Message.Rooms2G_PlayerRoomsResp: object expected");
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    throw $Error("max depth exceeded");
-                let message = new $root.BattleOfCell.Message.Rooms2G_PlayerRoomsResp();
-                if (object.meta != null) {
-                    if (!$util.isObject(object.meta))
-                        throw $TypeError(".BattleOfCell.Message.Rooms2G_PlayerRoomsResp.meta: object expected");
-                    message.meta = $root.BattleOfCell.Message.MetaData.fromObject(object.meta, _depth + 1);
-                }
-                if (object.error) {
-                    if (!$Array.isArray(object.error))
-                        throw $TypeError(".BattleOfCell.Message.Rooms2G_PlayerRoomsResp.error: array expected");
-                    message.error = $Array(object.error.length);
-                    for (let i = 0; i < object.error.length; ++i) {
-                        if (!$util.isObject(object.error[i]))
-                            throw $TypeError(".BattleOfCell.Message.Rooms2G_PlayerRoomsResp.error: object expected");
-                        message.error[i] = $root.BattleOfCell.Message.RespError.fromObject(object.error[i], _depth + 1);
-                    }
-                }
-                if (object.ok != null)
-                    if (object.ok)
-                        message.ok = $Boolean(object.ok);
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a Rooms2G_PlayerRoomsResp message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
-             * @static
-             * @param {BattleOfCell.Message.Rooms2G_PlayerRoomsResp} message Rooms2G_PlayerRoomsResp
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            Rooms2G_PlayerRoomsResp.toObject = function (message, options, _depth) {
-                if (!options)
-                    options = {};
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    throw $Error("max depth exceeded");
-                let object = {};
-                if (options.arrays || options.defaults)
-                    object.error = [];
-                if (options.defaults) {
-                    object.meta = null;
-                    object.ok = false;
-                }
-                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta"))
-                    object.meta = $root.BattleOfCell.Message.MetaData.toObject(message.meta, options, _depth + 1);
-                if (message.error && message.error.length) {
-                    object.error = $Array(message.error.length);
-                    for (let j = 0; j < message.error.length; ++j)
-                        object.error[j] = $root.BattleOfCell.Message.RespError.toObject(message.error[j], options, _depth + 1);
-                }
-                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
-                    object.ok = message.ok;
-                return object;
-            };
-
-            /**
-             * Converts this Rooms2G_PlayerRoomsResp to JSON.
-             * @function toJSON
-             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            Rooms2G_PlayerRoomsResp.prototype.toJSON = function() {
-                return Rooms2G_PlayerRoomsResp.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            /**
-             * Gets the type url for Rooms2G_PlayerRoomsResp
-             * @function getTypeUrl
-             * @memberof BattleOfCell.Message.Rooms2G_PlayerRoomsResp
-             * @static
-             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns {string} The type url
-             */
-            Rooms2G_PlayerRoomsResp.getTypeUrl = function(prefix) {
-                if (prefix === $undefined)
-                    prefix = "type.googleapis.com";
-                return prefix + "/BattleOfCell.Message.Rooms2G_PlayerRoomsResp";
-            };
-
-            return Rooms2G_PlayerRoomsResp;
+            return PlayerMatchResp;
         })();
 
         return Message;
