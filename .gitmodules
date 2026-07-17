@@ -1,0 +1,3 @@
+[submodule "src/proto/battle-of-cell-proto"]
+	path = src/proto/battle-of-cell-proto
+	url = https://github.com/ChengguanYu/battle-of-cell-proto.git
