@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom"
 import { HomePage } from "./pages/HomePage"
 import { LoginPage } from "./pages/LoginPage"
 import { RegisterPage } from "./pages/RegisterPage"
+import { BattlePage } from "./pages/BattlePage"
 import { ProtectedRoute } from "./components/ProtectedRoute"
 import { WsGuard } from "./components/WsGuard"
 import { Toaster } from "./components/ui/toaster"
@@ -35,6 +36,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/battle/:roomId" element={<BattlePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>

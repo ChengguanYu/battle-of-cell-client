@@ -61,7 +61,7 @@ export function HomePage() {
     try {
       const roomId = await startMatch()
       toast.success(`匹配成功，进入房间 ${roomId}`)
-      navigate(`/game/${roomId}`)
+      navigate(`/battle/${roomId}`)
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "匹配失败")
     }
