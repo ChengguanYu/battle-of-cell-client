@@ -59,7 +59,7 @@ export function useMatch() {
       console.log("[Match] PlayerMatchResp:", JSON.stringify(resp))
 
       if (resp.ok && (!resp.meta || resp.meta.statusCode === StatusCode.Ok)) {
-        return
+        return Number(resp.roomId)
       }
 
       const errors = resp.error ?? []

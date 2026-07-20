@@ -872,6 +872,9 @@ export namespace BattleOfCell {
             /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
             ok: boolean;
 
+            /** 匹配成功后的房间 ID；失败时为 0 */
+            roomId: (number|Long);
+
             /**
              * Creates a new PlayerMatchResp instance using the specified properties.
              * @param [properties] Properties to set
@@ -964,6 +967,9 @@ export namespace BattleOfCell {
 
                 /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
                 ok?: (boolean|null);
+
+                /** 匹配成功后的房间 ID；失败时为 0 */
+                roomId?: (number|Long|null);
 
                 /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];

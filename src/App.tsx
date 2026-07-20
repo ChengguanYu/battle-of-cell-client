@@ -27,6 +27,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/game/:id"
+          element={
+            <ProtectedRoute>
+              <GameWindow />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>

@@ -59,8 +59,9 @@ export function HomePage() {
 
   const handleMatch = async () => {
     try {
-      await startMatch()
-      toast.success("匹配成功")
+      const roomId = await startMatch()
+      toast.success(`匹配成功，进入房间 ${roomId}`)
+      navigate(`/game/${roomId}`)
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "匹配失败")
     }
