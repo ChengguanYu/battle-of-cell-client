@@ -104,7 +104,8 @@ export function DebugPanel({
         <div style={{ color: "#60a5fa", fontSize: 12, marginBottom: 4 }}>─ 变量参数 ─</div>
         <Row label="位置" value={`(${Math.round(player.x)}, ${Math.round(player.y)})`} />
         <Row label="发射向" value={isMoving ? `(${d.dirX.toFixed(4)}, ${d.dirY.toFixed(4)})` : "(—, —)"} />
-        <Row label="速率" value={`${speed.toFixed(1)} px/s`} />
+        <Row label="初速度" value={isMoving ? `${player.initSpeed.toFixed(1)} px/s` : "—"} />
+        <Row label="当前速率" value={`${speed.toFixed(1)} px/s`} />
         <Row label="方向角" value={`${dirAngle}°`} />
       </div>
 

@@ -15,6 +15,7 @@ export class Player {
   private _vy = 0
   private _dirX = 0  // launch direction unit vector (constant until next launch)
   private _dirY = 0
+  private _initSpeed = 0  // launch initial speed (constant until next launch)
   private worldSize: number
   private _deceleration: number
   private _maxLaunchSpeed: number
@@ -62,6 +63,11 @@ export class Player {
     return { dirX: this._dirX, dirY: this._dirY }
   }
 
+  /** Initial launch speed in px/s — constant until next launch. */
+  get initSpeed(): number {
+    return this._initSpeed
+  }
+
   get maxLaunchSpeed(): number {
     return this._maxLaunchSpeed
   }
@@ -88,6 +94,7 @@ export class Player {
     const speed = Math.min(initialSpeed, this._maxLaunchSpeed)
     this._dirX = dirX
     this._dirY = dirY
+    this._initSpeed = speed
     this._vx = dirX * speed
     this._vy = dirY * speed
     this.emit("move")
