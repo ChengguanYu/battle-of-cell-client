@@ -15,13 +15,13 @@ export class Player {
   private _vy = 0
   private worldSize: number
   private deceleration: number
-  private maxLaunchSpeed: number
+  private _maxLaunchSpeed: number
   private listeners = new Map<PlayerEvent, Set<(state: PlayerState) => void>>()
 
   constructor(worldSize: number, opts?: Partial<PlayerState & { deceleration?: number; maxLaunchSpeed?: number }>) {
     this.worldSize = worldSize
-    this.deceleration = opts?.deceleration ?? 800
-    this.maxLaunchSpeed = opts?.maxLaunchSpeed ?? 3000
+    this.deceleration = opts?.deceleration ?? 500
+    this._maxLaunchSpeed = opts?.maxLaunchSpeed ?? 3000
     this._state = {
       x: worldSize / 2,
       y: worldSize / 2,
@@ -55,6 +55,10 @@ export class Player {
     return { vx: this._vx, vy: this._vy }
   }
 
+  get maxLaunchSpeed(): number {
+    return this._maxLaunchSpeed
+  }
+
   /**
    * Launch the player with a direction and initial speed.
    * @param dirX - Unit vector X component
@@ -62,7 +66,7 @@ export class Player {
    * @param initialSpeed - Initial speed in px/s (clamped to maxLaunchSpeed)
    */
   launch(dirX: number, dirY: number, initialSpeed: number): void {
-    const speed = Math.min(initialSpeed, this.maxLaunchSpeed)
+    const speed = Math.min(initialSpeed, this._maxLaunchSpeed)
     this._vx = dirX * speed
     this._vy = dirY * speed
     this.emit("move")

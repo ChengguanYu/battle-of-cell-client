@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import type { Player } from "../entities/Player"
 
-const SPEED_MULTIPLIER = 2
+const SPEED_COEFFICIENT = 1.5
 
 export function usePlayer(
   playerRef: React.MutableRefObject<Player>,
@@ -80,7 +80,7 @@ export function usePlayer(
 
       const dirX = -dx / dist
       const dirY = -dy / dist
-      player.launch(dirX, dirY, dist * SPEED_MULTIPLIER)
+      player.launch(dirX, dirY, dist * SPEED_COEFFICIENT)
     }
 
     el.addEventListener("mousedown", onMouseDown)
