@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import type { Player } from "../entities/Player"
 
-const DEFAULT_SPEED_COEFFICIENT = 1.5
+const DEFAULT_SPEED_COEFFICIENT = 10
 
 export function usePlayer(
   playerRef: React.MutableRefObject<Player>,
@@ -62,7 +62,17 @@ export function usePlayer(
       }
     }
 
+    const HIT_RADIUS = 25 // px on screen — click must be near the player to enter aim mode
+
     const onMouseDown = (e: MouseEvent) => {
+      const cx = window.innerWidth / 2
+      const cy = window.innerHeight / 2
+      // player world → screen space
+      const psx = (player.x - camera.x - cx) * camera.zoom + cx
+      const psy = (player.y - camera.y - cy) * camera.zoom + cy
+      const hd = Math.sqrt((e.clientX - psx) ** 2 + (e.clientY - psy) ** 2)
+      if (hd > HIT_RADIUS) return
+
       isAimingRef.current = true
       setIsAiming(true)
       setAimTarget(toWorld(e.clientX, e.clientY))
@@ -85,9 +95,13 @@ export function usePlayer(
 
       if (dist < 1) return
 
+      // 先限制模长上限，再乘以系数 → 初速度
+      const cappedDist = Math.min(dist, player.maxLaunchSpeed)
+      const initialSpeed = cappedDist * speedCoefficientRef.current
+
       const dirX = -dx / dist
       const dirY = -dy / dist
-      player.launch(dirX, dirY, dist * speedCoefficientRef.current)
+      player.launch(dirX, dirY, initialSpeed)
     }
 
     el.addEventListener("mousedown", onMouseDown)

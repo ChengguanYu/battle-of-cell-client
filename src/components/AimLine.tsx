@@ -4,11 +4,10 @@ interface AimLineProps {
   toX: number
   toY: number
   visible: boolean
+  maxRange: number
 }
 
-const MAX_VISUAL_LENGTH = 150
-
-export function AimLine({ fromX, fromY, toX, toY, visible }: AimLineProps) {
+export function AimLine({ fromX, fromY, toX, toY, visible, maxRange }: AimLineProps) {
   if (!visible) return null
 
   const dx = toX - fromX
@@ -16,7 +15,7 @@ export function AimLine({ fromX, fromY, toX, toY, visible }: AimLineProps) {
   const dist = Math.sqrt(dx * dx + dy * dy)
   if (dist < 1) return null
 
-  const visualDist = Math.min(dist, MAX_VISUAL_LENGTH)
+  const visualDist = Math.min(dist, maxRange)
   const nx = dx / dist
   const ny = dy / dist
   const endX = fromX + nx * visualDist

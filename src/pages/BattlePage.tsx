@@ -50,6 +50,7 @@ export function BattlePage() {
           toX={aimTarget.x}
           toY={aimTarget.y}
           visible={isAiming}
+          maxRange={player.maxLaunchSpeed}
         />
       </GameWorld>
 

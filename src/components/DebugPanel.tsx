@@ -126,7 +126,7 @@ export function DebugPanel({
           onApply={applyDecel}
         />
         <EditRow
-          label="最大初速度"
+          label="最大蓄力距"
           value={editMaxSpeed}
           onChange={setEditMaxSpeed}
           onApply={applyMaxSpeed}
