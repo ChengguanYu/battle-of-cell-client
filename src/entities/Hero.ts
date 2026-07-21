@@ -64,7 +64,7 @@ export class Hero {
     this._deceleration = toFixed(opts?.deceleration ?? 200)
     this._maxLaunchSpeed = toFixed(opts?.maxLaunchSpeed ?? 150)
     this._radius = toFixed(opts?.radius ?? 20)
-    this._elasticity = fixedClamp(toFixed(opts?.elasticity ?? 1), 0, FIXED_SCALE)
+    this._elasticity = fixedClamp(toFixed(opts?.elasticity ?? 0.7), 0, FIXED_SCALE)
     this._state = {
       x: toFixed(opts?.x ?? worldSize / 2),
       y: toFixed(opts?.y ?? worldSize / 2),
