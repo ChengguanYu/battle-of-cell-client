@@ -29,7 +29,7 @@ export class Hero {
     opts?: Partial<HeroState & { deceleration?: number; maxLaunchSpeed?: number; radius?: number; elasticity?: number }>,
   ) {
     this.worldSize = worldSize
-    this._deceleration = opts?.deceleration ?? 500
+    this._deceleration = opts?.deceleration ?? 200
     this._maxLaunchSpeed = opts?.maxLaunchSpeed ?? 150
     this._radius = opts?.radius ?? 20
     this._elasticity = clamp(opts?.elasticity ?? 1, 0, 1)
