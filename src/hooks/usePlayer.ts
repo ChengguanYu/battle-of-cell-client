@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState } from "react"
-import { Player } from "../entities/Player"
-
-const WORLD_SIZE = 10000
+import type { Player } from "../entities/Player"
 
 export function usePlayer(
+  playerRef: React.MutableRefObject<Player>,
   containerRef: React.RefObject<HTMLDivElement | null>,
   camera: { x: number; y: number; zoom: number },
 ) {
-  const playerRef = useRef<Player>(new Player(WORLD_SIZE))
   const player = playerRef.current
   const [state, setState] = useState(player.state)
   const [isAiming, setIsAiming] = useState(false)
