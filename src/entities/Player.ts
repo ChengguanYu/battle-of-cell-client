@@ -51,6 +51,10 @@ export class Player {
     return { x: this._state.x, y: this._state.y }
   }
 
+  /**
+   * @param dx - Direction unit vector on X axis (-1, 0, or 1), multiplied by speed
+   * @param dy - Direction unit vector on Y axis (-1, 0, or 1), multiplied by speed
+   */
   move(dx: number, dy: number): void {
     const { speed } = this._state
     this._state.x = clamp(this._state.x + dx * speed, 0, this.worldSize)

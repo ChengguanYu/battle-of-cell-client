@@ -13,9 +13,14 @@ export function usePlayer() {
     const handleKey = (e: KeyboardEvent) => {
       if (!e.key.startsWith("Arrow")) return
       e.preventDefault()
-      const key = e.key.replace("Arrow", "") as "Up" | "Down" | "Left" | "Right"
-      const method = `move${key}` as keyof Player
-      ;(player[method] as () => void)()
+      const key = e.key.replace("Arrow", "")
+      const moveActions: Record<string, () => void> = {
+        Up: player.moveUp.bind(player),
+        Down: player.moveDown.bind(player),
+        Left: player.moveLeft.bind(player),
+        Right: player.moveRight.bind(player),
+      }
+      moveActions[key]?.()
     }
     window.addEventListener("keydown", handleKey)
     return () => {
