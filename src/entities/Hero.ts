@@ -1,30 +1,32 @@
 import type { Position } from "./types"
 
-export interface PlayerState {
+export interface HeroState {
   x: number
   y: number
   hp: number
   maxHp: number
 }
 
-export type PlayerEvent = "move" | "damage" | "heal" | "death" | "change"
+export type HeroEvent = "move" | "damage" | "heal" | "death" | "change"
 
-export class Player {
-  private _state: PlayerState
+export class Hero {
+  private _state: HeroState
   private _vx = 0
   private _vy = 0
-  private _dirX = 0  // launch direction unit vector (constant until next launch)
+  private _dirX = 0
   private _dirY = 0
-  private _initSpeed = 0  // launch initial speed (constant until next launch)
+  private _initSpeed = 0
   private worldSize: number
   private _deceleration: number
   private _maxLaunchSpeed: number
-  private listeners = new Map<PlayerEvent, Set<(state: PlayerState) => void>>()
+  private _radius: number
+  private listeners = new Map<HeroEvent, Set<(state: HeroState) => void>>()
 
-  constructor(worldSize: number, opts?: Partial<PlayerState & { deceleration?: number; maxLaunchSpeed?: number }>) {
+  constructor(worldSize: number, opts?: Partial<HeroState & { deceleration?: number; maxLaunchSpeed?: number; radius?: number }>) {
     this.worldSize = worldSize
     this._deceleration = opts?.deceleration ?? 500
     this._maxLaunchSpeed = opts?.maxLaunchSpeed ?? 150
+    this._radius = opts?.radius ?? 20
     this._state = {
       x: worldSize / 2,
       y: worldSize / 2,
@@ -34,7 +36,7 @@ export class Player {
     }
   }
 
-  get state(): PlayerState {
+  get state(): HeroState {
     return { ...this._state }
   }
 
@@ -58,12 +60,10 @@ export class Player {
     return { vx: this._vx, vy: this._vy }
   }
 
-  /** Launch direction unit vector — constant until next launch. */
   get direction(): { dirX: number; dirY: number } {
     return { dirX: this._dirX, dirY: this._dirY }
   }
 
-  /** Initial launch speed in px/s — constant until next launch. */
   get initSpeed(): number {
     return this._initSpeed
   }
@@ -76,6 +76,10 @@ export class Player {
     return this._deceleration
   }
 
+  get radius(): number {
+    return this._radius
+  }
+
   setDeceleration(value: number): void {
     this._deceleration = value
   }
@@ -84,12 +88,26 @@ export class Player {
     this._maxLaunchSpeed = value
   }
 
+  setRadius(value: number): void {
+    this._radius = Math.max(1, value)
+  }
+
   /**
-   * Launch the player with a direction and initial speed.
-   * @param dirX - Unit vector X component
-   * @param dirY - Unit vector Y component
-   * @param initialSpeed - Initial speed in px/s (should have been clamped externally)
+   * Screen-space hit test against this hero's radius.
    */
+  hitTest(worldX: number, worldY: number, cameraX: number, cameraY: number, zoom: number): boolean {
+    const cx = window.innerWidth / 2
+    const cy = window.innerHeight / 2
+    const sx = (this._state.x - cameraX - cx) * zoom + cx
+    const sy = (this._state.y - cameraY - cy) * zoom + cy
+    const tx = (worldX - cameraX - cx) * zoom + cx
+    const ty = (worldY - cameraY - cy) * zoom + cy
+    const screenR = this._radius * zoom
+    const dx = sx - tx
+    const dy = sy - ty
+    return dx * dx + dy * dy <= screenR * screenR
+  }
+
   launch(dirX: number, dirY: number, initialSpeed: number): void {
     this._dirX = dirX
     this._dirY = dirY
@@ -100,10 +118,6 @@ export class Player {
     this.emit("change")
   }
 
-  /**
-   * Physics step: apply velocity and uniform deceleration.
-   * Call once per frame with delta-time in seconds.
-   */
   update(dt: number): void {
     if (this._vx === 0 && this._vy === 0) return
 
@@ -147,7 +161,7 @@ export class Player {
     this.emit("change")
   }
 
-  on(event: PlayerEvent, fn: (state: PlayerState) => void): () => void {
+  on(event: HeroEvent, fn: (state: HeroState) => void): () => void {
     if (!this.listeners.has(event)) {
       this.listeners.set(event, new Set())
     }
@@ -157,11 +171,11 @@ export class Player {
     }
   }
 
-  onChange(fn: (state: PlayerState) => void): () => void {
+  onChange(fn: (state: HeroState) => void): () => void {
     return this.on("change", fn)
   }
 
-  private emit(event: PlayerEvent): void {
+  private emit(event: HeroEvent): void {
     const fns = this.listeners.get(event)
     if (fns) {
       const snapshot = this.state

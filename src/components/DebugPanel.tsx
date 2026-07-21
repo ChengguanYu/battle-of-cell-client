@@ -1,8 +1,8 @@
 import { useState } from "react"
-import type { Player } from "../entities/Player"
+import type { Hero } from "../entities/Hero"
 
 interface DebugPanelProps {
-  player: Player
+  hero: Hero
   speedCoefficient: number
   onSpeedCoefficientChange: (v: number) => void
   visible: boolean
@@ -10,21 +10,22 @@ interface DebugPanelProps {
 }
 
 export function DebugPanel({
-  player,
+  hero,
   speedCoefficient,
   onSpeedCoefficientChange,
   visible,
   onClose,
 }: DebugPanelProps) {
-  const [editDecel, setEditDecel] = useState(String(player.deceleration))
-  const [editMaxSpeed, setEditMaxSpeed] = useState(String(player.maxLaunchSpeed))
+  const [editDecel, setEditDecel] = useState(String(hero.deceleration))
+  const [editMaxSpeed, setEditMaxSpeed] = useState(String(hero.maxLaunchSpeed))
+  const [editRadius, setEditRadius] = useState(String(hero.radius))
   const [editCoeff, setEditCoeff] = useState(String(speedCoefficient))
 
   if (!visible) return null
 
-  const v = player.velocity
+  const v = hero.velocity
   const speed = Math.sqrt(v.vx * v.vx + v.vy * v.vy)
-  const d = player.direction
+  const d = hero.direction
   const hasLaunched = d.dirX !== 0 || d.dirY !== 0
   const dirAngle = hasLaunched
     ? (Math.atan2(d.dirY, d.dirX) * 180 / Math.PI).toFixed(1)
@@ -33,14 +34,21 @@ export function DebugPanel({
   const applyDecel = () => {
     const n = parseFloat(editDecel)
     if (!isNaN(n) && n >= 0) {
-      player.setDeceleration(n)
+      hero.setDeceleration(n)
     }
   }
 
   const applyMaxSpeed = () => {
     const n = parseFloat(editMaxSpeed)
     if (!isNaN(n) && n >= 0) {
-      player.setMaxLaunchSpeed(n)
+      hero.setMaxLaunchSpeed(n)
+    }
+  }
+
+  const applyRadius = () => {
+    const n = parseFloat(editRadius)
+    if (!isNaN(n) && n >= 1) {
+      hero.setRadius(n)
     }
   }
 
@@ -102,9 +110,9 @@ export function DebugPanel({
       {/* 变量参数 */}
       <div style={{ marginBottom: 10 }}>
         <div style={{ color: "#60a5fa", fontSize: 12, marginBottom: 4 }}>─ 变量参数 ─</div>
-        <Row label="位置" value={`(${Math.round(player.x)}, ${Math.round(player.y)})`} />
+        <Row label="位置" value={`(${Math.round(hero.x)}, ${Math.round(hero.y)})`} />
         <Row label="发射向" value={hasLaunched ? `(${d.dirX.toFixed(4)}, ${d.dirY.toFixed(4)})` : "(—, —)"} />
-        <Row label="初速度" value={hasLaunched ? `${player.initSpeed.toFixed(1)} px/s` : "—"} />
+        <Row label="初速度" value={hasLaunched ? `${hero.initSpeed.toFixed(1)} px/s` : "—"} />
         <Row label="当前速率" value={`${speed.toFixed(1)} px/s`} />
         <Row label="方向角" value={`${dirAngle}°`} />
       </div>
@@ -130,6 +138,12 @@ export function DebugPanel({
           value={editMaxSpeed}
           onChange={setEditMaxSpeed}
           onApply={applyMaxSpeed}
+        />
+        <EditRow
+          label="半径"
+          value={editRadius}
+          onChange={setEditRadius}
+          onApply={applyRadius}
         />
       </div>
 

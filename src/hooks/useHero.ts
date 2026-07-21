@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from "react"
-import type { Player } from "../entities/Player"
+import type { Hero } from "../entities/Hero"
 
 const DEFAULT_SPEED_COEFFICIENT = 10
 
-export function usePlayer(
-  playerRef: React.MutableRefObject<Player>,
+export function useHero(
+  heroRef: React.MutableRefObject<Hero>,
   containerRef: React.RefObject<HTMLDivElement | null>,
   camera: { x: number; y: number; zoom: number },
 ) {
-  const player = playerRef.current
-  const [state, setState] = useState(player.state)
+  const hero = heroRef.current
+  const [state, setState] = useState(hero.state)
   const [isAiming, setIsAiming] = useState(false)
   const [aimTarget, setAimTarget] = useState({ x: 0, y: 0 })
   const [speedCoefficient, setSpeedCoefficient] = useState(DEFAULT_SPEED_COEFFICIENT)
@@ -22,12 +22,12 @@ export function usePlayer(
     speedCoefficientRef.current = speedCoefficient
   }, [speedCoefficient])
 
-  // subscribe to player state changes
+  // subscribe to hero state changes
   useEffect(() => {
-    return player.onChange(setState)
-  }, [player])
+    return hero.onChange(setState)
+  }, [hero])
 
-  // rAF game loop — runs player.update(dt) each frame
+  // rAF game loop — runs hero.update(dt) each frame
   useEffect(() => {
     prevTimeRef.current = 0
     let rafId: number
@@ -40,13 +40,13 @@ export function usePlayer(
       }
       const dt = Math.min((timestamp - prevTimeRef.current) / 1000, 0.05)
       prevTimeRef.current = timestamp
-      player.update(dt)
+      hero.update(dt)
       rafId = requestAnimationFrame(tick)
     }
 
     rafId = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafId)
-  }, [player])
+  }, [hero])
 
   // mouse input
   useEffect(() => {
@@ -62,20 +62,14 @@ export function usePlayer(
       }
     }
 
-    const HIT_RADIUS = 25 // px on screen — click must be near the player to enter aim mode
-
     const onMouseDown = (e: MouseEvent) => {
-      const cx = window.innerWidth / 2
-      const cy = window.innerHeight / 2
-      // player world → screen space
-      const psx = (player.x - camera.x - cx) * camera.zoom + cx
-      const psy = (player.y - camera.y - cy) * camera.zoom + cy
-      const hd = Math.sqrt((e.clientX - psx) ** 2 + (e.clientY - psy) ** 2)
-      if (hd > HIT_RADIUS) return
+      // screen-space hit test using hero's radius
+      const wp = toWorld(e.clientX, e.clientY)
+      if (!hero.hitTest(wp.x, wp.y, camera.x, camera.y, camera.zoom)) return
 
       isAimingRef.current = true
       setIsAiming(true)
-      setAimTarget(toWorld(e.clientX, e.clientY))
+      setAimTarget(wp)
     }
 
     const onMouseMove = (e: MouseEvent) => {
@@ -89,19 +83,19 @@ export function usePlayer(
       setIsAiming(false)
 
       const wp = toWorld(e.clientX, e.clientY)
-      const dx = wp.x - player.x
-      const dy = wp.y - player.y
+      const dx = wp.x - hero.x
+      const dy = wp.y - hero.y
       const dist = Math.sqrt(dx * dx + dy * dy)
 
       if (dist < 1) return
 
       // 先限制模长上限，再乘以系数 → 初速度
-      const cappedDist = Math.min(dist, player.maxLaunchSpeed)
+      const cappedDist = Math.min(dist, hero.maxLaunchSpeed)
       const initialSpeed = cappedDist * speedCoefficientRef.current
 
       const dirX = -dx / dist
       const dirY = -dy / dist
-      player.launch(dirX, dirY, initialSpeed)
+      hero.launch(dirX, dirY, initialSpeed)
     }
 
     el.addEventListener("mousedown", onMouseDown)
@@ -113,11 +107,11 @@ export function usePlayer(
       window.removeEventListener("mousemove", onMouseMove)
       window.removeEventListener("mouseup", onMouseUp)
     }
-  }, [containerRef, player, camera])
+  }, [containerRef, hero, camera])
 
   return {
-    player,
-    playerRef,
+    hero,
+    heroRef,
     state,
     isAiming,
     aimTarget,

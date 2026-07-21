@@ -7,7 +7,7 @@ const ZOOM_STEP = 0.1
 const CAMERA_MAX_SPEED = 8000
 const CAMERA_ACCELERATION = 0.06
 
-export function useCamera(playerRef: React.RefObject<{ x: number; y: number } | null>) {
+export function useCamera(heroRef: React.RefObject<{ x: number; y: number } | null>) {
   const [camera, setCamera] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -41,7 +41,7 @@ export function useCamera(playerRef: React.RefObject<{ x: number; y: number } | 
     const animate = (timestamp: number) => {
       const cam = cameraRef.current
       const vel = cameraVelRef.current
-      const p = playerRef.current
+      const p = heroRef.current
       const vw = window.innerWidth
       const vh = window.innerHeight
       const cx = vw / 2
@@ -82,7 +82,7 @@ export function useCamera(playerRef: React.RefObject<{ x: number; y: number } | 
 
     rafId = requestAnimationFrame(animate)
     return () => cancelAnimationFrame(rafId)
-  }, [playerRef])
+  }, [heroRef])
 
   return { cameraX: camera.x, cameraY: camera.y, zoom, containerRef }
 }
