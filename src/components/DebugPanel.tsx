@@ -24,8 +24,10 @@ export function DebugPanel({
 
   const v = player.velocity
   const speed = Math.sqrt(v.vx * v.vx + v.vy * v.vy)
-  const angle = speed > 0
-    ? (Math.atan2(v.vy, v.vx) * 180 / Math.PI).toFixed(1)
+      const d = player.direction
+  const isMoving = d.dirX !== 0 || d.dirY !== 0
+  const dirAngle = isMoving
+    ? (Math.atan2(d.dirY, d.dirX) * 180 / Math.PI).toFixed(1)
     : "—"
 
   const applyDecel = () => {
@@ -101,9 +103,9 @@ export function DebugPanel({
       <div style={{ marginBottom: 10 }}>
         <div style={{ color: "#60a5fa", fontSize: 12, marginBottom: 4 }}>─ 变量参数 ─</div>
         <Row label="位置" value={`(${Math.round(player.x)}, ${Math.round(player.y)})`} />
-        <Row label="速度向" value={`(${v.vx.toFixed(1)}, ${v.vy.toFixed(1)})`} />
+        <Row label="发射向" value={isMoving ? `(${d.dirX.toFixed(4)}, ${d.dirY.toFixed(4)})` : "(—, —)"} />
         <Row label="速率" value={`${speed.toFixed(1)} px/s`} />
-        <Row label="方向角" value={`${angle}°`} />
+        <Row label="方向角" value={`${dirAngle}°`} />
       </div>
 
       {/* 恒定参数 */}

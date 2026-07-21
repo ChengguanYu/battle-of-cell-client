@@ -13,6 +13,8 @@ export class Player {
   private _state: PlayerState
   private _vx = 0
   private _vy = 0
+  private _dirX = 0  // launch direction unit vector (constant until next launch)
+  private _dirY = 0
   private worldSize: number
   private _deceleration: number
   private _maxLaunchSpeed: number
@@ -55,6 +57,11 @@ export class Player {
     return { vx: this._vx, vy: this._vy }
   }
 
+  /** Launch direction unit vector — constant until next launch. */
+  get direction(): { dirX: number; dirY: number } {
+    return { dirX: this._dirX, dirY: this._dirY }
+  }
+
   get maxLaunchSpeed(): number {
     return this._maxLaunchSpeed
   }
@@ -79,6 +86,8 @@ export class Player {
    */
   launch(dirX: number, dirY: number, initialSpeed: number): void {
     const speed = Math.min(initialSpeed, this._maxLaunchSpeed)
+    this._dirX = dirX
+    this._dirY = dirY
     this._vx = dirX * speed
     this._vy = dirY * speed
     this.emit("move")
@@ -101,6 +110,8 @@ export class Player {
     if (decelAmount >= currentSpeed) {
       this._vx = 0
       this._vy = 0
+      this._dirX = 0
+      this._dirY = 0
     } else {
       const ratio = (currentSpeed - decelAmount) / currentSpeed
       this._vx *= ratio
