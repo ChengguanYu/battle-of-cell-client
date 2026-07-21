@@ -34,7 +34,7 @@ export function BattleHUD({ roomId, playerX, playerY, zoom, onBack }: BattleHUDP
 
       {/* 操作提示 */}
       <div className="pointer-events-auto absolute bottom-4 left-1/2 -translate-x-1/2 rounded-md bg-card/60 px-4 py-2 text-xs text-muted-foreground backdrop-blur-sm">
-        方向键移动 · Ctrl+滚轮缩放
+        鼠标点击拖拽弹射 · Ctrl+滚轮缩放
       </div>
     </div>
   )
