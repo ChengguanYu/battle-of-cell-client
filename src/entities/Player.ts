@@ -20,7 +20,7 @@ export class Player {
 
   constructor(worldSize: number, opts?: Partial<PlayerState & { deceleration?: number; maxLaunchSpeed?: number }>) {
     this.worldSize = worldSize
-    this.deceleration = opts?.deceleration ?? 1500
+    this.deceleration = opts?.deceleration ?? 800
     this.maxLaunchSpeed = opts?.maxLaunchSpeed ?? 3000
     this._state = {
       x: worldSize / 2,

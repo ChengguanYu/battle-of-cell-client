@@ -4,7 +4,7 @@ const WORLD_SIZE = 10000
 const ZOOM_MIN = 0.25
 const ZOOM_MAX = 4
 const ZOOM_STEP = 0.1
-const CAMERA_MAX_SPEED = 4000
+const CAMERA_MAX_SPEED = 8000
 const CAMERA_ACCELERATION = 0.06
 
 export function useCamera(playerRef: React.RefObject<{ x: number; y: number } | null>) {

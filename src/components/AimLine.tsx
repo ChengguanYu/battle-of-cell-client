@@ -6,7 +6,7 @@ interface AimLineProps {
   visible: boolean
 }
 
-const MAX_VISUAL_LENGTH = 300
+const MAX_VISUAL_LENGTH = 150
 
 export function AimLine({ fromX, fromY, toX, toY, visible }: AimLineProps) {
   if (!visible) return null
