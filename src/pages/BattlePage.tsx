@@ -4,7 +4,7 @@ import { Hero } from "../entities/Hero"
 import { useHero } from "../hooks/useHero"
 import { useCamera } from "../hooks/useCamera"
 import { GameWorld } from "../components/GameWorld"
-import { HeroDot } from "../components/HeroDot"
+import { HeroView } from "../components/hero"
 import { BattleHUD } from "../components/BattleHUD"
 import { AimLine } from "../components/AimLine"
 import { DebugPanel } from "../components/DebugPanel"
@@ -50,7 +50,7 @@ export function BattlePage() {
       style={{ background: OUT_OF_BOUNDS }}
     >
       <GameWorld cameraX={cameraX} cameraY={cameraY} zoom={zoom}>
-        <HeroDot x={heroX} y={heroY} radius={heroRadius} />
+        <HeroView x={heroX} y={heroY} radius={heroRadius} />
         <AimLine
           fromX={heroX}
           fromY={heroY}
