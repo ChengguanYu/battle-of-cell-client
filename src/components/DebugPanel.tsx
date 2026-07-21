@@ -24,9 +24,9 @@ export function DebugPanel({
 
   const v = player.velocity
   const speed = Math.sqrt(v.vx * v.vx + v.vy * v.vy)
-      const d = player.direction
-  const isMoving = d.dirX !== 0 || d.dirY !== 0
-  const dirAngle = isMoving
+  const d = player.direction
+  const hasLaunched = d.dirX !== 0 || d.dirY !== 0
+  const dirAngle = hasLaunched
     ? (Math.atan2(d.dirY, d.dirX) * 180 / Math.PI).toFixed(1)
     : "—"
 
@@ -103,8 +103,8 @@ export function DebugPanel({
       <div style={{ marginBottom: 10 }}>
         <div style={{ color: "#60a5fa", fontSize: 12, marginBottom: 4 }}>─ 变量参数 ─</div>
         <Row label="位置" value={`(${Math.round(player.x)}, ${Math.round(player.y)})`} />
-        <Row label="发射向" value={isMoving ? `(${d.dirX.toFixed(4)}, ${d.dirY.toFixed(4)})` : "(—, —)"} />
-        <Row label="初速度" value={isMoving ? `${player.initSpeed.toFixed(1)} px/s` : "—"} />
+        <Row label="发射向" value={hasLaunched ? `(${d.dirX.toFixed(4)}, ${d.dirY.toFixed(4)})` : "(—, —)"} />
+        <Row label="初速度" value={hasLaunched ? `${player.initSpeed.toFixed(1)} px/s` : "—"} />
         <Row label="当前速率" value={`${speed.toFixed(1)} px/s`} />
         <Row label="方向角" value={`${dirAngle}°`} />
       </div>

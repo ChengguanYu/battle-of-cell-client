@@ -117,8 +117,6 @@ export class Player {
     if (decelAmount >= currentSpeed) {
       this._vx = 0
       this._vy = 0
-      this._dirX = 0
-      this._dirY = 0
     } else {
       const ratio = (currentSpeed - decelAmount) / currentSpeed
       this._vx *= ratio
