@@ -10,7 +10,7 @@ const OUT_OF_BOUNDS = "#050805"
 export function BattlePage() {
   const { roomId } = useParams()
   const navigate = useNavigate()
-  const { player, playerRef } = usePlayer()
+  const { playerRef, state } = usePlayer()
   const { cameraX, cameraY, zoom, containerRef } = useCamera(playerRef)
 
   return (
@@ -20,13 +20,13 @@ export function BattlePage() {
       style={{ background: OUT_OF_BOUNDS }}
     >
       <GameWorld cameraX={cameraX} cameraY={cameraY} zoom={zoom}>
-        <PlayerDot x={player.x} y={player.y} />
+        <PlayerDot x={state.x} y={state.y} />
       </GameWorld>
 
       <BattleHUD
         roomId={roomId}
-        playerX={player.x}
-        playerY={player.y}
+        playerX={state.x}
+        playerY={state.y}
         zoom={zoom}
         onBack={() => navigate("/home")}
       />
