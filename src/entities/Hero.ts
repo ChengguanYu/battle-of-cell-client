@@ -20,13 +20,19 @@ export class Hero {
   private _deceleration: number
   private _maxLaunchSpeed: number
   private _radius: number
+  /** 0 = fully inelastic (stop normal), 1 = perfectly elastic (no kinetic loss on bounce). */
+  private _elasticity: number
   private listeners = new Map<HeroEvent, Set<(state: HeroState) => void>>()
 
-  constructor(worldSize: number, opts?: Partial<HeroState & { deceleration?: number; maxLaunchSpeed?: number; radius?: number }>) {
+  constructor(
+    worldSize: number,
+    opts?: Partial<HeroState & { deceleration?: number; maxLaunchSpeed?: number; radius?: number; elasticity?: number }>,
+  ) {
     this.worldSize = worldSize
     this._deceleration = opts?.deceleration ?? 500
     this._maxLaunchSpeed = opts?.maxLaunchSpeed ?? 150
     this._radius = opts?.radius ?? 20
+    this._elasticity = clamp(opts?.elasticity ?? 1, 0, 1)
     this._state = {
       x: worldSize / 2,
       y: worldSize / 2,
@@ -34,6 +40,7 @@ export class Hero {
       maxHp: 100,
       ...opts,
     }
+    this.clampPositionToBounds()
   }
 
   get state(): HeroState {
@@ -80,6 +87,10 @@ export class Hero {
     return this._radius
   }
 
+  get elasticity(): number {
+    return this._elasticity
+  }
+
   setDeceleration(value: number): void {
     this._deceleration = value
   }
@@ -90,6 +101,13 @@ export class Hero {
 
   setRadius(value: number): void {
     this._radius = Math.max(1, value)
+    this.clampPositionToBounds()
+    this.emit("move")
+    this.emit("change")
+  }
+
+  setElasticity(value: number): void {
+    this._elasticity = clamp(value, 0, 1)
   }
 
   /**
@@ -121,8 +139,29 @@ export class Hero {
   update(dt: number): void {
     if (this._vx === 0 && this._vy === 0) return
 
-    this._state.x = clamp(this._state.x + this._vx * dt, 0, this.worldSize)
-    this._state.y = clamp(this._state.y + this._vy * dt, 0, this.worldSize)
+    let nextX = this._state.x + this._vx * dt
+    let nextY = this._state.y + this._vy * dt
+    const { min, max } = this.bounds
+
+    // Bounce when the hero's edge hits the world edge (center constrained by radius).
+    if (nextX < min) {
+      nextX = min
+      this._vx = -this._vx * this._elasticity
+    } else if (nextX > max) {
+      nextX = max
+      this._vx = -this._vx * this._elasticity
+    }
+
+    if (nextY < min) {
+      nextY = min
+      this._vy = -this._vy * this._elasticity
+    } else if (nextY > max) {
+      nextY = max
+      this._vy = -this._vy * this._elasticity
+    }
+
+    this._state.x = nextX
+    this._state.y = nextY
 
     const currentSpeed = Math.sqrt(this._vx * this._vx + this._vy * this._vy)
     const decelAmount = this._deceleration * dt
@@ -141,8 +180,9 @@ export class Hero {
   }
 
   setPosition(x: number, y: number): void {
-    this._state.x = clamp(x, 0, this.worldSize)
-    this._state.y = clamp(y, 0, this.worldSize)
+    const { min, max } = this.bounds
+    this._state.x = clamp(x, min, max)
+    this._state.y = clamp(y, min, max)
     this.emit("move")
     this.emit("change")
   }
@@ -181,6 +221,18 @@ export class Hero {
       const snapshot = this.state
       fns.forEach((fn) => fn(snapshot))
     }
+  }
+
+  private get bounds(): { min: number; max: number } {
+    const min = this._radius
+    const max = Math.max(min, this.worldSize - this._radius)
+    return { min, max }
+  }
+
+  private clampPositionToBounds(): void {
+    const { min, max } = this.bounds
+    this._state.x = clamp(this._state.x, min, max)
+    this._state.y = clamp(this._state.y, min, max)
   }
 }
 

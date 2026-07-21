@@ -19,6 +19,7 @@ export function DebugPanel({
   const [editDecel, setEditDecel] = useState(String(hero.deceleration))
   const [editMaxSpeed, setEditMaxSpeed] = useState(String(hero.maxLaunchSpeed))
   const [editRadius, setEditRadius] = useState(String(hero.radius))
+  const [editElasticity, setEditElasticity] = useState(String(hero.elasticity))
   const [editCoeff, setEditCoeff] = useState(String(speedCoefficient))
 
   if (!visible) return null
@@ -49,6 +50,14 @@ export function DebugPanel({
     const n = parseFloat(editRadius)
     if (!isNaN(n) && n >= 1) {
       hero.setRadius(n)
+    }
+  }
+
+  const applyElasticity = () => {
+    const n = parseFloat(editElasticity)
+    if (!isNaN(n) && n >= 0 && n <= 1) {
+      hero.setElasticity(n)
+      setEditElasticity(String(hero.elasticity))
     }
   }
 
@@ -144,6 +153,12 @@ export function DebugPanel({
           value={editRadius}
           onChange={setEditRadius}
           onApply={applyRadius}
+        />
+        <EditRow
+          label="弹性(0-1)"
+          value={editElasticity}
+          onChange={setEditElasticity}
+          onApply={applyElasticity}
         />
       </div>
 
