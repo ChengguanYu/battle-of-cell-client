@@ -43,33 +43,36 @@ export class Player {
     return this._state.hp
   }
 
+  get speed(): number {
+    return this._state.speed
+  }
+
   get position(): Position {
     return { x: this._state.x, y: this._state.y }
   }
 
   move(dx: number, dy: number): void {
-    const { x, y, speed } = this._state
-    const factor = speed / 50
-    this._state.x = clamp(x + dx * factor, 0, this.worldSize)
-    this._state.y = clamp(y + dy * factor, 0, this.worldSize)
+    const { speed } = this._state
+    this._state.x = clamp(this._state.x + dx * speed, 0, this.worldSize)
+    this._state.y = clamp(this._state.y + dy * speed, 0, this.worldSize)
     this.emit("move")
     this.emit("change")
   }
 
   moveUp(): void {
-    this.move(0, -this._state.speed)
+    this.move(0, -1)
   }
 
   moveDown(): void {
-    this.move(0, this._state.speed)
+    this.move(0, 1)
   }
 
   moveLeft(): void {
-    this.move(-this._state.speed, 0)
+    this.move(-1, 0)
   }
 
   moveRight(): void {
-    this.move(this._state.speed, 0)
+    this.move(1, 0)
   }
 
   setPosition(x: number, y: number): void {
@@ -80,6 +83,7 @@ export class Player {
   }
 
   takeDamage(amount: number): void {
+    if (this._state.hp <= 0) return
     this._state.hp = Math.max(0, this._state.hp - amount)
     this.emit("damage")
     if (this._state.hp <= 0) this.emit("death")
