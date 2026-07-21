@@ -8,6 +8,7 @@ import { HeroDot } from "../components/HeroDot"
 import { BattleHUD } from "../components/BattleHUD"
 import { AimLine } from "../components/AimLine"
 import { DebugPanel } from "../components/DebugPanel"
+import { fromFixed } from "../lib/fixed"
 
 const WORLD_SIZE = 10000
 const OUT_OF_BOUNDS = "#050805"
@@ -23,6 +24,12 @@ export function BattlePage() {
     { x: cameraX, y: cameraY, zoom },
   )
   const [debugVisible, setDebugVisible] = useState(false)
+
+  // Render layer uses real pixels; hero business state is fixed-point.
+  const heroX = fromFixed(state.x)
+  const heroY = fromFixed(state.y)
+  const heroRadius = fromFixed(hero.radius)
+  const maxLaunchSpeed = fromFixed(hero.maxLaunchSpeed)
 
   // F3 toggle debug panel
   useEffect(() => {
@@ -43,21 +50,21 @@ export function BattlePage() {
       style={{ background: OUT_OF_BOUNDS }}
     >
       <GameWorld cameraX={cameraX} cameraY={cameraY} zoom={zoom}>
-        <HeroDot x={state.x} y={state.y} radius={hero.radius} />
+        <HeroDot x={heroX} y={heroY} radius={heroRadius} />
         <AimLine
-          fromX={state.x}
-          fromY={state.y}
+          fromX={heroX}
+          fromY={heroY}
           toX={aimTarget.x}
           toY={aimTarget.y}
           visible={isAiming}
-          maxRange={hero.maxLaunchSpeed}
+          maxRange={maxLaunchSpeed}
         />
       </GameWorld>
 
       <BattleHUD
         roomId={roomId}
-        playerX={state.x}
-        playerY={state.y}
+        playerX={heroX}
+        playerY={heroY}
         zoom={zoom}
         onBack={() => navigate("/home")}
       />

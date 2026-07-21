@@ -1,5 +1,6 @@
 import { useState } from "react"
 import type { Hero } from "../entities/Hero"
+import { fromFixed, fixedHypot } from "../lib/fixed"
 
 interface DebugPanelProps {
   hero: Hero
@@ -16,20 +17,21 @@ export function DebugPanel({
   visible,
   onClose,
 }: DebugPanelProps) {
-  const [editDecel, setEditDecel] = useState(String(hero.deceleration))
-  const [editMaxSpeed, setEditMaxSpeed] = useState(String(hero.maxLaunchSpeed))
-  const [editRadius, setEditRadius] = useState(String(hero.radius))
-  const [editElasticity, setEditElasticity] = useState(String(hero.elasticity))
+  // Debug inputs stay in real units; hero setters convert to fixed.
+  const [editDecel, setEditDecel] = useState(String(fromFixed(hero.deceleration)))
+  const [editMaxSpeed, setEditMaxSpeed] = useState(String(fromFixed(hero.maxLaunchSpeed)))
+  const [editRadius, setEditRadius] = useState(String(fromFixed(hero.radius)))
+  const [editElasticity, setEditElasticity] = useState(String(fromFixed(hero.elasticity)))
   const [editCoeff, setEditCoeff] = useState(String(speedCoefficient))
 
   if (!visible) return null
 
   const v = hero.velocity
-  const speed = Math.sqrt(v.vx * v.vx + v.vy * v.vy)
+  const speed = fromFixed(fixedHypot(v.vx, v.vy))
   const d = hero.direction
   const hasLaunched = d.dirX !== 0 || d.dirY !== 0
   const dirAngle = hasLaunched
-    ? (Math.atan2(d.dirY, d.dirX) * 180 / Math.PI).toFixed(1)
+    ? (Math.atan2(fromFixed(d.dirY), fromFixed(d.dirX)) * 180 / Math.PI).toFixed(1)
     : "—"
 
   const applyDecel = () => {
@@ -57,7 +59,7 @@ export function DebugPanel({
     const n = parseFloat(editElasticity)
     if (!isNaN(n) && n >= 0 && n <= 1) {
       hero.setElasticity(n)
-      setEditElasticity(String(hero.elasticity))
+      setEditElasticity(String(fromFixed(hero.elasticity)))
     }
   }
 
@@ -79,7 +81,7 @@ export function DebugPanel({
         border: "1px solid rgba(255, 255, 255, 0.15)",
         borderRadius: 8,
         padding: "12px 16px",
-        minWidth: 260,
+        minWidth: 280,
         fontFamily: "monospace",
         fontSize: 13,
         color: "#ccc",
@@ -119,9 +121,26 @@ export function DebugPanel({
       {/* 变量参数 */}
       <div style={{ marginBottom: 10 }}>
         <div style={{ color: "#60a5fa", fontSize: 12, marginBottom: 4 }}>─ 变量参数 ─</div>
-        <Row label="位置" value={`(${Math.round(hero.x)}, ${Math.round(hero.y)})`} />
-        <Row label="发射向" value={hasLaunched ? `(${d.dirX.toFixed(4)}, ${d.dirY.toFixed(4)})` : "(—, —)"} />
-        <Row label="初速度" value={hasLaunched ? `${hero.initSpeed.toFixed(1)} px/s` : "—"} />
+        <Row
+          label="位置"
+          value={`(${Math.round(fromFixed(hero.x))}, ${Math.round(fromFixed(hero.y))})`}
+        />
+        <Row
+          label="发射向(定点)"
+          value={hasLaunched ? `(${d.dirX}, ${d.dirY})` : "(—, —)"}
+        />
+        <Row
+          label="发射向(实数)"
+          value={
+            hasLaunched
+              ? `(${fromFixed(d.dirX).toFixed(3)}, ${fromFixed(d.dirY).toFixed(3)})`
+              : "(—, —)"
+          }
+        />
+        <Row
+          label="初速度"
+          value={hasLaunched ? `${fromFixed(hero.initSpeed).toFixed(1)} px/s` : "—"}
+        />
         <Row label="当前速率" value={`${speed.toFixed(1)} px/s`} />
         <Row label="方向角" value={`${dirAngle}°`} />
       </div>
@@ -163,7 +182,7 @@ export function DebugPanel({
       </div>
 
       <div style={{ marginTop: 8, fontSize: 11, color: "#666" }}>
-        Enter 确认修改 · F3 关闭
+        Enter 确认修改 · F3 关闭 · 业务态为定点×1000
       </div>
     </div>
   )
@@ -171,9 +190,9 @@ export function DebugPanel({
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", padding: "2px 0" }}>
+    <div style={{ display: "flex", justifyContent: "space-between", padding: "2px 0", gap: 8 }}>
       <span style={{ color: "#999" }}>{label}</span>
-      <span style={{ color: "#eee" }}>{value}</span>
+      <span style={{ color: "#eee", textAlign: "right" }}>{value}</span>
     </div>
   )
 }

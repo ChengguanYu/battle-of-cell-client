@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import type { Hero } from "../entities/Hero"
+import { FIXED_SCALE, toFixed, fixedMul, fixedDiv, fixedHypot } from "../lib/fixed"
 
 const DEFAULT_SPEED_COEFFICIENT = 10
 
@@ -53,6 +54,7 @@ export function useHero(
     const el = containerRef.current
     if (!el) return
 
+    // UI coords stay real; convert into fixed only when writing business state.
     const toWorld = (clientX: number, clientY: number) => {
       const cx = window.innerWidth / 2
       const cy = window.innerHeight / 2
@@ -83,18 +85,22 @@ export function useHero(
       setIsAiming(false)
 
       const wp = toWorld(e.clientX, e.clientY)
-      const dx = wp.x - hero.x
-      const dy = wp.y - hero.y
-      const dist = Math.sqrt(dx * dx + dy * dy)
+      // Convert mouse world delta into fixed business units.
+      const dx = toFixed(wp.x) - hero.x
+      const dy = toFixed(wp.y) - hero.y
+      const dist = fixedHypot(dx, dy)
 
-      if (dist < 1) return
+      // Ignore near-zero pulls (< 1px)
+      if (dist < FIXED_SCALE) return
 
-      // 先限制模长上限，再乘以系数 → 初速度
+      // Cap pull length, then multiply by speed coefficient → initial speed.
       const cappedDist = Math.min(dist, hero.maxLaunchSpeed)
-      const initialSpeed = cappedDist * speedCoefficientRef.current
+      const coeffFixed = toFixed(speedCoefficientRef.current)
+      const initialSpeed = fixedMul(cappedDist, coeffFixed)
 
-      const dirX = -dx / dist
-      const dirY = -dy / dist
+      // Unit direction in fixed-point (scale 1000). Opposite of pull.
+      const dirX = fixedDiv(-dx, dist)
+      const dirY = fixedDiv(-dy, dist)
       hero.launch(dirX, dirY, initialSpeed)
     }
 

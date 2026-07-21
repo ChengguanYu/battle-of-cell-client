@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react"
+import { fromFixed } from "../lib/fixed"
 
 const WORLD_SIZE = 10000
 const ZOOM_MIN = 0.25
@@ -7,6 +8,10 @@ const ZOOM_STEP = 0.1
 const CAMERA_MAX_SPEED = 8000
 const CAMERA_ACCELERATION = 0.06
 
+/**
+ * Camera follows a hero-like target. The target's x/y are fixed-point business
+ * coordinates; camera converts them to real pixels for rendering/math.
+ */
 export function useCamera(heroRef: React.RefObject<{ x: number; y: number } | null>) {
   const [camera, setCamera] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
@@ -47,10 +52,19 @@ export function useCamera(heroRef: React.RefObject<{ x: number; y: number } | nu
       const cx = vw / 2
       const cy = vh / 2
 
+      if (!p) {
+        rafId = requestAnimationFrame(animate)
+        return
+      }
+
+      // Hero business coords are fixed-point; convert for camera.
+      const px = fromFixed(p.x)
+      const py = fromFixed(p.y)
+
       if (prevTimeRef.current === 0) {
         prevTimeRef.current = timestamp
-        cam.x = Math.max(0, Math.min(p.x - cx, WORLD_SIZE - vw))
-        cam.y = Math.max(0, Math.min(p.y - cy, WORLD_SIZE - vh))
+        cam.x = Math.max(0, Math.min(px - cx, WORLD_SIZE - vw))
+        cam.y = Math.max(0, Math.min(py - cy, WORLD_SIZE - vh))
         setCamera({ x: cam.x, y: cam.y })
         rafId = requestAnimationFrame(animate)
         return
@@ -59,8 +73,8 @@ export function useCamera(heroRef: React.RefObject<{ x: number; y: number } | nu
       const dt = Math.min((timestamp - prevTimeRef.current) / 1000, 0.05)
       prevTimeRef.current = timestamp
 
-      const targetVx = ((p.x - cam.x) - cx) / cx * CAMERA_MAX_SPEED
-      const targetVy = ((p.y - cam.y) - cy) / cy * CAMERA_MAX_SPEED
+      const targetVx = ((px - cam.x) - cx) / cx * CAMERA_MAX_SPEED
+      const targetVy = ((py - cam.y) - cy) / cy * CAMERA_MAX_SPEED
 
       const sf = 1 - Math.pow(1 - CAMERA_ACCELERATION, dt * 60)
       vel.x += (targetVx - vel.x) * sf
