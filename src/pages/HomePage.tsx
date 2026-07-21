@@ -60,7 +60,8 @@ export function HomePage() {
   const handleMatch = async () => {
     try {
       const roomId = await startMatch()
-      toast.success(`匹配成功，进入房间 ${roomId}`)
+      if (roomId == null) return
+      toast.success(`进入战场 ${roomId}`)
       navigate(`/battle/${roomId}`)
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "匹配失败")
@@ -73,7 +74,21 @@ export function HomePage() {
   }
 
   return (
-    <div className="game-window">
+    <div className="game-window relative">
+      {pending && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/55 backdrop-blur-[2px]">
+          <div className="flex min-w-72 flex-col items-center gap-4 rounded-2xl border border-border bg-card px-8 py-7 shadow-2xl">
+            <div className="h-10 w-10 animate-spin rounded-full border-2 border-emerald-400/25 border-t-emerald-400" />
+            <div className="text-center">
+              <div className="text-base font-semibold text-foreground">加载战场中</div>
+              <div className="mt-1 text-sm text-muted-foreground">
+                匹配成功，等待服务器帧...
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="flex h-full">
         {/* 左侧：退出按钮 + 排行榜 */}
         <div className="flex w-1/3 flex-col p-5">
@@ -82,7 +97,8 @@ export function HomePage() {
             <button
               type="button"
               onClick={handleLogout}
-              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-colors hover:border-red-500/40 hover:text-red-400"
+              disabled={pending}
+              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-colors hover:border-red-500/40 hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-50"
             >
               &lt;
             </button>
@@ -154,7 +170,7 @@ export function HomePage() {
             >
               <span className="flex items-center justify-center gap-3">
                 <span>⚔️</span>
-                {pending ? "匹配中..." : "开始匹配"}
+                {pending ? "加载中..." : "开始匹配"}
               </span>
             </button>
           </div>

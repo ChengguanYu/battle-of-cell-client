@@ -1,12 +1,15 @@
 import { BattleOfCell } from "./bundle"
 
-type RespError = BattleOfCell.Message.RespError
+type RespErrorLike = {
+  message?: string | null
+  args?: string[] | null
+}
 
 /**
  * 格式化 RespError 消息。
  * message 为格式化字符串（支持 %d / %f / %s / %%），args 为后续参数。
  */
-export function formatRespError(error: RespError): string {
+export function formatRespError(error: RespErrorLike | BattleOfCell.Message.RespError): string {
   let msg = error.message ?? ""
   const args = error.args ?? []
   let argIndex = 0

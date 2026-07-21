@@ -9,6 +9,7 @@ export const OpCode = {
   RespError:134227730,
   SessionHeartbeatPing:268445459,
   SessionHeartbeatPong:402663187,
+  server_frame: 134227731,
 } as const
 
 export type OpCode = (typeof OpCode)[keyof typeof OpCode]

@@ -1784,6 +1784,1683 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             return SessionHeartbeatPong;
         })();
 
+        /**
+         * Op enum.
+         * @name BattleOfCell.Message.Op
+         * @enum {number}
+         * @property {number} SPAWN=0 SPAWN value
+         * @property {number} MOVE=1 MOVE value
+         */
+        Message.Op = (function() {
+            const valuesById = $Object.create(null), values = $Object.create(valuesById);
+            values[valuesById[0] = "SPAWN"] = 0;
+            values[valuesById[1] = "MOVE"] = 1;
+            return values;
+        })();
+
+        Message.vec2d = (function() {
+
+            /**
+             * Properties of a vec2d.
+             * @typedef {Object} BattleOfCell.Message.vec2d.$Properties
+             * @property {number|Long|null} [x] vec2d x
+             * @property {number|Long|null} [y] vec2d y
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a vec2d.
+             * @memberof BattleOfCell.Message
+             * @interface Ivec2d
+             * @augments BattleOfCell.Message.vec2d.$Properties
+             * @deprecated Use BattleOfCell.Message.vec2d.$Properties instead.
+             */
+
+            /**
+             * Shape of a vec2d.
+             * @typedef {BattleOfCell.Message.vec2d.$Properties} BattleOfCell.Message.vec2d.$Shape
+             */
+
+            /**
+             * Constructs a new vec2d.
+             * @memberof BattleOfCell.Message
+             * @classdesc Represents a vec2d.
+             * @constructor
+             * @param {BattleOfCell.Message.vec2d.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const vec2d = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * vec2d x.
+             * @member {number|Long} x
+             * @memberof BattleOfCell.Message.vec2d
+             * @instance
+             */
+            vec2d.prototype.x = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * vec2d y.
+             * @member {number|Long} y
+             * @memberof BattleOfCell.Message.vec2d
+             * @instance
+             */
+            vec2d.prototype.y = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * Creates a new vec2d instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.vec2d
+             * @static
+             * @param {BattleOfCell.Message.vec2d.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.vec2d} vec2d instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.vec2d.$Shape): BattleOfCell.Message.vec2d & BattleOfCell.Message.vec2d.$Shape;
+             *   (properties?: BattleOfCell.Message.vec2d.$Properties): BattleOfCell.Message.vec2d;
+             * }}
+             */
+            vec2d.create = function(properties) {
+                return new vec2d(properties);
+            };
+
+            /**
+             * Encodes the specified vec2d message. Does not implicitly {@link BattleOfCell.Message.vec2d.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.vec2d
+             * @static
+             * @param {BattleOfCell.Message.vec2d.$Properties} message vec2d message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            vec2d.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.x != null && $Object.hasOwnProperty.call(message, "x") && (typeof message.x === "object" ? message.x.low || message.x.high : message.x !== 0))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int64(message.x);
+                if (message.y != null && $Object.hasOwnProperty.call(message, "y") && (typeof message.y === "object" ? message.y.low || message.y.high : message.y !== 0))
+                    writer.uint32(/* id 2, wireType 0 =*/16).int64(message.y);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified vec2d message, length delimited. Does not implicitly {@link BattleOfCell.Message.vec2d.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.vec2d
+             * @static
+             * @param {BattleOfCell.Message.vec2d.$Properties} message vec2d message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            vec2d.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a vec2d message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.vec2d
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.vec2d & BattleOfCell.Message.vec2d.$Shape} vec2d
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            vec2d.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.vec2d(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (typeof (value = reader.int64()) === "object" ? value.low || value.high : value !== 0)
+                                message.x = value;
+                            else
+                                delete message.x;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (typeof (value = reader.int64()) === "object" ? value.low || value.high : value !== 0)
+                                message.y = value;
+                            else
+                                delete message.y;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a vec2d message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.vec2d
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.vec2d & BattleOfCell.Message.vec2d.$Shape} vec2d
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            vec2d.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a vec2d message.
+             * @function verify
+             * @memberof BattleOfCell.Message.vec2d
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            vec2d.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.x != null && $Object.hasOwnProperty.call(message, "x"))
+                    if (!$util.isInteger(message.x) && !(message.x && $util.isInteger(message.x.low) && $util.isInteger(message.x.high)))
+                        return "x: integer|Long expected";
+                if (message.y != null && $Object.hasOwnProperty.call(message, "y"))
+                    if (!$util.isInteger(message.y) && !(message.y && $util.isInteger(message.y.low) && $util.isInteger(message.y.high)))
+                        return "y: integer|Long expected";
+                return null;
+            };
+
+            /**
+             * Creates a vec2d message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.vec2d
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.vec2d} vec2d
+             */
+            vec2d.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.vec2d)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.vec2d: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.BattleOfCell.Message.vec2d();
+                if (object.x != null)
+                    if (typeof object.x === "object" ? object.x.low || object.x.high : $Number(object.x) !== 0)
+                        if ($util.Long)
+                            message.x = $util.Long.fromValue(object.x, false);
+                        else if (typeof object.x === "string")
+                            message.x = $parseInt(object.x, 10);
+                        else if (typeof object.x === "number")
+                            message.x = object.x;
+                        else if (typeof object.x === "object")
+                            message.x = new $util.LongBits(object.x.low >>> 0, object.x.high >>> 0).toNumber();
+                if (object.y != null)
+                    if (typeof object.y === "object" ? object.y.low || object.y.high : $Number(object.y) !== 0)
+                        if ($util.Long)
+                            message.y = $util.Long.fromValue(object.y, false);
+                        else if (typeof object.y === "string")
+                            message.y = $parseInt(object.y, 10);
+                        else if (typeof object.y === "number")
+                            message.y = object.y;
+                        else if (typeof object.y === "object")
+                            message.y = new $util.LongBits(object.y.low >>> 0, object.y.high >>> 0).toNumber();
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a vec2d message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.vec2d
+             * @static
+             * @param {BattleOfCell.Message.vec2d} message vec2d
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            vec2d.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults) {
+                    if ($util.Long) {
+                        let long = new $util.Long(0, 0, false);
+                        object.x = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
+                    } else
+                        object.x = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
+                    if ($util.Long) {
+                        let long = new $util.Long(0, 0, false);
+                        object.y = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
+                    } else
+                        object.y = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
+                }
+                if (message.x != null && $Object.hasOwnProperty.call(message, "x"))
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.x = typeof message.x === "number" ? $BigInt(message.x) : $util.Long.fromBits(message.x.low >>> 0, message.x.high >>> 0, false).toBigInt();
+                    else if (typeof message.x === "number")
+                        object.x = options.longs === $String ? $String(message.x) : message.x;
+                    else
+                        object.x = options.longs === $String ? $util.Long.prototype.toString.call(message.x) : options.longs === $Number ? new $util.LongBits(message.x.low >>> 0, message.x.high >>> 0).toNumber() : message.x;
+                if (message.y != null && $Object.hasOwnProperty.call(message, "y"))
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.y = typeof message.y === "number" ? $BigInt(message.y) : $util.Long.fromBits(message.y.low >>> 0, message.y.high >>> 0, false).toBigInt();
+                    else if (typeof message.y === "number")
+                        object.y = options.longs === $String ? $String(message.y) : message.y;
+                    else
+                        object.y = options.longs === $String ? $util.Long.prototype.toString.call(message.y) : options.longs === $Number ? new $util.LongBits(message.y.low >>> 0, message.y.high >>> 0).toNumber() : message.y;
+                return object;
+            };
+
+            /**
+             * Converts this vec2d to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.vec2d
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            vec2d.prototype.toJSON = function() {
+                return vec2d.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for vec2d
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.vec2d
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            vec2d.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.vec2d";
+            };
+
+            return vec2d;
+        })();
+
+        Message.position2d = (function() {
+
+            /**
+             * Properties of a position2d.
+             * @typedef {Object} BattleOfCell.Message.position2d.$Properties
+             * @property {number|null} [x] position2d x
+             * @property {number|null} [y] position2d y
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a position2d.
+             * @memberof BattleOfCell.Message
+             * @interface Iposition2d
+             * @augments BattleOfCell.Message.position2d.$Properties
+             * @deprecated Use BattleOfCell.Message.position2d.$Properties instead.
+             */
+
+            /**
+             * Shape of a position2d.
+             * @typedef {BattleOfCell.Message.position2d.$Properties} BattleOfCell.Message.position2d.$Shape
+             */
+
+            /**
+             * Constructs a new position2d.
+             * @memberof BattleOfCell.Message
+             * @classdesc Represents a position2d.
+             * @constructor
+             * @param {BattleOfCell.Message.position2d.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const position2d = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * position2d x.
+             * @member {number} x
+             * @memberof BattleOfCell.Message.position2d
+             * @instance
+             */
+            position2d.prototype.x = 0;
+
+            /**
+             * position2d y.
+             * @member {number} y
+             * @memberof BattleOfCell.Message.position2d
+             * @instance
+             */
+            position2d.prototype.y = 0;
+
+            /**
+             * Creates a new position2d instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.position2d
+             * @static
+             * @param {BattleOfCell.Message.position2d.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.position2d} position2d instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.position2d.$Shape): BattleOfCell.Message.position2d & BattleOfCell.Message.position2d.$Shape;
+             *   (properties?: BattleOfCell.Message.position2d.$Properties): BattleOfCell.Message.position2d;
+             * }}
+             */
+            position2d.create = function(properties) {
+                return new position2d(properties);
+            };
+
+            /**
+             * Encodes the specified position2d message. Does not implicitly {@link BattleOfCell.Message.position2d.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.position2d
+             * @static
+             * @param {BattleOfCell.Message.position2d.$Properties} message position2d message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            position2d.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.x != null && $Object.hasOwnProperty.call(message, "x") && message.x !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.x);
+                if (message.y != null && $Object.hasOwnProperty.call(message, "y") && message.y !== 0)
+                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.y);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified position2d message, length delimited. Does not implicitly {@link BattleOfCell.Message.position2d.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.position2d
+             * @static
+             * @param {BattleOfCell.Message.position2d.$Properties} message position2d message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            position2d.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a position2d message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.position2d
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.position2d & BattleOfCell.Message.position2d.$Shape} position2d
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            position2d.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.position2d(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.int32())
+                                message.x = value;
+                            else
+                                delete message.x;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.int32())
+                                message.y = value;
+                            else
+                                delete message.y;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a position2d message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.position2d
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.position2d & BattleOfCell.Message.position2d.$Shape} position2d
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            position2d.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a position2d message.
+             * @function verify
+             * @memberof BattleOfCell.Message.position2d
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            position2d.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.x != null && $Object.hasOwnProperty.call(message, "x"))
+                    if (!$util.isInteger(message.x))
+                        return "x: integer expected";
+                if (message.y != null && $Object.hasOwnProperty.call(message, "y"))
+                    if (!$util.isInteger(message.y))
+                        return "y: integer expected";
+                return null;
+            };
+
+            /**
+             * Creates a position2d message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.position2d
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.position2d} position2d
+             */
+            position2d.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.position2d)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.position2d: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.BattleOfCell.Message.position2d();
+                if (object.x != null)
+                    if ($Number(object.x) !== 0)
+                        message.x = object.x | 0;
+                if (object.y != null)
+                    if ($Number(object.y) !== 0)
+                        message.y = object.y | 0;
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a position2d message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.position2d
+             * @static
+             * @param {BattleOfCell.Message.position2d} message position2d
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            position2d.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults) {
+                    object.x = 0;
+                    object.y = 0;
+                }
+                if (message.x != null && $Object.hasOwnProperty.call(message, "x"))
+                    object.x = message.x;
+                if (message.y != null && $Object.hasOwnProperty.call(message, "y"))
+                    object.y = message.y;
+                return object;
+            };
+
+            /**
+             * Converts this position2d to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.position2d
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            position2d.prototype.toJSON = function() {
+                return position2d.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for position2d
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.position2d
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            position2d.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.position2d";
+            };
+
+            return position2d;
+        })();
+
+        Message.player = (function() {
+
+            /**
+             * Properties of a player.
+             * @typedef {Object} BattleOfCell.Message.player.$Properties
+             * @property {BattleOfCell.Message.vec2d.$Properties|null} [direction] player direction
+             * @property {number|Long|null} [speed] player speed
+             * @property {BattleOfCell.Message.position2d.$Properties|null} [position] player position
+             * @property {number|null} [eid] player eid
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a player.
+             * @memberof BattleOfCell.Message
+             * @interface Iplayer
+             * @augments BattleOfCell.Message.player.$Properties
+             * @deprecated Use BattleOfCell.Message.player.$Properties instead.
+             */
+
+            /**
+             * Shape of a player.
+             * @typedef {BattleOfCell.Message.player.$Properties} BattleOfCell.Message.player.$Shape
+             */
+
+            /**
+             * Constructs a new player.
+             * @memberof BattleOfCell.Message
+             * @classdesc Represents a player.
+             * @constructor
+             * @param {BattleOfCell.Message.player.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const player = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * player direction.
+             * @member {BattleOfCell.Message.vec2d.$Properties|null|undefined} direction
+             * @memberof BattleOfCell.Message.player
+             * @instance
+             */
+            player.prototype.direction = null;
+
+            /**
+             * player speed.
+             * @member {number|Long} speed
+             * @memberof BattleOfCell.Message.player
+             * @instance
+             */
+            player.prototype.speed = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+
+            /**
+             * player position.
+             * @member {BattleOfCell.Message.position2d.$Properties|null|undefined} position
+             * @memberof BattleOfCell.Message.player
+             * @instance
+             */
+            player.prototype.position = null;
+
+            /**
+             * player eid.
+             * @member {number} eid
+             * @memberof BattleOfCell.Message.player
+             * @instance
+             */
+            player.prototype.eid = 0;
+
+            /**
+             * Creates a new player instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.player
+             * @static
+             * @param {BattleOfCell.Message.player.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.player} player instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.player.$Shape): BattleOfCell.Message.player & BattleOfCell.Message.player.$Shape;
+             *   (properties?: BattleOfCell.Message.player.$Properties): BattleOfCell.Message.player;
+             * }}
+             */
+            player.create = function(properties) {
+                return new player(properties);
+            };
+
+            /**
+             * Encodes the specified player message. Does not implicitly {@link BattleOfCell.Message.player.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.player
+             * @static
+             * @param {BattleOfCell.Message.player.$Properties} message player message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            player.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.direction != null && $Object.hasOwnProperty.call(message, "direction"))
+                    $root.BattleOfCell.Message.vec2d.encode(message.direction, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+                if (message.speed != null && $Object.hasOwnProperty.call(message, "speed") && (typeof message.speed === "object" ? message.speed.low || message.speed.high : message.speed !== 0))
+                    writer.uint32(/* id 2, wireType 0 =*/16).int64(message.speed);
+                if (message.position != null && $Object.hasOwnProperty.call(message, "position"))
+                    $root.BattleOfCell.Message.position2d.encode(message.position, writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
+                if (message.eid != null && $Object.hasOwnProperty.call(message, "eid") && message.eid !== 0)
+                    writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.eid);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified player message, length delimited. Does not implicitly {@link BattleOfCell.Message.player.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.player
+             * @static
+             * @param {BattleOfCell.Message.player.$Properties} message player message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            player.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a player message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.player
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.player & BattleOfCell.Message.player.$Shape} player
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            player.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.player(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            message.direction = $root.BattleOfCell.Message.vec2d.decode(reader, reader.uint32(), $undefined, _depth + 1, message.direction);
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (typeof (value = reader.int64()) === "object" ? value.low || value.high : value !== 0)
+                                message.speed = value;
+                            else
+                                delete message.speed;
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 2)
+                                break;
+                            message.position = $root.BattleOfCell.Message.position2d.decode(reader, reader.uint32(), $undefined, _depth + 1, message.position);
+                            continue;
+                        }
+                    case 4: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.uint32())
+                                message.eid = value;
+                            else
+                                delete message.eid;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a player message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.player
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.player & BattleOfCell.Message.player.$Shape} player
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            player.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a player message.
+             * @function verify
+             * @memberof BattleOfCell.Message.player
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            player.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.direction != null && $Object.hasOwnProperty.call(message, "direction")) {
+                    let error = $root.BattleOfCell.Message.vec2d.verify(message.direction, _depth + 1);
+                    if (error)
+                        return "direction." + error;
+                }
+                if (message.speed != null && $Object.hasOwnProperty.call(message, "speed"))
+                    if (!$util.isInteger(message.speed) && !(message.speed && $util.isInteger(message.speed.low) && $util.isInteger(message.speed.high)))
+                        return "speed: integer|Long expected";
+                if (message.position != null && $Object.hasOwnProperty.call(message, "position")) {
+                    let error = $root.BattleOfCell.Message.position2d.verify(message.position, _depth + 1);
+                    if (error)
+                        return "position." + error;
+                }
+                if (message.eid != null && $Object.hasOwnProperty.call(message, "eid"))
+                    if (!$util.isInteger(message.eid))
+                        return "eid: integer expected";
+                return null;
+            };
+
+            /**
+             * Creates a player message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.player
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.player} player
+             */
+            player.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.player)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.player: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.BattleOfCell.Message.player();
+                if (object.direction != null) {
+                    if (!$util.isObject(object.direction))
+                        throw $TypeError(".BattleOfCell.Message.player.direction: object expected");
+                    message.direction = $root.BattleOfCell.Message.vec2d.fromObject(object.direction, _depth + 1);
+                }
+                if (object.speed != null)
+                    if (typeof object.speed === "object" ? object.speed.low || object.speed.high : $Number(object.speed) !== 0)
+                        if ($util.Long)
+                            message.speed = $util.Long.fromValue(object.speed, false);
+                        else if (typeof object.speed === "string")
+                            message.speed = $parseInt(object.speed, 10);
+                        else if (typeof object.speed === "number")
+                            message.speed = object.speed;
+                        else if (typeof object.speed === "object")
+                            message.speed = new $util.LongBits(object.speed.low >>> 0, object.speed.high >>> 0).toNumber();
+                if (object.position != null) {
+                    if (!$util.isObject(object.position))
+                        throw $TypeError(".BattleOfCell.Message.player.position: object expected");
+                    message.position = $root.BattleOfCell.Message.position2d.fromObject(object.position, _depth + 1);
+                }
+                if (object.eid != null)
+                    if ($Number(object.eid) !== 0)
+                        message.eid = object.eid >>> 0;
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a player message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.player
+             * @static
+             * @param {BattleOfCell.Message.player} message player
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            player.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults) {
+                    object.direction = null;
+                    if ($util.Long) {
+                        let long = new $util.Long(0, 0, false);
+                        object.speed = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
+                    } else
+                        object.speed = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
+                    object.position = null;
+                    object.eid = 0;
+                }
+                if (message.direction != null && $Object.hasOwnProperty.call(message, "direction"))
+                    object.direction = $root.BattleOfCell.Message.vec2d.toObject(message.direction, options, _depth + 1);
+                if (message.speed != null && $Object.hasOwnProperty.call(message, "speed"))
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.speed = typeof message.speed === "number" ? $BigInt(message.speed) : $util.Long.fromBits(message.speed.low >>> 0, message.speed.high >>> 0, false).toBigInt();
+                    else if (typeof message.speed === "number")
+                        object.speed = options.longs === $String ? $String(message.speed) : message.speed;
+                    else
+                        object.speed = options.longs === $String ? $util.Long.prototype.toString.call(message.speed) : options.longs === $Number ? new $util.LongBits(message.speed.low >>> 0, message.speed.high >>> 0).toNumber() : message.speed;
+                if (message.position != null && $Object.hasOwnProperty.call(message, "position"))
+                    object.position = $root.BattleOfCell.Message.position2d.toObject(message.position, options, _depth + 1);
+                if (message.eid != null && $Object.hasOwnProperty.call(message, "eid"))
+                    object.eid = message.eid;
+                return object;
+            };
+
+            /**
+             * Converts this player to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.player
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            player.prototype.toJSON = function() {
+                return player.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for player
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.player
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            player.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.player";
+            };
+
+            return player;
+        })();
+
+        Message.frame = (function() {
+
+            /**
+             * Properties of a frame.
+             * @typedef {Object} BattleOfCell.Message.frame.$Properties
+             * @property {BattleOfCell.Message.Op|null} [op] frame op
+             * @property {BattleOfCell.Message.player.$Properties|null} [data] frame data
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a frame.
+             * @memberof BattleOfCell.Message
+             * @interface Iframe
+             * @augments BattleOfCell.Message.frame.$Properties
+             * @deprecated Use BattleOfCell.Message.frame.$Properties instead.
+             */
+
+            /**
+             * Shape of a frame.
+             * @typedef {BattleOfCell.Message.frame.$Properties} BattleOfCell.Message.frame.$Shape
+             */
+
+            /**
+             * Constructs a new frame.
+             * @memberof BattleOfCell.Message
+             * @classdesc Represents a frame.
+             * @constructor
+             * @param {BattleOfCell.Message.frame.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const frame = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * frame op.
+             * @member {BattleOfCell.Message.Op} op
+             * @memberof BattleOfCell.Message.frame
+             * @instance
+             */
+            frame.prototype.op = 0;
+
+            /**
+             * frame data.
+             * @member {BattleOfCell.Message.player.$Properties|null|undefined} data
+             * @memberof BattleOfCell.Message.frame
+             * @instance
+             */
+            frame.prototype.data = null;
+
+            /**
+             * Creates a new frame instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.frame
+             * @static
+             * @param {BattleOfCell.Message.frame.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.frame} frame instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.frame.$Shape): BattleOfCell.Message.frame & BattleOfCell.Message.frame.$Shape;
+             *   (properties?: BattleOfCell.Message.frame.$Properties): BattleOfCell.Message.frame;
+             * }}
+             */
+            frame.create = function(properties) {
+                return new frame(properties);
+            };
+
+            /**
+             * Encodes the specified frame message. Does not implicitly {@link BattleOfCell.Message.frame.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.frame
+             * @static
+             * @param {BattleOfCell.Message.frame.$Properties} message frame message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            frame.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.op != null && $Object.hasOwnProperty.call(message, "op") && message.op !== 0)
+                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.op);
+                if (message.data != null && $Object.hasOwnProperty.call(message, "data"))
+                    $root.BattleOfCell.Message.player.encode(message.data, writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified frame message, length delimited. Does not implicitly {@link BattleOfCell.Message.frame.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.frame
+             * @static
+             * @param {BattleOfCell.Message.frame.$Properties} message frame message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            frame.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a frame message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.frame
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.frame & BattleOfCell.Message.frame.$Shape} frame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            frame.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.frame(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.int32())
+                                message.op = value;
+                            else
+                                delete message.op;
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 2)
+                                break;
+                            message.data = $root.BattleOfCell.Message.player.decode(reader, reader.uint32(), $undefined, _depth + 1, message.data);
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a frame message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.frame
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.frame & BattleOfCell.Message.frame.$Shape} frame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            frame.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a frame message.
+             * @function verify
+             * @memberof BattleOfCell.Message.frame
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            frame.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.op != null && $Object.hasOwnProperty.call(message, "op"))
+                    if (typeof message.op !== "number" || (message.op | 0) !== message.op)
+                        return "op: enum value expected";
+                if (message.data != null && $Object.hasOwnProperty.call(message, "data")) {
+                    let error = $root.BattleOfCell.Message.player.verify(message.data, _depth + 1);
+                    if (error)
+                        return "data." + error;
+                }
+                return null;
+            };
+
+            /**
+             * Creates a frame message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.frame
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.frame} frame
+             */
+            frame.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.frame)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.frame: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.BattleOfCell.Message.frame();
+                if (object.op !== 0 && (typeof object.op !== "string" || $root.BattleOfCell.Message.Op[object.op] !== 0))
+                    switch (object.op) {
+                    case "SPAWN":
+                    case 0:
+                        message.op = 0;
+                        break;
+                    case "MOVE":
+                    case 1:
+                        message.op = 1;
+                        break;
+                    default:
+                        if (typeof object.op === "number" && (object.op | 0) === object.op)
+                            message.op = object.op;
+                    }
+                if (object.data != null) {
+                    if (!$util.isObject(object.data))
+                        throw $TypeError(".BattleOfCell.Message.frame.data: object expected");
+                    message.data = $root.BattleOfCell.Message.player.fromObject(object.data, _depth + 1);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a frame message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.frame
+             * @static
+             * @param {BattleOfCell.Message.frame} message frame
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            frame.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults) {
+                    object.op = options.enums === $String ? "SPAWN" : 0;
+                    object.data = null;
+                }
+                if (message.op != null && $Object.hasOwnProperty.call(message, "op"))
+                    object.op = options.enums === $String ? $root.BattleOfCell.Message.Op[message.op] === $undefined ? message.op : $root.BattleOfCell.Message.Op[message.op] : message.op;
+                if (message.data != null && $Object.hasOwnProperty.call(message, "data"))
+                    object.data = $root.BattleOfCell.Message.player.toObject(message.data, options, _depth + 1);
+                return object;
+            };
+
+            /**
+             * Converts this frame to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.frame
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            frame.prototype.toJSON = function() {
+                return frame.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for frame
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.frame
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            frame.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.frame";
+            };
+
+            return frame;
+        })();
+
+        Message.server_frame = (function() {
+
+            /**
+             * Properties of a server_frame.
+             * @typedef {Object} BattleOfCell.Message.server_frame.$Properties
+             * @property {Array.<BattleOfCell.Message.frame.$Properties>|null} [frames] server_frame frames
+             * @property {number|Long|null} [frameNumber] server_frame frameNumber
+             * @property {number|null} [randomSeed] server_frame randomSeed
+             * @property {BattleOfCell.Message.MetaData.$Properties|null} [meta] server_frame meta
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a server_frame.
+             * @memberof BattleOfCell.Message
+             * @interface Iserver_frame
+             * @augments BattleOfCell.Message.server_frame.$Properties
+             * @deprecated Use BattleOfCell.Message.server_frame.$Properties instead.
+             */
+
+            /**
+             * Shape of a server_frame.
+             * @typedef {BattleOfCell.Message.server_frame.$Properties} BattleOfCell.Message.server_frame.$Shape
+             */
+
+            /**
+             * Constructs a new server_frame.
+             * @memberof BattleOfCell.Message
+             * @classdesc Represents a server_frame.
+             * @constructor
+             * @param {BattleOfCell.Message.server_frame.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const server_frame = function (properties) {
+                this.frames = [];
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * server_frame frames.
+             * @member {Array.<BattleOfCell.Message.frame.$Properties>} frames
+             * @memberof BattleOfCell.Message.server_frame
+             * @instance
+             */
+            server_frame.prototype.frames = $util.emptyArray;
+
+            /**
+             * server_frame frameNumber.
+             * @member {number|Long} frameNumber
+             * @memberof BattleOfCell.Message.server_frame
+             * @instance
+             */
+            server_frame.prototype.frameNumber = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+            /**
+             * server_frame randomSeed.
+             * @member {number} randomSeed
+             * @memberof BattleOfCell.Message.server_frame
+             * @instance
+             */
+            server_frame.prototype.randomSeed = 0;
+
+            /**
+             * server_frame meta.
+             * @member {BattleOfCell.Message.MetaData.$Properties|null|undefined} meta
+             * @memberof BattleOfCell.Message.server_frame
+             * @instance
+             */
+            server_frame.prototype.meta = null;
+
+            /**
+             * Creates a new server_frame instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.server_frame
+             * @static
+             * @param {BattleOfCell.Message.server_frame.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.server_frame} server_frame instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.server_frame.$Shape): BattleOfCell.Message.server_frame & BattleOfCell.Message.server_frame.$Shape;
+             *   (properties?: BattleOfCell.Message.server_frame.$Properties): BattleOfCell.Message.server_frame;
+             * }}
+             */
+            server_frame.create = function(properties) {
+                return new server_frame(properties);
+            };
+
+            /**
+             * Encodes the specified server_frame message. Does not implicitly {@link BattleOfCell.Message.server_frame.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.server_frame
+             * @static
+             * @param {BattleOfCell.Message.server_frame.$Properties} message server_frame message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            server_frame.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.frames != null && message.frames.length)
+                    for (let i = 0; i < message.frames.length; ++i)
+                        $root.BattleOfCell.Message.frame.encode(message.frames[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+                if (message.frameNumber != null && $Object.hasOwnProperty.call(message, "frameNumber") && (typeof message.frameNumber === "object" ? message.frameNumber.low || message.frameNumber.high : message.frameNumber !== 0))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.frameNumber);
+                if (message.randomSeed != null && $Object.hasOwnProperty.call(message, "randomSeed") && message.randomSeed !== 0)
+                    writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.randomSeed);
+                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta"))
+                    $root.BattleOfCell.Message.MetaData.encode(message.meta, writer.uint32(/* id 4, wireType 2 =*/34).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified server_frame message, length delimited. Does not implicitly {@link BattleOfCell.Message.server_frame.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.server_frame
+             * @static
+             * @param {BattleOfCell.Message.server_frame.$Properties} message server_frame message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            server_frame.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a server_frame message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.server_frame
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.server_frame & BattleOfCell.Message.server_frame.$Shape} server_frame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            server_frame.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.server_frame(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            if (!(message.frames && message.frames.length))
+                                message.frames = [];
+                            message.frames.push($root.BattleOfCell.Message.frame.decode(reader, reader.uint32(), $undefined, _depth + 1));
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (typeof (value = reader.uint64()) === "object" ? value.low || value.high : value !== 0)
+                                message.frameNumber = value;
+                            else
+                                delete message.frameNumber;
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.uint32())
+                                message.randomSeed = value;
+                            else
+                                delete message.randomSeed;
+                            continue;
+                        }
+                    case 4: {
+                            if (wireType !== 2)
+                                break;
+                            message.meta = $root.BattleOfCell.Message.MetaData.decode(reader, reader.uint32(), $undefined, _depth + 1, message.meta);
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a server_frame message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.server_frame
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.server_frame & BattleOfCell.Message.server_frame.$Shape} server_frame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            server_frame.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a server_frame message.
+             * @function verify
+             * @memberof BattleOfCell.Message.server_frame
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            server_frame.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.frames != null && $Object.hasOwnProperty.call(message, "frames")) {
+                    if (!$Array.isArray(message.frames))
+                        return "frames: array expected";
+                    for (let i = 0; i < message.frames.length; ++i) {
+                        let error = $root.BattleOfCell.Message.frame.verify(message.frames[i], _depth + 1);
+                        if (error)
+                            return "frames." + error;
+                    }
+                }
+                if (message.frameNumber != null && $Object.hasOwnProperty.call(message, "frameNumber"))
+                    if (!$util.isInteger(message.frameNumber) && !(message.frameNumber && $util.isInteger(message.frameNumber.low) && $util.isInteger(message.frameNumber.high)))
+                        return "frameNumber: integer|Long expected";
+                if (message.randomSeed != null && $Object.hasOwnProperty.call(message, "randomSeed"))
+                    if (!$util.isInteger(message.randomSeed))
+                        return "randomSeed: integer expected";
+                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta")) {
+                    let error = $root.BattleOfCell.Message.MetaData.verify(message.meta, _depth + 1);
+                    if (error)
+                        return "meta." + error;
+                }
+                return null;
+            };
+
+            /**
+             * Creates a server_frame message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.server_frame
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.server_frame} server_frame
+             */
+            server_frame.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.server_frame)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.server_frame: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.BattleOfCell.Message.server_frame();
+                if (object.frames) {
+                    if (!$Array.isArray(object.frames))
+                        throw $TypeError(".BattleOfCell.Message.server_frame.frames: array expected");
+                    message.frames = $Array(object.frames.length);
+                    for (let i = 0; i < object.frames.length; ++i) {
+                        if (!$util.isObject(object.frames[i]))
+                            throw $TypeError(".BattleOfCell.Message.server_frame.frames: object expected");
+                        message.frames[i] = $root.BattleOfCell.Message.frame.fromObject(object.frames[i], _depth + 1);
+                    }
+                }
+                if (object.frameNumber != null)
+                    if (typeof object.frameNumber === "object" ? object.frameNumber.low || object.frameNumber.high : $Number(object.frameNumber) !== 0)
+                        if ($util.Long)
+                            message.frameNumber = $util.Long.fromValue(object.frameNumber, true);
+                        else if (typeof object.frameNumber === "string")
+                            message.frameNumber = $parseInt(object.frameNumber, 10);
+                        else if (typeof object.frameNumber === "number")
+                            message.frameNumber = object.frameNumber;
+                        else if (typeof object.frameNumber === "object")
+                            message.frameNumber = new $util.LongBits(object.frameNumber.low >>> 0, object.frameNumber.high >>> 0).toNumber(true);
+                if (object.randomSeed != null)
+                    if ($Number(object.randomSeed) !== 0)
+                        message.randomSeed = object.randomSeed >>> 0;
+                if (object.meta != null) {
+                    if (!$util.isObject(object.meta))
+                        throw $TypeError(".BattleOfCell.Message.server_frame.meta: object expected");
+                    message.meta = $root.BattleOfCell.Message.MetaData.fromObject(object.meta, _depth + 1);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a server_frame message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.server_frame
+             * @static
+             * @param {BattleOfCell.Message.server_frame} message server_frame
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            server_frame.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.arrays || options.defaults)
+                    object.frames = [];
+                if (options.defaults) {
+                    if ($util.Long) {
+                        let long = new $util.Long(0, 0, true);
+                        object.frameNumber = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
+                    } else
+                        object.frameNumber = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
+                    object.randomSeed = 0;
+                    object.meta = null;
+                }
+                if (message.frames && message.frames.length) {
+                    object.frames = $Array(message.frames.length);
+                    for (let j = 0; j < message.frames.length; ++j)
+                        object.frames[j] = $root.BattleOfCell.Message.frame.toObject(message.frames[j], options, _depth + 1);
+                }
+                if (message.frameNumber != null && $Object.hasOwnProperty.call(message, "frameNumber"))
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.frameNumber = typeof message.frameNumber === "number" ? $BigInt(message.frameNumber) : $util.Long.fromBits(message.frameNumber.low >>> 0, message.frameNumber.high >>> 0, true).toBigInt();
+                    else if (typeof message.frameNumber === "number")
+                        object.frameNumber = options.longs === $String ? $String(message.frameNumber) : message.frameNumber;
+                    else
+                        object.frameNumber = options.longs === $String ? $util.Long.prototype.toString.call(message.frameNumber) : options.longs === $Number ? new $util.LongBits(message.frameNumber.low >>> 0, message.frameNumber.high >>> 0).toNumber(true) : message.frameNumber;
+                if (message.randomSeed != null && $Object.hasOwnProperty.call(message, "randomSeed"))
+                    object.randomSeed = message.randomSeed;
+                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta"))
+                    object.meta = $root.BattleOfCell.Message.MetaData.toObject(message.meta, options, _depth + 1);
+                return object;
+            };
+
+            /**
+             * Converts this server_frame to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.server_frame
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            server_frame.prototype.toJSON = function() {
+                return server_frame.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for server_frame
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.server_frame
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            server_frame.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.server_frame";
+            };
+
+            return server_frame;
+        })();
+
         Message.PlayerMatchReq = (function() {
 
             /**
