@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import type { Player } from "../entities/Player"
 
-const SPEED_COEFFICIENT = 1.5
+const DEFAULT_SPEED_COEFFICIENT = 1.5
 
 export function usePlayer(
   playerRef: React.MutableRefObject<Player>,
@@ -12,8 +12,15 @@ export function usePlayer(
   const [state, setState] = useState(player.state)
   const [isAiming, setIsAiming] = useState(false)
   const [aimTarget, setAimTarget] = useState({ x: 0, y: 0 })
+  const [speedCoefficient, setSpeedCoefficient] = useState(DEFAULT_SPEED_COEFFICIENT)
+  const speedCoefficientRef = useRef(DEFAULT_SPEED_COEFFICIENT)
   const isAimingRef = useRef(false)
   const prevTimeRef = useRef(0)
+
+  // keep ref in sync for callback usage
+  useEffect(() => {
+    speedCoefficientRef.current = speedCoefficient
+  }, [speedCoefficient])
 
   // subscribe to player state changes
   useEffect(() => {
@@ -80,7 +87,7 @@ export function usePlayer(
 
       const dirX = -dx / dist
       const dirY = -dy / dist
-      player.launch(dirX, dirY, dist * SPEED_COEFFICIENT)
+      player.launch(dirX, dirY, dist * speedCoefficientRef.current)
     }
 
     el.addEventListener("mousedown", onMouseDown)
@@ -94,5 +101,13 @@ export function usePlayer(
     }
   }, [containerRef, player, camera])
 
-  return { player, playerRef, state, isAiming, aimTarget }
+  return {
+    player,
+    playerRef,
+    state,
+    isAiming,
+    aimTarget,
+    speedCoefficient,
+    setSpeedCoefficient,
+  }
 }
