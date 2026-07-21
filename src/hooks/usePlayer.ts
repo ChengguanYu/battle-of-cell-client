@@ -1,39 +1,28 @@
 import { useEffect, useRef, useState } from "react"
+import { Player } from "../entities/Player"
 
 const WORLD_SIZE = 10000
-const MOVE_SPEED = 50
 
 export function usePlayer() {
-  const [player, setPlayer] = useState({ x: WORLD_SIZE / 2, y: WORLD_SIZE / 2 })
-  const playerRef = useRef(player)
-  playerRef.current = player
+  const playerRef = useRef<Player>(new Player(WORLD_SIZE))
+  const player = playerRef.current
+  const [state, setState] = useState(player.state)
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const unsub = player.onChange(setState)
+    const handleKey = (e: KeyboardEvent) => {
       if (!e.key.startsWith("Arrow")) return
       e.preventDefault()
-      setPlayer((prev) => {
-        let { x, y } = prev
-        switch (e.key) {
-          case "ArrowUp":
-            y = Math.max(0, y - MOVE_SPEED)
-            break
-          case "ArrowDown":
-            y = Math.min(WORLD_SIZE, y + MOVE_SPEED)
-            break
-          case "ArrowLeft":
-            x = Math.max(0, x - MOVE_SPEED)
-            break
-          case "ArrowRight":
-            x = Math.min(WORLD_SIZE, x + MOVE_SPEED)
-            break
-        }
-        return { x, y }
-      })
+      const key = e.key.replace("Arrow", "") as "Up" | "Down" | "Left" | "Right"
+      const method = `move${key}` as keyof Player
+      ;(player[method] as () => void)()
     }
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [])
+    window.addEventListener("keydown", handleKey)
+    return () => {
+      unsub()
+      window.removeEventListener("keydown", handleKey)
+    }
+  }, [player])
 
-  return { player, playerRef }
+  return { player, playerRef, state }
 }
