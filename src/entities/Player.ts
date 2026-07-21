@@ -5,24 +5,28 @@ export interface PlayerState {
   y: number
   hp: number
   maxHp: number
-  speed: number
 }
 
 export type PlayerEvent = "move" | "damage" | "heal" | "death" | "change"
 
 export class Player {
   private _state: PlayerState
+  private _vx = 0
+  private _vy = 0
   private worldSize: number
+  private deceleration: number
+  private maxLaunchSpeed: number
   private listeners = new Map<PlayerEvent, Set<(state: PlayerState) => void>>()
 
-  constructor(worldSize: number, opts?: Partial<PlayerState>) {
+  constructor(worldSize: number, opts?: Partial<PlayerState & { deceleration?: number; maxLaunchSpeed?: number }>) {
     this.worldSize = worldSize
+    this.deceleration = opts?.deceleration ?? 1500
+    this.maxLaunchSpeed = opts?.maxLaunchSpeed ?? 3000
     this._state = {
       x: worldSize / 2,
       y: worldSize / 2,
       hp: 100,
       maxHp: 100,
-      speed: 50,
       ...opts,
     }
   }
@@ -43,40 +47,52 @@ export class Player {
     return this._state.hp
   }
 
-  get speed(): number {
-    return this._state.speed
-  }
-
   get position(): Position {
     return { x: this._state.x, y: this._state.y }
   }
 
+  get velocity(): { vx: number; vy: number } {
+    return { vx: this._vx, vy: this._vy }
+  }
+
   /**
-   * @param dx - Direction unit vector on X axis (-1, 0, or 1), multiplied by speed
-   * @param dy - Direction unit vector on Y axis (-1, 0, or 1), multiplied by speed
+   * Launch the player with a direction and initial speed.
+   * @param dirX - Unit vector X component
+   * @param dirY - Unit vector Y component
+   * @param initialSpeed - Initial speed in px/s (clamped to maxLaunchSpeed)
    */
-  move(dx: number, dy: number): void {
-    const { speed } = this._state
-    this._state.x = clamp(this._state.x + dx * speed, 0, this.worldSize)
-    this._state.y = clamp(this._state.y + dy * speed, 0, this.worldSize)
+  launch(dirX: number, dirY: number, initialSpeed: number): void {
+    const speed = Math.min(initialSpeed, this.maxLaunchSpeed)
+    this._vx = dirX * speed
+    this._vy = dirY * speed
     this.emit("move")
     this.emit("change")
   }
 
-  moveUp(): void {
-    this.move(0, -1)
-  }
+  /**
+   * Physics step: apply velocity and uniform deceleration.
+   * Call once per frame with delta-time in seconds.
+   */
+  update(dt: number): void {
+    if (this._vx === 0 && this._vy === 0) return
 
-  moveDown(): void {
-    this.move(0, 1)
-  }
+    this._state.x = clamp(this._state.x + this._vx * dt, 0, this.worldSize)
+    this._state.y = clamp(this._state.y + this._vy * dt, 0, this.worldSize)
 
-  moveLeft(): void {
-    this.move(-1, 0)
-  }
+    const currentSpeed = Math.sqrt(this._vx * this._vx + this._vy * this._vy)
+    const decelAmount = this.deceleration * dt
 
-  moveRight(): void {
-    this.move(1, 0)
+    if (decelAmount >= currentSpeed) {
+      this._vx = 0
+      this._vy = 0
+    } else {
+      const ratio = (currentSpeed - decelAmount) / currentSpeed
+      this._vx *= ratio
+      this._vy *= ratio
+    }
+
+    this.emit("move")
+    this.emit("change")
   }
 
   setPosition(x: number, y: number): void {
