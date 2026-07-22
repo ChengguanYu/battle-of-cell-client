@@ -27,11 +27,11 @@ export function BattlePage() {
   )
   const [debugVisible, setDebugVisible] = useState(false)
   const [sessionOk, setSessionOk] = useState(false)
-  // 避免 StrictMode 双调用重复 toast / 重复跳转
+  // 避免 StrictMode 双调用重复 toast
   const checkedRef = useRef(false)
 
   // 无论跳转进入还是直接访问：加载后查全局态
-  // 有态 → 忽略（战斗逻辑先留空）；无态 → 错误通知并回大厅
+  // 有态 → 忽略（对局逻辑逐步填充）；无态 → 仅错误通知
   useEffect(() => {
     if (checkedRef.current) return
     checkedRef.current = true
@@ -60,7 +60,6 @@ export function BattlePage() {
       session.firstFrameNumber,
     )
     setSessionOk(true)
-    // TODO: 用 firstFrameNumber / frameBuffer 驱动对局逻辑
   }, [roomId, navigate])
 
   // Render layer uses real pixels; hero business state is fixed-point.
