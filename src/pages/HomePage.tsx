@@ -55,14 +55,14 @@ function LeaderboardCard({ entry }: { entry: LeaderboardEntry }) {
 export function HomePage() {
   const { logout } = useAuth()
   const navigate = useNavigate()
-  const { startMatch, pending } = useMatch()
+  const { startMatch, pending, phase } = useMatch()
 
   const handleMatch = async () => {
     try {
-      const roomId = await startMatch()
-      if (roomId == null) return
-      toast.success(`进入战场 ${roomId}`)
-      navigate(`/battle/${roomId}`)
+      const result = await startMatch()
+      if (result == null) return
+      toast.success(`进入战场 ${result.roomId}`)
+      navigate(`/battle/${result.roomId}`)
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "匹配失败")
     }
@@ -73,6 +73,11 @@ export function HomePage() {
     navigate("/login", { replace: true })
   }
 
+  const waitingText =
+    phase === "waiting_first_frame"
+      ? "匹配成功，等待服务端首帧..."
+      : "正在寻找对手..."
+
   return (
     <div className="game-window relative">
       {pending && (
@@ -80,9 +85,11 @@ export function HomePage() {
           <div className="flex min-w-72 flex-col items-center gap-4 rounded-2xl border border-border bg-card px-8 py-7 shadow-2xl">
             <div className="h-10 w-10 animate-spin rounded-full border-2 border-emerald-400/25 border-t-emerald-400" />
             <div className="text-center">
-              <div className="text-base font-semibold text-foreground">匹配中</div>
+              <div className="text-base font-semibold text-foreground">
+                {phase === "waiting_first_frame" ? "准备进入" : "匹配中"}
+              </div>
               <div className="mt-1 text-sm text-muted-foreground">
-                正在寻找对手...
+                {waitingText}
               </div>
             </div>
           </div>
@@ -170,7 +177,11 @@ export function HomePage() {
             >
               <span className="flex items-center justify-center gap-3">
                 <span>⚔️</span>
-                {pending ? "匹配中..." : "开始匹配"}
+                {phase === "waiting_first_frame"
+                  ? "等待首帧..."
+                  : pending
+                    ? "匹配中..."
+                    : "开始匹配"}
               </span>
             </button>
           </div>

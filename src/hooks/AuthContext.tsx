@@ -15,6 +15,8 @@ import { CONFIG } from "../network/config"
 import { OpCode } from "../proto/OpCode"
 import { StatusCode } from "../entity/dtos"
 import { formatRespError } from "../proto/utils"
+import { gameSession } from "../state/gameSession"
+import { frameBuffer } from "../services/frameBuffer"
 
 interface User {
   uuid: string
@@ -88,6 +90,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession({ token: data.token, user: data.user })
       wsService.notifyAuthSuccess()
       wsService.startHeartbeat()
+      // 登录进家园 = 大厅态
+      gameSession.enterLobby()
     } else {
       wsService.notifyAuthFail()
       // meta.status_code !== 0 → 逐个通知错误
@@ -109,6 +113,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(() => {
     wsService.disconnect()
+    frameBuffer.clear()
+    gameSession.enterLobby()
     sessionStorage.removeItem("token")
     sessionStorage.removeItem("user")
     setSession({ token: null, user: null })

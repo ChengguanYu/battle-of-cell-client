@@ -7,6 +7,8 @@ import { StatusCode } from "../entity/dtos"
 import { formatRespError } from "../proto/utils"
 import { useAuth } from "./AuthContext"
 import { wsService } from "../services/wsService"
+import { frameBuffer } from "../services/frameBuffer"
+import { gameSession } from "../state/gameSession"
 
 function toRoomId(value: unknown): number {
   if (value == null) return 0
@@ -21,15 +23,20 @@ function toRoomId(value: unknown): number {
   return Number(value)
 }
 
+export type MatchPhase = "idle" | "matching" | "waiting_first_frame"
+
 export function useMatch() {
   const { token } = useAuth()
   const [pending, setPending] = useState(false)
+  const [phase, setPhase] = useState<MatchPhase>("idle")
   const pendingRef = useRef(false)
 
   const startMatch = useCallback(async (timeout = 30000) => {
     if (pendingRef.current) return null
     pendingRef.current = true
     setPending(true)
+    setPhase("matching")
+    gameSession.enterMatching()
 
     try {
       if (!gameNetwork.isConnected) {
@@ -58,6 +65,9 @@ export function useMatch() {
         wsService.notifyAuthSuccess()
         wsService.startHeartbeat()
       }
+
+      // 新一局匹配：清空旧帧，避免误把上一局首帧当成本局
+      frameBuffer.clear()
 
       const reqBody = BattleOfCell.Message.PlayerMatchReq.encode(
         BattleOfCell.Message.PlayerMatchReq.create({}),
@@ -92,12 +102,29 @@ export function useMatch() {
         throw new Error("匹配成功但房间 ID 无效")
       }
 
-      return roomId
+      // 匹配成功：等待服务端首帧后再进入战斗
+      setPhase("waiting_first_frame")
+      gameSession.enterWaitingFirstFrame(roomId)
+
+      const firstFrameNumber = await frameBuffer.waitForFirstFrame(timeout)
+      console.log(
+        "[Match] first server_frame received, frameNumber=",
+        firstFrameNumber,
+        "roomId=",
+        roomId,
+      )
+
+      gameSession.enterBattle(roomId, firstFrameNumber)
+      return { roomId, firstFrameNumber }
+    } catch (err) {
+      gameSession.enterLobby()
+      throw err
     } finally {
       pendingRef.current = false
       setPending(false)
+      setPhase("idle")
     }
   }, [token])
 
-  return { startMatch, pending }
+  return { startMatch, pending, phase }
 }
