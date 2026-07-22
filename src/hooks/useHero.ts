@@ -12,23 +12,31 @@ export function useHero(
   const hero = heroRef.current
   const [state, setState] = useState(hero.state)
   const [isAiming, setIsAiming] = useState(false)
-  const [aimTarget, setAimTarget] = useState({ x: 0, y: 0 })
+  /**
+   * 指示器偏移（相对 Hero 中心，世界像素）。
+   * 来源：屏幕控制向量取反后 / zoom，与运动方向一致。
+   */
+  const [aimOffset, setAimOffset] = useState({ x: 0, y: 0 })
   const [speedCoefficient, setSpeedCoefficient] = useState(DEFAULT_SPEED_COEFFICIENT)
   const speedCoefficientRef = useRef(DEFAULT_SPEED_COEFFICIENT)
   const isAimingRef = useRef(false)
+  /** 控制向量原点：mousedown 的屏幕坐标 (clientX/clientY) */
+  const aimStartScreenRef = useRef<{ x: number; y: number } | null>(null)
+  const cameraRef = useRef(camera)
   const prevTimeRef = useRef(0)
 
-  // keep ref in sync for callback usage
+  useEffect(() => {
+    cameraRef.current = camera
+  }, [camera])
+
   useEffect(() => {
     speedCoefficientRef.current = speedCoefficient
   }, [speedCoefficient])
 
-  // subscribe to hero state changes
   useEffect(() => {
     return hero.onChange(setState)
   }, [hero])
 
-  // rAF game loop — runs hero.update(dt) each frame
   useEffect(() => {
     prevTimeRef.current = 0
     let rafId: number
@@ -49,56 +57,72 @@ export function useHero(
     return () => cancelAnimationFrame(rafId)
   }, [hero])
 
-  // mouse input
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
 
-    // UI coords stay real; convert into fixed only when writing business state.
-    const toWorld = (clientX: number, clientY: number) => {
-      const cx = window.innerWidth / 2
-      const cy = window.innerHeight / 2
-      return {
-        x: (clientX - cx) / camera.zoom + camera.x + cx,
-        y: (clientY - cy) / camera.zoom + camera.y + cy,
-      }
+    /**
+     * 控制向量只在屏幕空间定义：
+     *   origin  = 按下时的 client 坐标
+     *   vector  = 当前 client - origin
+     * 与世界坐标、Hero 位置无关。
+     * 进入物理/世界指示器时，再 / zoom 换算成世界像素尺度。
+     */
+    const screenControlVector = (
+      start: { x: number; y: number },
+      clientX: number,
+      clientY: number,
+    ) => ({
+      x: clientX - start.x,
+      y: clientY - start.y,
+    })
+
+    const screenToWorldDelta = (screen: { x: number; y: number }) => {
+      const zoom = cameraRef.current.zoom || 1
+      return { x: screen.x / zoom, y: screen.y / zoom }
     }
 
     const onMouseDown = (e: MouseEvent) => {
-      // screen-space hit test using hero's radius
-      const wp = toWorld(e.clientX, e.clientY)
-      if (!hero.hitTest(wp.x, wp.y, camera.x, camera.y, camera.zoom)) return
-
+      aimStartScreenRef.current = { x: e.clientX, y: e.clientY }
       isAimingRef.current = true
       setIsAiming(true)
-      setAimTarget(wp)
+      setAimOffset({ x: 0, y: 0 })
     }
 
     const onMouseMove = (e: MouseEvent) => {
       if (!isAimingRef.current) return
-      setAimTarget(toWorld(e.clientX, e.clientY))
+      const start = aimStartScreenRef.current
+      if (!start) return
+
+      const dragScreen = screenControlVector(start, e.clientX, e.clientY)
+      // 指示器画在世界层：屏幕拖拽 / zoom → 世界尺度；方向 = 运动方向 = -drag
+      const dragWorld = screenToWorldDelta(dragScreen)
+      setAimOffset({ x: -dragWorld.x, y: -dragWorld.y })
     }
 
     const onMouseUp = (e: MouseEvent) => {
       if (!isAimingRef.current) return
       isAimingRef.current = false
       setIsAiming(false)
+      const start = aimStartScreenRef.current
+      aimStartScreenRef.current = null
+      if (!start) return
 
-      const wp = toWorld(e.clientX, e.clientY)
-      // Convert mouse world delta into fixed business units.
-      const dx = toFixed(wp.x) - hero.x
-      const dy = toFixed(wp.y) - hero.y
+      const dragScreen = screenControlVector(start, e.clientX, e.clientY)
+      const dragWorld = screenToWorldDelta(dragScreen)
+
+      // 模长用世界尺度，才能和 maxLaunchSpeed / 初速度单位对齐
+      const dx = toFixed(dragWorld.x)
+      const dy = toFixed(dragWorld.y)
       const dist = fixedHypot(dx, dy)
 
-      // Ignore near-zero pulls (< 1px)
       if (dist < FIXED_SCALE) return
 
-      // Cap pull length, then multiply by speed coefficient → initial speed.
       const cappedDist = Math.min(dist, hero.maxLaunchSpeed)
       const coeffFixed = toFixed(speedCoefficientRef.current)
       const initialSpeed = fixedMul(cappedDist, coeffFixed)
 
-      // Unit direction in fixed-point (scale 1000). Opposite of pull.
+      // 发射方向 = 控制向量反向（弹弓）
       const dirX = fixedDiv(-dx, dist)
       const dirY = fixedDiv(-dy, dist)
       hero.launch(dirX, dirY, initialSpeed)
@@ -113,14 +137,14 @@ export function useHero(
       window.removeEventListener("mousemove", onMouseMove)
       window.removeEventListener("mouseup", onMouseUp)
     }
-  }, [containerRef, hero, camera])
+  }, [containerRef, hero])
 
   return {
     hero,
     heroRef,
     state,
     isAiming,
-    aimTarget,
+    aimOffset,
     speedCoefficient,
     setSpeedCoefficient,
   }

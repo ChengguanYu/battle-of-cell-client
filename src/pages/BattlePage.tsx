@@ -20,7 +20,7 @@ export function BattlePage() {
   const navigate = useNavigate()
   const heroRef = useRef(new Hero(WORLD_SIZE, { radius: 20 }))
   const { cameraX, cameraY, zoom, containerRef } = useCamera(heroRef)
-  const { state, isAiming, aimTarget, hero, speedCoefficient, setSpeedCoefficient } = useHero(
+  const { state, isAiming, aimOffset, hero, speedCoefficient, setSpeedCoefficient } = useHero(
     heroRef,
     containerRef,
     { x: cameraX, y: cameraY, zoom },
@@ -72,8 +72,8 @@ export function BattlePage() {
         <AimLine
           fromX={heroX}
           fromY={heroY}
-          toX={aimTarget.x}
-          toY={aimTarget.y}
+          toX={heroX + aimOffset.x}
+          toY={heroY + aimOffset.y}
           visible={isAiming}
           maxRange={maxLaunchSpeed}
         />
