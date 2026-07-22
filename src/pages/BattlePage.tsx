@@ -11,6 +11,8 @@ import { AimLine } from "../components/AimLine"
 import { DebugPanel } from "../components/DebugPanel"
 import { fromFixed } from "../lib/fixed"
 import { gameSession } from "../state/gameSession"
+import { resetBattleFrameCursor } from "../services/battleFrame"
+import { battleTick } from "../services/battleTick"
 
 const WORLD_SIZE = 10000
 const OUT_OF_BOUNDS = "#050805"
@@ -27,40 +29,59 @@ export function BattlePage() {
   )
   const [debugVisible, setDebugVisible] = useState(false)
   const [sessionOk, setSessionOk] = useState(false)
-  // 避免 StrictMode 双调用重复 toast
-  const checkedRef = useRef(false)
+  // 避免 StrictMode 双调用重复初始化
+  const initedRef = useRef(false)
 
-  // 无论跳转进入还是直接访问：加载后查全局态
-  // 有态 → 忽略（对局逻辑逐步填充）；无态 → 仅错误通知
-  useEffect(() => {
-    if (checkedRef.current) return
-    checkedRef.current = true
-
+  /**
+   * Battle 内部初始化：校验全局会话态、对齐帧游标，并启动 tick。
+   * 有有效态 → true；无 → toast 错误并返回 false。
+   */
+  const initBattle = (routeRoomId?: string): boolean => {
     const session = gameSession.getState()
+
     if (!gameSession.isBattleReady()) {
       console.error("[Battle] missing game session", session)
       toast.error("战斗会话无效，请从大厅重新匹配")
-      setSessionOk(false)
-      return
+      return false
     }
 
-    if (roomId != null && String(session.roomId) !== String(roomId)) {
+    const sessionRoomId = session.roomId as number
+    const firstFrameNumber = session.firstFrameNumber as number
+
+    if (routeRoomId != null && String(sessionRoomId) !== String(routeRoomId)) {
       console.warn(
         "[Battle] route roomId mismatch",
-        roomId,
+        routeRoomId,
         "session.roomId=",
-        session.roomId,
+        sessionRoomId,
       )
     }
 
+    resetBattleFrameCursor(firstFrameNumber)
+
+    // 初始化完成后：以当前缓冲最新服务端帧为起点启动逻辑 tick
+    const origin = battleTick.start()
+
     console.log(
-      "[Battle] session ready roomId=",
-      session.roomId,
+      "[Battle] init ready roomId=",
+      sessionRoomId,
       "firstFrame=",
-      session.firstFrameNumber,
+      firstFrameNumber,
+      "tickOrigin=",
+      origin,
     )
-    setSessionOk(true)
-  }, [roomId, navigate])
+    return true
+  }
+
+  useEffect(() => {
+    if (initedRef.current) return
+    initedRef.current = true
+    setSessionOk(initBattle(roomId))
+
+    return () => {
+      battleTick.stop()
+    }
+  }, [roomId])
 
   // Render layer uses real pixels; hero business state is fixed-point.
   const heroX = fromFixed(state.x)
@@ -81,6 +102,7 @@ export function BattlePage() {
   }, [])
 
   const handleBack = () => {
+    battleTick.stop()
     gameSession.enterLobby()
     navigate("/home")
   }
