@@ -1383,6 +1383,129 @@ export namespace BattleOfCell {
         }
 
         /**
+         * Properties of a client_frame.
+         * @deprecated Use BattleOfCell.Message.client_frame.$Properties instead.
+         */
+        interface Iclient_frame extends BattleOfCell.Message.client_frame.$Properties {
+        }
+
+        /** Represents a client_frame. */
+        class client_frame {
+
+            /**
+             * Constructs a new client_frame.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.client_frame.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** client_frame frames. */
+            frames: BattleOfCell.Message.frame.$Properties[];
+
+            /** client_frame frameNumber. */
+            frameNumber: (number|Long);
+
+            /**
+             * Creates a new client_frame instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns client_frame instance
+             */
+            static create(properties: BattleOfCell.Message.client_frame.$Shape): BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape;
+            static create(properties?: BattleOfCell.Message.client_frame.$Properties): BattleOfCell.Message.client_frame;
+
+            /**
+             * Encodes the specified client_frame message. Does not implicitly {@link BattleOfCell.Message.client_frame.verify|verify} messages.
+             * @param message client_frame message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.client_frame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified client_frame message, length delimited. Does not implicitly {@link BattleOfCell.Message.client_frame.verify|verify} messages.
+             * @param message client_frame message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.client_frame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a client_frame message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape} client_frame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape;
+
+            /**
+             * Decodes a client_frame message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape} client_frame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape;
+
+            /**
+             * Verifies a client_frame message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a client_frame message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns client_frame
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.client_frame;
+
+            /**
+             * Creates a plain object from a client_frame message. Also converts values to other types if specified.
+             * @param message client_frame
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.client_frame, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this client_frame to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for client_frame
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace client_frame {
+
+            /** Properties of a client_frame. */
+            interface $Properties {
+
+                /** client_frame frames */
+                frames?: (BattleOfCell.Message.frame.$Properties[]|null);
+
+                /** client_frame frameNumber */
+                frameNumber?: (number|Long|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a client_frame. */
+            type $Shape = BattleOfCell.Message.client_frame.$Properties;
+        }
+
+        /**
          * Properties of a PlayerMatchReq.
          * @deprecated Use BattleOfCell.Message.PlayerMatchReq.$Properties instead.
          */

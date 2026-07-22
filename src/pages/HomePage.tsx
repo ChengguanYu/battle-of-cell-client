@@ -80,9 +80,9 @@ export function HomePage() {
           <div className="flex min-w-72 flex-col items-center gap-4 rounded-2xl border border-border bg-card px-8 py-7 shadow-2xl">
             <div className="h-10 w-10 animate-spin rounded-full border-2 border-emerald-400/25 border-t-emerald-400" />
             <div className="text-center">
-              <div className="text-base font-semibold text-foreground">加载战场中</div>
+              <div className="text-base font-semibold text-foreground">匹配中</div>
               <div className="mt-1 text-sm text-muted-foreground">
-                匹配成功，等待服务器帧...
+                正在寻找对手...
               </div>
             </div>
           </div>
@@ -170,7 +170,7 @@ export function HomePage() {
             >
               <span className="flex items-center justify-center gap-3">
                 <span>⚔️</span>
-                {pending ? "加载中..." : "开始匹配"}
+                {pending ? "匹配中..." : "开始匹配"}
               </span>
             </button>
           </div>

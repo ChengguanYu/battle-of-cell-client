@@ -2,6 +2,7 @@ import { gameNetwork } from "../network/GameNetwork"
 import type { ConnectionStatus } from "../network/GameNetwork"
 import { CONFIG } from "../network/config"
 import { OpCode } from "../proto/OpCode"
+import { BattleOfCell } from "../proto/bundle"
 
 // --- 状态机 ---
 type WsState = "disconnected" | "connecting" | "connected" | "authenticated"
@@ -31,6 +32,23 @@ function encodeHeartbeatPing(): Uint8Array {
   return result
 }
 
+function registerServerFrameLogger(): void {
+  gameNetwork.onMessage(OpCode.server_frame, (body) => {
+    try {
+      const frame = BattleOfCell.Message.server_frame.decode(new Uint8Array(body))
+      const json = BattleOfCell.Message.server_frame.toObject(frame, {
+        longs: String,
+        enums: String,
+        bytes: String,
+        defaults: true,
+      })
+      console.log("[server_frame]", json)
+    } catch (err) {
+      console.error("[server_frame] parse failed:", err)
+    }
+  })
+}
+
 // --- WsService ---
 
 class WsService {
@@ -38,6 +56,7 @@ class WsService {
   private heartbeatTimer: ReturnType<typeof setInterval> | null = null
   private sessionLostCallbacks = new Set<() => void>()
   private statusChangeHandler: (status: ConnectionStatus) => void
+  private serverFrameLoggerRegistered = false
 
   constructor() {
     this.statusChangeHandler = (status) => {
@@ -45,6 +64,7 @@ class WsService {
         const wasAuthenticated = this.state === "authenticated"
         this.state = "disconnected"
         this.stopHeartbeat()
+        this.serverFrameLoggerRegistered = false
         // WS 意外断开（authenticated→disconnected）触发 sessionLost
         if (wasAuthenticated) {
           this.fireSessionLost()
@@ -60,6 +80,12 @@ class WsService {
     gameNetwork.onStatusChange(this.statusChangeHandler)
   }
 
+  private ensureServerFrameLogger(): void {
+    if (this.serverFrameLoggerRegistered) return
+    registerServerFrameLogger()
+    this.serverFrameLoggerRegistered = true
+  }
+
   /** 建立 WS 连接 */
   connect(address: string): Promise<void> {
     this.state = "connecting"
@@ -72,6 +98,7 @@ class WsService {
   /** 通知状态机：EntryHome 认证成功 → 进入 authenticated */
   notifyAuthSuccess(): void {
     this.state = "authenticated"
+    this.ensureServerFrameLogger()
   }
 
   /** 通知状态机：EntryHome 认证失败 */
@@ -83,6 +110,7 @@ class WsService {
   disconnect(): void {
     this.stopHeartbeat()
     this.state = "disconnected"
+    this.serverFrameLoggerRegistered = false
     gameNetwork.disconnect()
     this.registerStatusCallback()
   }
@@ -117,6 +145,7 @@ class WsService {
 
   startHeartbeat(): void {
     this.stopHeartbeat()
+    this.ensureServerFrameLogger()
     this.heartbeatTimer = setInterval(() => {
       gameNetwork.send(OpCode.SessionHeartbeatPing, encodeHeartbeatPing())
     }, CONFIG.HEARTBEAT_INTERVAL_MS)

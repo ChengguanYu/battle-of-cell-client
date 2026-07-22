@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { toast } from "sonner"
 import { Hero } from "../entities/Hero"
 import { useHero } from "../hooks/useHero"
 import { useCamera } from "../hooks/useCamera"
@@ -10,7 +9,6 @@ import { BattleHUD } from "../components/BattleHUD"
 import { AimLine } from "../components/AimLine"
 import { DebugPanel } from "../components/DebugPanel"
 import { fromFixed } from "../lib/fixed"
-import { battleState } from "../state/battleState"
 
 const WORLD_SIZE = 10000
 const OUT_OF_BOUNDS = "#050805"
@@ -26,22 +24,6 @@ export function BattlePage() {
     { x: cameraX, y: cameraY, zoom },
   )
   const [debugVisible, setDebugVisible] = useState(false)
-
-  useEffect(() => {
-    const bootstrap = battleState.getBootstrap()
-    const currentRoomId = Number(roomId)
-
-    if (bootstrap && bootstrap.roomId === currentRoomId) {
-      // 已有起始帧，后续再消费 bootstrap.frame
-      return
-    }
-
-    toast.warning("缺少起始帧，战场状态可能不完整")
-    console.warn(
-      "[Battle] missing bootstrap server_frame",
-      { roomId: currentRoomId, bootstrapRoomId: bootstrap?.roomId ?? null },
-    )
-  }, [roomId])
 
   // Render layer uses real pixels; hero business state is fixed-point.
   const heroX = fromFixed(state.x)

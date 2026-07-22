@@ -3461,6 +3461,329 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             return server_frame;
         })();
 
+        Message.client_frame = (function() {
+
+            /**
+             * Properties of a client_frame.
+             * @typedef {Object} BattleOfCell.Message.client_frame.$Properties
+             * @property {Array.<BattleOfCell.Message.frame.$Properties>|null} [frames] client_frame frames
+             * @property {number|Long|null} [frameNumber] client_frame frameNumber
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a client_frame.
+             * @memberof BattleOfCell.Message
+             * @interface Iclient_frame
+             * @augments BattleOfCell.Message.client_frame.$Properties
+             * @deprecated Use BattleOfCell.Message.client_frame.$Properties instead.
+             */
+
+            /**
+             * Shape of a client_frame.
+             * @typedef {BattleOfCell.Message.client_frame.$Properties} BattleOfCell.Message.client_frame.$Shape
+             */
+
+            /**
+             * Constructs a new client_frame.
+             * @memberof BattleOfCell.Message
+             * @classdesc Represents a client_frame.
+             * @constructor
+             * @param {BattleOfCell.Message.client_frame.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const client_frame = function (properties) {
+                this.frames = [];
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * client_frame frames.
+             * @member {Array.<BattleOfCell.Message.frame.$Properties>} frames
+             * @memberof BattleOfCell.Message.client_frame
+             * @instance
+             */
+            client_frame.prototype.frames = $util.emptyArray;
+
+            /**
+             * client_frame frameNumber.
+             * @member {number|Long} frameNumber
+             * @memberof BattleOfCell.Message.client_frame
+             * @instance
+             */
+            client_frame.prototype.frameNumber = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+            /**
+             * Creates a new client_frame instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.client_frame
+             * @static
+             * @param {BattleOfCell.Message.client_frame.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.client_frame} client_frame instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.client_frame.$Shape): BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape;
+             *   (properties?: BattleOfCell.Message.client_frame.$Properties): BattleOfCell.Message.client_frame;
+             * }}
+             */
+            client_frame.create = function(properties) {
+                return new client_frame(properties);
+            };
+
+            /**
+             * Encodes the specified client_frame message. Does not implicitly {@link BattleOfCell.Message.client_frame.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.client_frame
+             * @static
+             * @param {BattleOfCell.Message.client_frame.$Properties} message client_frame message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            client_frame.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.frames != null && message.frames.length)
+                    for (let i = 0; i < message.frames.length; ++i)
+                        $root.BattleOfCell.Message.frame.encode(message.frames[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+                if (message.frameNumber != null && $Object.hasOwnProperty.call(message, "frameNumber") && (typeof message.frameNumber === "object" ? message.frameNumber.low || message.frameNumber.high : message.frameNumber !== 0))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.frameNumber);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified client_frame message, length delimited. Does not implicitly {@link BattleOfCell.Message.client_frame.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.client_frame
+             * @static
+             * @param {BattleOfCell.Message.client_frame.$Properties} message client_frame message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            client_frame.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a client_frame message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.client_frame
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape} client_frame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            client_frame.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.client_frame(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            if (!(message.frames && message.frames.length))
+                                message.frames = [];
+                            message.frames.push($root.BattleOfCell.Message.frame.decode(reader, reader.uint32(), $undefined, _depth + 1));
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (typeof (value = reader.uint64()) === "object" ? value.low || value.high : value !== 0)
+                                message.frameNumber = value;
+                            else
+                                delete message.frameNumber;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a client_frame message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.client_frame
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape} client_frame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            client_frame.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a client_frame message.
+             * @function verify
+             * @memberof BattleOfCell.Message.client_frame
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            client_frame.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.frames != null && $Object.hasOwnProperty.call(message, "frames")) {
+                    if (!$Array.isArray(message.frames))
+                        return "frames: array expected";
+                    for (let i = 0; i < message.frames.length; ++i) {
+                        let error = $root.BattleOfCell.Message.frame.verify(message.frames[i], _depth + 1);
+                        if (error)
+                            return "frames." + error;
+                    }
+                }
+                if (message.frameNumber != null && $Object.hasOwnProperty.call(message, "frameNumber"))
+                    if (!$util.isInteger(message.frameNumber) && !(message.frameNumber && $util.isInteger(message.frameNumber.low) && $util.isInteger(message.frameNumber.high)))
+                        return "frameNumber: integer|Long expected";
+                return null;
+            };
+
+            /**
+             * Creates a client_frame message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.client_frame
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.client_frame} client_frame
+             */
+            client_frame.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.client_frame)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.client_frame: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.BattleOfCell.Message.client_frame();
+                if (object.frames) {
+                    if (!$Array.isArray(object.frames))
+                        throw $TypeError(".BattleOfCell.Message.client_frame.frames: array expected");
+                    message.frames = $Array(object.frames.length);
+                    for (let i = 0; i < object.frames.length; ++i) {
+                        if (!$util.isObject(object.frames[i]))
+                            throw $TypeError(".BattleOfCell.Message.client_frame.frames: object expected");
+                        message.frames[i] = $root.BattleOfCell.Message.frame.fromObject(object.frames[i], _depth + 1);
+                    }
+                }
+                if (object.frameNumber != null)
+                    if (typeof object.frameNumber === "object" ? object.frameNumber.low || object.frameNumber.high : $Number(object.frameNumber) !== 0)
+                        if ($util.Long)
+                            message.frameNumber = $util.Long.fromValue(object.frameNumber, true);
+                        else if (typeof object.frameNumber === "string")
+                            message.frameNumber = $parseInt(object.frameNumber, 10);
+                        else if (typeof object.frameNumber === "number")
+                            message.frameNumber = object.frameNumber;
+                        else if (typeof object.frameNumber === "object")
+                            message.frameNumber = new $util.LongBits(object.frameNumber.low >>> 0, object.frameNumber.high >>> 0).toNumber(true);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a client_frame message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.client_frame
+             * @static
+             * @param {BattleOfCell.Message.client_frame} message client_frame
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            client_frame.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.arrays || options.defaults)
+                    object.frames = [];
+                if (options.defaults)
+                    if ($util.Long) {
+                        let long = new $util.Long(0, 0, true);
+                        object.frameNumber = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
+                    } else
+                        object.frameNumber = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
+                if (message.frames && message.frames.length) {
+                    object.frames = $Array(message.frames.length);
+                    for (let j = 0; j < message.frames.length; ++j)
+                        object.frames[j] = $root.BattleOfCell.Message.frame.toObject(message.frames[j], options, _depth + 1);
+                }
+                if (message.frameNumber != null && $Object.hasOwnProperty.call(message, "frameNumber"))
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.frameNumber = typeof message.frameNumber === "number" ? $BigInt(message.frameNumber) : $util.Long.fromBits(message.frameNumber.low >>> 0, message.frameNumber.high >>> 0, true).toBigInt();
+                    else if (typeof message.frameNumber === "number")
+                        object.frameNumber = options.longs === $String ? $String(message.frameNumber) : message.frameNumber;
+                    else
+                        object.frameNumber = options.longs === $String ? $util.Long.prototype.toString.call(message.frameNumber) : options.longs === $Number ? new $util.LongBits(message.frameNumber.low >>> 0, message.frameNumber.high >>> 0).toNumber(true) : message.frameNumber;
+                return object;
+            };
+
+            /**
+             * Converts this client_frame to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.client_frame
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            client_frame.prototype.toJSON = function() {
+                return client_frame.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for client_frame
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.client_frame
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            client_frame.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.client_frame";
+            };
+
+            return client_frame;
+        })();
+
         Message.PlayerMatchReq = (function() {
 
             /**
