@@ -175,14 +175,35 @@ export class Hero {
 
   /**
    * Launch with fixed-point unit direction and fixed-point speed.
+   * If the hero already has velocity, the new impulse is orthogonally composed
+   * with the current velocity (vector sum in fixed-point, no float path):
+   *   v' = dir_cur * |v| + dir_op * speed_op
+   * Then direction / initSpeed are refreshed from v'.
    * Callers that receive API floats must convert first via toFixed / fixedDiv.
    */
   launch(dirX: Fixed, dirY: Fixed, initialSpeed: Fixed): void {
-    this._dirX = dirX
-    this._dirY = dirY
-    this._initSpeed = initialSpeed
-    this._vx = fixedMul(dirX, initialSpeed)
-    this._vy = fixedMul(dirY, initialSpeed)
+    const impulseX = fixedMul(dirX, initialSpeed)
+    const impulseY = fixedMul(dirY, initialSpeed)
+
+    // Orthogonal composition: existing velocity + new launch impulse.
+    // When at rest this degenerates to a plain overwrite.
+    this._vx = this._vx + impulseX
+    this._vy = this._vy + impulseY
+
+    const composedSpeed = fixedHypot(this._vx, this._vy)
+    if (composedSpeed === 0) {
+      this._dirX = 0
+      this._dirY = 0
+      this._initSpeed = 0
+      this._vx = 0
+      this._vy = 0
+    } else {
+      // Re-normalize from the composed velocity (unit direction, fixed-point).
+      this._dirX = fixedDiv(this._vx, composedSpeed)
+      this._dirY = fixedDiv(this._vy, composedSpeed)
+      this._initSpeed = composedSpeed
+    }
+
     this.emit("move")
     this.emit("change")
   }

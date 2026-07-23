@@ -153,7 +153,7 @@ export function useHero(
       const dirX = fixedDiv(-dx, dist)
       const dirY = fixedDiv(-dy, dist)
 
-      // 先写入本地真实状态，再立刻上报网络帧
+      // 本地写入会正交合成；上报仍用本次操作原始方向/速度
       hero.launch(dirX, dirY, initialSpeed)
       setAimOffset({ x: 0, y: 0 })
       onLaunchRef.current?.({ dirX, dirY, speed: initialSpeed })
