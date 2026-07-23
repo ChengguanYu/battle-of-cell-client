@@ -22,5 +22,13 @@ export function sendClientFrame(payload: ClientFramePayload): boolean {
     .finish()
 
   gameNetwork.send(OpCode.client_frame, body)
+  console.log(
+    "[client_frame] send ok frameNumber=",
+    payload.frameNumber,
+    "ops=",
+    payload.frames?.length ?? 0,
+    "bodyBytes=",
+    body.length,
+  )
   return true
 }

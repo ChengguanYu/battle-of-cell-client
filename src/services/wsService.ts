@@ -38,13 +38,13 @@ function registerServerFrameIngest(): void {
     try {
       const frame = BattleOfCell.Message.server_frame.decode(new Uint8Array(body))
       // 无论当前阶段如何，只要有新帧就写入缓冲区（按帧号索引）
-      const frameNumber = frameBuffer.push(frame)
-      console.log(
-        "[server_frame] buffered frameNumber=",
-        frameNumber,
-        "size=",
-        frameBuffer.size,
-      )
+      frameBuffer.push(frame)
+      // console.log(
+      //   "[server_frame] buffered frameNumber=",
+      //   frameNumber,
+      //   "size=",
+      //   frameBuffer.size,
+      // )
     } catch (err) {
       console.error("[server_frame] parse failed:", err)
     }

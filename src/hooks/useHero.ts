@@ -4,10 +4,16 @@ import { FIXED_SCALE, toFixed, fixedMul, fixedDiv, fixedHypot } from "../lib/fix
 
 const DEFAULT_SPEED_COEFFICIENT = 10
 
+export interface UseHeroOptions {
+  /** 鼠标抬起结束一次操作后回调（无论是否成功发射） */
+  onRelease?: () => void
+}
+
 export function useHero(
   heroRef: React.MutableRefObject<Hero>,
   containerRef: React.RefObject<HTMLDivElement | null>,
   camera: { x: number; y: number; zoom: number },
+  options?: UseHeroOptions,
 ) {
   const hero = heroRef.current
   const [state, setState] = useState(hero.state)
@@ -24,6 +30,7 @@ export function useHero(
   const aimStartScreenRef = useRef<{ x: number; y: number } | null>(null)
   const cameraRef = useRef(camera)
   const prevTimeRef = useRef(0)
+  const onReleaseRef = useRef(options?.onRelease)
 
   useEffect(() => {
     cameraRef.current = camera
@@ -32,6 +39,10 @@ export function useHero(
   useEffect(() => {
     speedCoefficientRef.current = speedCoefficient
   }, [speedCoefficient])
+
+  useEffect(() => {
+    onReleaseRef.current = options?.onRelease
+  }, [options?.onRelease])
 
   useEffect(() => {
     return hero.onChange(setState)
@@ -116,16 +127,19 @@ export function useHero(
       const dy = toFixed(dragWorld.y)
       const dist = fixedHypot(dx, dy)
 
-      if (dist < FIXED_SCALE) return
+      if (dist >= FIXED_SCALE) {
+        const cappedDist = Math.min(dist, hero.maxLaunchSpeed)
+        const coeffFixed = toFixed(speedCoefficientRef.current)
+        const initialSpeed = fixedMul(cappedDist, coeffFixed)
 
-      const cappedDist = Math.min(dist, hero.maxLaunchSpeed)
-      const coeffFixed = toFixed(speedCoefficientRef.current)
-      const initialSpeed = fixedMul(cappedDist, coeffFixed)
+        // 发射方向 = 控制向量反向（弹弓）
+        const dirX = fixedDiv(-dx, dist)
+        const dirY = fixedDiv(-dy, dist)
+        hero.launch(dirX, dirY, initialSpeed)
+      }
 
-      // 发射方向 = 控制向量反向（弹弓）
-      const dirX = fixedDiv(-dx, dist)
-      const dirY = fixedDiv(-dy, dist)
-      hero.launch(dirX, dirY, initialSpeed)
+      // 操作结束（鼠标抬起）：交给上层，不在此发网络包
+      onReleaseRef.current?.()
     }
 
     el.addEventListener("mousedown", onMouseDown)

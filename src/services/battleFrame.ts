@@ -2,6 +2,7 @@ import { BattleOfCell } from "../proto/bundle"
 import { sendClientFrame } from "./clientFrameSender"
 import { frameBuffer } from "./frameBuffer"
 import { gameSession } from "../state/gameSession"
+import { battleTick } from "./battleTick"
 
 const Op = BattleOfCell.Message.Op
 
@@ -115,3 +116,57 @@ export function sendSpawnFrame(input: SpawnFrameInput): boolean {
   }
   return ok
 }
+
+function randInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+/**
+ * 测试用：随机构建一帧 client_frame 发送。
+ * 帧号固定使用 battleTick 当前逻辑帧号。
+ */
+export function sendRandomBattleFrame(reason = "input"): boolean {
+  const frameNumber = battleTick.frameNumber
+  const op = Math.random() < 0.5 ? Op.SPAWN : Op.MOVE
+  const dirX = randInt(-1000, 1000)
+  const dirY = randInt(-1000, 1000)
+  const speed = randInt(0, 150_000)
+  const posX = randInt(0, 10_000)
+  const posY = randInt(0, 10_000)
+  const eid = randInt(1, 10_000)
+
+  const ok = sendClientFrame({
+    frameNumber,
+    frames: [
+      {
+        op,
+        data:
+          op === Op.MOVE
+            ? {
+                eid,
+                speed,
+                direction: { x: dirX, y: dirY },
+              }
+            : {
+                eid,
+                speed: 0,
+                position: { x: posX, y: posY },
+              },
+      },
+    ],
+  })
+
+  if (ok) {
+    console.log("[battleFrame] random send", {
+      reason,
+      frameNumber,
+      op: op === Op.SPAWN ? "SPAWN" : "MOVE",
+      eid,
+      speed,
+      direction: { x: dirX, y: dirY },
+      position: { x: posX, y: posY },
+    })
+  }
+  return ok
+}
+

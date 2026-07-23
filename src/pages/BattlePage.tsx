@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState, useEffect, useCallback } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import { Hero } from "../entities/Hero"
@@ -11,7 +11,7 @@ import { AimLine } from "../components/AimLine"
 import { DebugPanel } from "../components/DebugPanel"
 import { fromFixed } from "../lib/fixed"
 import { gameSession } from "../state/gameSession"
-import { resetBattleFrameCursor } from "../services/battleFrame"
+import { resetBattleFrameCursor, sendRandomBattleFrame } from "../services/battleFrame"
 import { battleTick } from "../services/battleTick"
 
 const WORLD_SIZE = 10000
@@ -22,15 +22,26 @@ export function BattlePage() {
   const navigate = useNavigate()
   const heroRef = useRef(new Hero(WORLD_SIZE, { radius: 20 }))
   const { cameraX, cameraY, zoom, containerRef } = useCamera(heroRef)
+  const [debugVisible, setDebugVisible] = useState(false)
+  const [sessionOk, setSessionOk] = useState(false)
+  const sessionOkRef = useRef(false)
+
+  // 鼠标抬起：测试随机帧，帧号用 tick 计数器
+  const handleRelease = useCallback(() => {
+    if (!sessionOkRef.current) {
+      console.warn("[Battle] skip send frame: session not ready")
+      return
+    }
+    const ok = sendRandomBattleFrame("mouseup")
+    console.log("[Battle] mouseup sendRandomBattleFrame result=", ok)
+  }, [])
+
   const { state, isAiming, aimOffset, hero, speedCoefficient, setSpeedCoefficient } = useHero(
     heroRef,
     containerRef,
     { x: cameraX, y: cameraY, zoom },
+    { onRelease: handleRelease },
   )
-  const [debugVisible, setDebugVisible] = useState(false)
-  const [sessionOk, setSessionOk] = useState(false)
-  // 避免 StrictMode 双调用重复初始化
-  const initedRef = useRef(false)
 
   /**
    * Battle 内部初始化：校验全局会话态、对齐帧游标，并启动 tick。
@@ -74,12 +85,16 @@ export function BattlePage() {
   }
 
   useEffect(() => {
-    if (initedRef.current) return
-    initedRef.current = true
-    setSessionOk(initBattle(roomId))
+    // 每次挂载都初始化；StrictMode 会先 cleanup 再二次挂载，
+    // 不能用“只 init 一次”的 ref，否则 sessionOk 会被 cleanup 清掉后无法恢复。
+    const ok = initBattle(roomId)
+    setSessionOk(ok)
+    sessionOkRef.current = ok
 
     return () => {
       battleTick.stop()
+      sessionOkRef.current = false
+      setSessionOk(false)
     }
   }, [roomId])
 
