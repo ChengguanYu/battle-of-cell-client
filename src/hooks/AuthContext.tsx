@@ -17,6 +17,7 @@ import { StatusCode } from "../entity/dtos"
 import { formatRespError } from "../proto/utils"
 import { gameSession } from "../state/gameSession"
 import { frameBuffer } from "../services/frameBuffer"
+import { markSkipAutoLogin } from "../services/rememberLogin"
 
 interface User {
   uuid: string
@@ -117,6 +118,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     gameSession.enterLobby()
     sessionStorage.removeItem("token")
     sessionStorage.removeItem("user")
+    // Prevent immediate auto-login after explicit logout on this visit.
+    markSkipAutoLogin()
     setSession({ token: null, user: null })
   }, [])
 
