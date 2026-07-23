@@ -73,6 +73,8 @@ export function BattlePage() {
     if (!gameSession.isBattleReady()) {
       console.error("[Battle] missing game session", session)
       toast.error("战斗会话无效，请从大厅重新匹配")
+      // 刷新/深链进入时内存会话已丢失，强制回大厅
+      navigate("/home", { replace: true })
       return false
     }
 
@@ -116,7 +118,7 @@ export function BattlePage() {
       sessionOkRef.current = false
       setSessionOk(false)
     }
-  }, [roomId])
+  }, [roomId, navigate])
 
   // Render layer uses real pixels; hero business state is fixed-point.
   const heroX = fromFixed(state.x)
