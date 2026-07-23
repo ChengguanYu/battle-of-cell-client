@@ -13,6 +13,7 @@ import { fromFixed } from "../lib/fixed"
 import { gameSession } from "../state/gameSession"
 import { resetBattleFrameCursor, sendLaunchFrame } from "../services/battleFrame"
 import { battleTick } from "../services/battleTick"
+import { leaveRoom } from "../services/leaveRoom"
 
 const WORLD_SIZE = 10000
 const OUT_OF_BOUNDS = "#050805"
@@ -135,11 +136,23 @@ export function BattlePage() {
     return () => window.removeEventListener("keydown", onKey)
   }, [])
 
-  const handleBack = () => {
-    battleTick.stop()
-    gameSession.enterLobby()
-    navigate("/home")
-  }
+  const [leaving, setLeaving] = useState(false)
+
+  const handleBack = useCallback(async () => {
+    if (leaving) return
+    setLeaving(true)
+    try {
+      await leaveRoom()
+      battleTick.stop()
+      gameSession.enterLobby()
+      toast.success("已退出房间")
+      navigate("/home")
+    } catch (err) {
+      console.error("[Battle] leave room failed:", err)
+      toast.error(err instanceof Error ? err.message : "退出房间失败")
+      setLeaving(false)
+    }
+  }, [leaving, navigate])
 
   return (
     <div

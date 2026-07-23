@@ -744,6 +744,264 @@ export namespace BattleOfCell {
         }
 
         /**
+         * Properties of a server_frame.
+         * @deprecated Use BattleOfCell.Message.server_frame.$Properties instead.
+         */
+        interface Iserver_frame extends BattleOfCell.Message.server_frame.$Properties {
+        }
+
+        /** Represents a server_frame. */
+        class server_frame {
+
+            /**
+             * Constructs a new server_frame.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.server_frame.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** server_frame frames. */
+            frames: BattleOfCell.Message.frame.$Properties[];
+
+            /** server_frame frameNumber. */
+            frameNumber: (number|Long);
+
+            /** server_frame randomSeed. */
+            randomSeed: number;
+
+            /** server_frame meta. */
+            meta?: (BattleOfCell.Message.MetaData.$Properties|null);
+
+            /**
+             * Creates a new server_frame instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns server_frame instance
+             */
+            static create(properties: BattleOfCell.Message.server_frame.$Shape): BattleOfCell.Message.server_frame & BattleOfCell.Message.server_frame.$Shape;
+            static create(properties?: BattleOfCell.Message.server_frame.$Properties): BattleOfCell.Message.server_frame;
+
+            /**
+             * Encodes the specified server_frame message. Does not implicitly {@link BattleOfCell.Message.server_frame.verify|verify} messages.
+             * @param message server_frame message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.server_frame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified server_frame message, length delimited. Does not implicitly {@link BattleOfCell.Message.server_frame.verify|verify} messages.
+             * @param message server_frame message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.server_frame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a server_frame message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.server_frame & BattleOfCell.Message.server_frame.$Shape} server_frame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.server_frame & BattleOfCell.Message.server_frame.$Shape;
+
+            /**
+             * Decodes a server_frame message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.server_frame & BattleOfCell.Message.server_frame.$Shape} server_frame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.server_frame & BattleOfCell.Message.server_frame.$Shape;
+
+            /**
+             * Verifies a server_frame message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a server_frame message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns server_frame
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.server_frame;
+
+            /**
+             * Creates a plain object from a server_frame message. Also converts values to other types if specified.
+             * @param message server_frame
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.server_frame, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this server_frame to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for server_frame
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace server_frame {
+
+            /** Properties of a server_frame. */
+            interface $Properties {
+
+                /** server_frame frames */
+                frames?: (BattleOfCell.Message.frame.$Properties[]|null);
+
+                /** server_frame frameNumber */
+                frameNumber?: (number|Long|null);
+
+                /** server_frame randomSeed */
+                randomSeed?: (number|null);
+
+                /** server_frame meta */
+                meta?: (BattleOfCell.Message.MetaData.$Properties|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a server_frame. */
+            type $Shape = BattleOfCell.Message.server_frame.$Properties;
+        }
+
+        /**
+         * Properties of a client_frame.
+         * @deprecated Use BattleOfCell.Message.client_frame.$Properties instead.
+         */
+        interface Iclient_frame extends BattleOfCell.Message.client_frame.$Properties {
+        }
+
+        /** Represents a client_frame. */
+        class client_frame {
+
+            /**
+             * Constructs a new client_frame.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.client_frame.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** client_frame frames. */
+            frames: BattleOfCell.Message.frame.$Properties[];
+
+            /** client_frame frameNumber. */
+            frameNumber: (number|Long);
+
+            /**
+             * Creates a new client_frame instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns client_frame instance
+             */
+            static create(properties: BattleOfCell.Message.client_frame.$Shape): BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape;
+            static create(properties?: BattleOfCell.Message.client_frame.$Properties): BattleOfCell.Message.client_frame;
+
+            /**
+             * Encodes the specified client_frame message. Does not implicitly {@link BattleOfCell.Message.client_frame.verify|verify} messages.
+             * @param message client_frame message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.client_frame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified client_frame message, length delimited. Does not implicitly {@link BattleOfCell.Message.client_frame.verify|verify} messages.
+             * @param message client_frame message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.client_frame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a client_frame message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape} client_frame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape;
+
+            /**
+             * Decodes a client_frame message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape} client_frame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape;
+
+            /**
+             * Verifies a client_frame message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a client_frame message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns client_frame
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.client_frame;
+
+            /**
+             * Creates a plain object from a client_frame message. Also converts values to other types if specified.
+             * @param message client_frame
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.client_frame, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this client_frame to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for client_frame
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace client_frame {
+
+            /** Properties of a client_frame. */
+            interface $Properties {
+
+                /** client_frame frames */
+                frames?: (BattleOfCell.Message.frame.$Properties[]|null);
+
+                /** client_frame frameNumber */
+                frameNumber?: (number|Long|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a client_frame. */
+            type $Shape = BattleOfCell.Message.client_frame.$Properties;
+        }
+
+        /**
          * Properties of a vec2d.
          * @deprecated Use BattleOfCell.Message.vec2d.$Properties instead.
          */
@@ -1248,261 +1506,249 @@ export namespace BattleOfCell {
         }
 
         /**
-         * Properties of a server_frame.
-         * @deprecated Use BattleOfCell.Message.server_frame.$Properties instead.
+         * Properties of a PlayerLeaveRoomReq.
+         * @deprecated Use BattleOfCell.Message.PlayerLeaveRoomReq.$Properties instead.
          */
-        interface Iserver_frame extends BattleOfCell.Message.server_frame.$Properties {
+        interface IPlayerLeaveRoomReq extends BattleOfCell.Message.PlayerLeaveRoomReq.$Properties {
         }
 
-        /** Represents a server_frame. */
-        class server_frame {
+        /** 客户端主动退出房间请求 */
+        class PlayerLeaveRoomReq {
 
             /**
-             * Constructs a new server_frame.
+             * Constructs a new PlayerLeaveRoomReq.
              * @param [properties] Properties to set
              */
-            constructor(properties?: BattleOfCell.Message.server_frame.$Properties);
+            constructor(properties?: BattleOfCell.Message.PlayerLeaveRoomReq.$Properties);
 
             /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
-            /** server_frame frames. */
-            frames: BattleOfCell.Message.frame.$Properties[];
-
-            /** server_frame frameNumber. */
-            frameNumber: (number|Long);
-
-            /** server_frame randomSeed. */
-            randomSeed: number;
-
-            /** server_frame meta. */
-            meta?: (BattleOfCell.Message.MetaData.$Properties|null);
-
             /**
-             * Creates a new server_frame instance using the specified properties.
+             * Creates a new PlayerLeaveRoomReq instance using the specified properties.
              * @param [properties] Properties to set
-             * @returns server_frame instance
+             * @returns PlayerLeaveRoomReq instance
              */
-            static create(properties: BattleOfCell.Message.server_frame.$Shape): BattleOfCell.Message.server_frame & BattleOfCell.Message.server_frame.$Shape;
-            static create(properties?: BattleOfCell.Message.server_frame.$Properties): BattleOfCell.Message.server_frame;
+            static create(properties: BattleOfCell.Message.PlayerLeaveRoomReq.$Shape): BattleOfCell.Message.PlayerLeaveRoomReq & BattleOfCell.Message.PlayerLeaveRoomReq.$Shape;
+            static create(properties?: BattleOfCell.Message.PlayerLeaveRoomReq.$Properties): BattleOfCell.Message.PlayerLeaveRoomReq;
 
             /**
-             * Encodes the specified server_frame message. Does not implicitly {@link BattleOfCell.Message.server_frame.verify|verify} messages.
-             * @param message server_frame message or plain object to encode
+             * Encodes the specified PlayerLeaveRoomReq message. Does not implicitly {@link BattleOfCell.Message.PlayerLeaveRoomReq.verify|verify} messages.
+             * @param message PlayerLeaveRoomReq message or plain object to encode
              * @param [writer] Writer to encode to
              * @returns Writer
              */
-            static encode(message: BattleOfCell.Message.server_frame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+            static encode(message: BattleOfCell.Message.PlayerLeaveRoomReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
             /**
-             * Encodes the specified server_frame message, length delimited. Does not implicitly {@link BattleOfCell.Message.server_frame.verify|verify} messages.
-             * @param message server_frame message or plain object to encode
+             * Encodes the specified PlayerLeaveRoomReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerLeaveRoomReq.verify|verify} messages.
+             * @param message PlayerLeaveRoomReq message or plain object to encode
              * @param [writer] Writer to encode to
              * @returns Writer
              */
-            static encodeDelimited(message: BattleOfCell.Message.server_frame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+            static encodeDelimited(message: BattleOfCell.Message.PlayerLeaveRoomReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
             /**
-             * Decodes a server_frame message from the specified reader or buffer.
+             * Decodes a PlayerLeaveRoomReq message from the specified reader or buffer.
              * @param reader Reader or buffer to decode from
              * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.server_frame & BattleOfCell.Message.server_frame.$Shape} server_frame
+             * @returns {BattleOfCell.Message.PlayerLeaveRoomReq & BattleOfCell.Message.PlayerLeaveRoomReq.$Shape} PlayerLeaveRoomReq
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.server_frame & BattleOfCell.Message.server_frame.$Shape;
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.PlayerLeaveRoomReq & BattleOfCell.Message.PlayerLeaveRoomReq.$Shape;
 
             /**
-             * Decodes a server_frame message from the specified reader or buffer, length delimited.
+             * Decodes a PlayerLeaveRoomReq message from the specified reader or buffer, length delimited.
              * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.server_frame & BattleOfCell.Message.server_frame.$Shape} server_frame
+             * @returns {BattleOfCell.Message.PlayerLeaveRoomReq & BattleOfCell.Message.PlayerLeaveRoomReq.$Shape} PlayerLeaveRoomReq
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.server_frame & BattleOfCell.Message.server_frame.$Shape;
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.PlayerLeaveRoomReq & BattleOfCell.Message.PlayerLeaveRoomReq.$Shape;
 
             /**
-             * Verifies a server_frame message.
+             * Verifies a PlayerLeaveRoomReq message.
              * @param message Plain object to verify
              * @returns `null` if valid, otherwise the reason why it is not
              */
             static verify(message: { [k: string]: any }): (string|null);
 
             /**
-             * Creates a server_frame message from a plain object. Also converts values to their respective internal types.
+             * Creates a PlayerLeaveRoomReq message from a plain object. Also converts values to their respective internal types.
              * @param object Plain object
-             * @returns server_frame
+             * @returns PlayerLeaveRoomReq
              */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.server_frame;
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.PlayerLeaveRoomReq;
 
             /**
-             * Creates a plain object from a server_frame message. Also converts values to other types if specified.
-             * @param message server_frame
+             * Creates a plain object from a PlayerLeaveRoomReq message. Also converts values to other types if specified.
+             * @param message PlayerLeaveRoomReq
              * @param [options] Conversion options
              * @returns Plain object
              */
-            static toObject(message: BattleOfCell.Message.server_frame, options?: $protobuf.IConversionOptions): { [k: string]: any };
+            static toObject(message: BattleOfCell.Message.PlayerLeaveRoomReq, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
             /**
-             * Converts this server_frame to JSON.
+             * Converts this PlayerLeaveRoomReq to JSON.
              * @returns JSON object
              */
             toJSON(): { [k: string]: any };
 
             /**
-             * Gets the type url for server_frame
+             * Gets the type url for PlayerLeaveRoomReq
              * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns The type url
              */
             static getTypeUrl(prefix?: string): string;
         }
 
-        namespace server_frame {
+        namespace PlayerLeaveRoomReq {
 
-            /** Properties of a server_frame. */
+            /** Properties of a PlayerLeaveRoomReq. */
             interface $Properties {
-
-                /** server_frame frames */
-                frames?: (BattleOfCell.Message.frame.$Properties[]|null);
-
-                /** server_frame frameNumber */
-                frameNumber?: (number|Long|null);
-
-                /** server_frame randomSeed */
-                randomSeed?: (number|null);
-
-                /** server_frame meta */
-                meta?: (BattleOfCell.Message.MetaData.$Properties|null);
 
                 /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
-            /** Shape of a server_frame. */
-            type $Shape = BattleOfCell.Message.server_frame.$Properties;
+            /** Shape of a PlayerLeaveRoomReq. */
+            type $Shape = BattleOfCell.Message.PlayerLeaveRoomReq.$Properties;
         }
 
         /**
-         * Properties of a client_frame.
-         * @deprecated Use BattleOfCell.Message.client_frame.$Properties instead.
+         * Properties of a PlayerLeaveRoomResp.
+         * @deprecated Use BattleOfCell.Message.PlayerLeaveRoomResp.$Properties instead.
          */
-        interface Iclient_frame extends BattleOfCell.Message.client_frame.$Properties {
+        interface IPlayerLeaveRoomResp extends BattleOfCell.Message.PlayerLeaveRoomResp.$Properties {
         }
 
-        /** Represents a client_frame. */
-        class client_frame {
+        /** Represents a PlayerLeaveRoomResp. */
+        class PlayerLeaveRoomResp {
 
             /**
-             * Constructs a new client_frame.
+             * Constructs a new PlayerLeaveRoomResp.
              * @param [properties] Properties to set
              */
-            constructor(properties?: BattleOfCell.Message.client_frame.$Properties);
+            constructor(properties?: BattleOfCell.Message.PlayerLeaveRoomResp.$Properties);
 
             /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
-            /** client_frame frames. */
-            frames: BattleOfCell.Message.frame.$Properties[];
+            /** PlayerLeaveRoomResp meta. */
+            meta?: (BattleOfCell.Message.MetaData.$Properties|null);
 
-            /** client_frame frameNumber. */
-            frameNumber: (number|Long);
+            /** PlayerLeaveRoomResp error. */
+            error: BattleOfCell.Message.RespError.$Properties[];
+
+            /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
+            ok: boolean;
+
+            /** 离开成功后的房间 ID；失败时为 0 */
+            roomId: (number|Long);
 
             /**
-             * Creates a new client_frame instance using the specified properties.
+             * Creates a new PlayerLeaveRoomResp instance using the specified properties.
              * @param [properties] Properties to set
-             * @returns client_frame instance
+             * @returns PlayerLeaveRoomResp instance
              */
-            static create(properties: BattleOfCell.Message.client_frame.$Shape): BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape;
-            static create(properties?: BattleOfCell.Message.client_frame.$Properties): BattleOfCell.Message.client_frame;
+            static create(properties: BattleOfCell.Message.PlayerLeaveRoomResp.$Shape): BattleOfCell.Message.PlayerLeaveRoomResp & BattleOfCell.Message.PlayerLeaveRoomResp.$Shape;
+            static create(properties?: BattleOfCell.Message.PlayerLeaveRoomResp.$Properties): BattleOfCell.Message.PlayerLeaveRoomResp;
 
             /**
-             * Encodes the specified client_frame message. Does not implicitly {@link BattleOfCell.Message.client_frame.verify|verify} messages.
-             * @param message client_frame message or plain object to encode
+             * Encodes the specified PlayerLeaveRoomResp message. Does not implicitly {@link BattleOfCell.Message.PlayerLeaveRoomResp.verify|verify} messages.
+             * @param message PlayerLeaveRoomResp message or plain object to encode
              * @param [writer] Writer to encode to
              * @returns Writer
              */
-            static encode(message: BattleOfCell.Message.client_frame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+            static encode(message: BattleOfCell.Message.PlayerLeaveRoomResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
             /**
-             * Encodes the specified client_frame message, length delimited. Does not implicitly {@link BattleOfCell.Message.client_frame.verify|verify} messages.
-             * @param message client_frame message or plain object to encode
+             * Encodes the specified PlayerLeaveRoomResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerLeaveRoomResp.verify|verify} messages.
+             * @param message PlayerLeaveRoomResp message or plain object to encode
              * @param [writer] Writer to encode to
              * @returns Writer
              */
-            static encodeDelimited(message: BattleOfCell.Message.client_frame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+            static encodeDelimited(message: BattleOfCell.Message.PlayerLeaveRoomResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
             /**
-             * Decodes a client_frame message from the specified reader or buffer.
+             * Decodes a PlayerLeaveRoomResp message from the specified reader or buffer.
              * @param reader Reader or buffer to decode from
              * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape} client_frame
+             * @returns {BattleOfCell.Message.PlayerLeaveRoomResp & BattleOfCell.Message.PlayerLeaveRoomResp.$Shape} PlayerLeaveRoomResp
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape;
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.PlayerLeaveRoomResp & BattleOfCell.Message.PlayerLeaveRoomResp.$Shape;
 
             /**
-             * Decodes a client_frame message from the specified reader or buffer, length delimited.
+             * Decodes a PlayerLeaveRoomResp message from the specified reader or buffer, length delimited.
              * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape} client_frame
+             * @returns {BattleOfCell.Message.PlayerLeaveRoomResp & BattleOfCell.Message.PlayerLeaveRoomResp.$Shape} PlayerLeaveRoomResp
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.client_frame & BattleOfCell.Message.client_frame.$Shape;
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.PlayerLeaveRoomResp & BattleOfCell.Message.PlayerLeaveRoomResp.$Shape;
 
             /**
-             * Verifies a client_frame message.
+             * Verifies a PlayerLeaveRoomResp message.
              * @param message Plain object to verify
              * @returns `null` if valid, otherwise the reason why it is not
              */
             static verify(message: { [k: string]: any }): (string|null);
 
             /**
-             * Creates a client_frame message from a plain object. Also converts values to their respective internal types.
+             * Creates a PlayerLeaveRoomResp message from a plain object. Also converts values to their respective internal types.
              * @param object Plain object
-             * @returns client_frame
+             * @returns PlayerLeaveRoomResp
              */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.client_frame;
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.PlayerLeaveRoomResp;
 
             /**
-             * Creates a plain object from a client_frame message. Also converts values to other types if specified.
-             * @param message client_frame
+             * Creates a plain object from a PlayerLeaveRoomResp message. Also converts values to other types if specified.
+             * @param message PlayerLeaveRoomResp
              * @param [options] Conversion options
              * @returns Plain object
              */
-            static toObject(message: BattleOfCell.Message.client_frame, options?: $protobuf.IConversionOptions): { [k: string]: any };
+            static toObject(message: BattleOfCell.Message.PlayerLeaveRoomResp, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
             /**
-             * Converts this client_frame to JSON.
+             * Converts this PlayerLeaveRoomResp to JSON.
              * @returns JSON object
              */
             toJSON(): { [k: string]: any };
 
             /**
-             * Gets the type url for client_frame
+             * Gets the type url for PlayerLeaveRoomResp
              * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns The type url
              */
             static getTypeUrl(prefix?: string): string;
         }
 
-        namespace client_frame {
+        namespace PlayerLeaveRoomResp {
 
-            /** Properties of a client_frame. */
+            /** Properties of a PlayerLeaveRoomResp. */
             interface $Properties {
 
-                /** client_frame frames */
-                frames?: (BattleOfCell.Message.frame.$Properties[]|null);
+                /** PlayerLeaveRoomResp meta */
+                meta?: (BattleOfCell.Message.MetaData.$Properties|null);
 
-                /** client_frame frameNumber */
-                frameNumber?: (number|Long|null);
+                /** PlayerLeaveRoomResp error */
+                error?: (BattleOfCell.Message.RespError.$Properties[]|null);
+
+                /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
+                ok?: (boolean|null);
+
+                /** 离开成功后的房间 ID；失败时为 0 */
+                roomId?: (number|Long|null);
 
                 /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
-            /** Shape of a client_frame. */
-            type $Shape = BattleOfCell.Message.client_frame.$Properties;
+            /** Shape of a PlayerLeaveRoomResp. */
+            type $Shape = BattleOfCell.Message.PlayerLeaveRoomResp.$Properties;
         }
 
         /**
