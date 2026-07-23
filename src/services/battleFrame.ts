@@ -3,10 +3,11 @@ import { sendClientFrame } from "./clientFrameSender"
 import { frameBuffer } from "./frameBuffer"
 import { gameSession } from "../state/gameSession"
 import { battleTick } from "./battleTick"
+import { CONFIG } from "../network/config"
 
 const Op = BattleOfCell.Message.Op
 
-export interface MoveFrameInput {
+export interface LaunchFrameInput {
   /** fixed-point unit direction x */
   dirX: number
   /** fixed-point unit direction y */
@@ -15,7 +16,10 @@ export interface MoveFrameInput {
   speed: number
   /** entity id；测试阶段可先 0 */
   eid?: number
-  /** 显式帧号；不传则由模块推算 */
+  /**
+   * 显式帧号；不传则按 当前 tick + SEND_DELAY_FRAMES 计算。
+   * 玩家操作后立刻发送时，用当前 tick 决定归属帧，再叠加发送延迟 n。
+   */
   frameNumber?: number
 }
 
@@ -26,12 +30,19 @@ export interface SpawnFrameInput {
   frameNumber?: number
 }
 
-/** 本地发出的帧号游标（相对服务端最新帧推进） */
+/** 本地发出的帧号游标（仅作兜底；正式发帧优先用 battleTick.frameNumber + n） */
 let outboundCursor: number | null = null
+
+/** 发送延迟帧数 n：frameNumber = tick + n。当前默认 0。 */
+function sendDelayFrames(): number {
+  const n = CONFIG.SEND_DELAY_FRAMES
+  return Number.isFinite(n) && n > 0 ? Math.trunc(n) : 0
+}
 
 function resolveBaseFrameNumber(): number {
   const session = gameSession.getState()
   const candidates = [
+    battleTick.frameNumber,
     session.firstFrameNumber,
     frameBuffer.latest,
     frameBuffer.first,
@@ -42,14 +53,24 @@ function resolveBaseFrameNumber(): number {
   return Math.max(...candidates)
 }
 
-function allocateFrameNumber(explicit?: number): number {
+/**
+ * 解析发送帧号：
+ * - 显式传入优先
+ * - 否则：当前逻辑 tick + 发送延迟 n（SEND_DELAY_FRAMES）
+ * - tick 未启动时再回退到缓冲/会话基准，同样叠加 n
+ */
+function resolveSendFrameNumber(explicit?: number): number {
   if (explicit != null && Number.isFinite(explicit)) {
-    outboundCursor = explicit
-    return explicit
+    const value = Math.trunc(explicit)
+    outboundCursor = value
+    return value
   }
-  const next = resolveBaseFrameNumber() + 1
-  outboundCursor = next
-  return next
+
+  const n = sendDelayFrames()
+  const tick = battleTick.isRunning ? battleTick.frameNumber : resolveBaseFrameNumber()
+  const frameNumber = tick + n
+  outboundCursor = frameNumber
+  return frameNumber
 }
 
 /** 新对局开始时重置发出游标（匹配清缓冲后可调） */
@@ -58,16 +79,18 @@ export function resetBattleFrameCursor(startFrom?: number | null): void {
 }
 
 /**
- * 组装并发送 MOVE 操作帧。
+ * 组装并发送 LAUNCH 操作帧。
+ * 内容应为玩家当前真实发射状态（定点方向 + 定点速度）。
  * 按协议：速度与方向有值时 position 视为无效，不带 position。
+ * 帧号默认 = 当前 battleTick.frameNumber + SEND_DELAY_FRAMES。
  */
-export function sendMoveFrame(input: MoveFrameInput): boolean {
-  const frameNumber = allocateFrameNumber(input.frameNumber)
+export function sendLaunchFrame(input: LaunchFrameInput): boolean {
+  const frameNumber = resolveSendFrameNumber(input.frameNumber)
   const ok = sendClientFrame({
     frameNumber,
     frames: [
       {
-        op: Op.MOVE,
+        op: Op.LAUNCH,
         data: {
           eid: input.eid ?? 0,
           speed: input.speed,
@@ -78,8 +101,10 @@ export function sendMoveFrame(input: MoveFrameInput): boolean {
   })
 
   if (ok) {
-    console.log("[battleFrame] MOVE", {
+    console.log("[battleFrame] LAUNCH", {
       frameNumber,
+      tick: battleTick.frameNumber,
+      sendDelayFrames: sendDelayFrames(),
       eid: input.eid ?? 0,
       speed: input.speed,
       direction: { x: input.dirX, y: input.dirY },
@@ -89,10 +114,17 @@ export function sendMoveFrame(input: MoveFrameInput): boolean {
 }
 
 /**
+ * @deprecated 使用 sendLaunchFrame。保留别名避免旧调用瞬时断掉。
+ */
+export function sendMoveFrame(input: LaunchFrameInput): boolean {
+  return sendLaunchFrame(input)
+}
+
+/**
  * 组装并发送 SPAWN 操作帧（初始化位置）。
  */
 export function sendSpawnFrame(input: SpawnFrameInput): boolean {
-  const frameNumber = allocateFrameNumber(input.frameNumber)
+  const frameNumber = resolveSendFrameNumber(input.frameNumber)
   const ok = sendClientFrame({
     frameNumber,
     frames: [
@@ -110,63 +142,11 @@ export function sendSpawnFrame(input: SpawnFrameInput): boolean {
   if (ok) {
     console.log("[battleFrame] SPAWN", {
       frameNumber,
+      tick: battleTick.frameNumber,
+      sendDelayFrames: sendDelayFrames(),
       eid: input.eid ?? 0,
       position: { x: input.x, y: input.y },
     })
   }
   return ok
 }
-
-function randInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
-/**
- * 测试用：随机构建一帧 client_frame 发送。
- * 帧号固定使用 battleTick 当前逻辑帧号。
- */
-export function sendRandomBattleFrame(reason = "input"): boolean {
-  const frameNumber = battleTick.frameNumber
-  const op = Math.random() < 0.5 ? Op.SPAWN : Op.MOVE
-  const dirX = randInt(-1000, 1000)
-  const dirY = randInt(-1000, 1000)
-  const speed = randInt(0, 150_000)
-  const posX = randInt(0, 10_000)
-  const posY = randInt(0, 10_000)
-  const eid = randInt(1, 10_000)
-
-  const ok = sendClientFrame({
-    frameNumber,
-    frames: [
-      {
-        op,
-        data:
-          op === Op.MOVE
-            ? {
-                eid,
-                speed,
-                direction: { x: dirX, y: dirY },
-              }
-            : {
-                eid,
-                speed: 0,
-                position: { x: posX, y: posY },
-              },
-      },
-    ],
-  })
-
-  if (ok) {
-    console.log("[battleFrame] random send", {
-      reason,
-      frameNumber,
-      op: op === Op.SPAWN ? "SPAWN" : "MOVE",
-      eid,
-      speed,
-      direction: { x: dirX, y: dirY },
-      position: { x: posX, y: posY },
-    })
-  }
-  return ok
-}
-

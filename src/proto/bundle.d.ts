@@ -739,8 +739,8 @@ export namespace BattleOfCell {
             /** SPAWN value */
             SPAWN = 0,
 
-            /** MOVE value */
-            MOVE = 1
+            /** LAUNCH value */
+            LAUNCH = 1
         }
 
         /**

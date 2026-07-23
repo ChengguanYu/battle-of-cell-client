@@ -1789,12 +1789,12 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
          * @name BattleOfCell.Message.Op
          * @enum {number}
          * @property {number} SPAWN=0 SPAWN value
-         * @property {number} MOVE=1 MOVE value
+         * @property {number} LAUNCH=1 LAUNCH value
          */
         Message.Op = (function() {
             const valuesById = $Object.create(null), values = $Object.create(valuesById);
             values[valuesById[0] = "SPAWN"] = 0;
-            values[valuesById[1] = "MOVE"] = 1;
+            values[valuesById[1] = "LAUNCH"] = 1;
             return values;
         })();
 
@@ -3006,7 +3006,7 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                     case 0:
                         message.op = 0;
                         break;
-                    case "MOVE":
+                    case "LAUNCH":
                     case 1:
                         message.op = 1;
                         break;

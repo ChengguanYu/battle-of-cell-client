@@ -11,7 +11,7 @@ import { AimLine } from "../components/AimLine"
 import { DebugPanel } from "../components/DebugPanel"
 import { fromFixed } from "../lib/fixed"
 import { gameSession } from "../state/gameSession"
-import { resetBattleFrameCursor, sendRandomBattleFrame } from "../services/battleFrame"
+import { resetBattleFrameCursor, sendLaunchFrame } from "../services/battleFrame"
 import { battleTick } from "../services/battleTick"
 
 const WORLD_SIZE = 10000
@@ -26,21 +26,40 @@ export function BattlePage() {
   const [sessionOk, setSessionOk] = useState(false)
   const sessionOkRef = useRef(false)
 
-  // 鼠标抬起：测试随机帧，帧号用 tick 计数器
-  const handleRelease = useCallback(() => {
-    if (!sessionOkRef.current) {
-      console.warn("[Battle] skip send frame: session not ready")
-      return
-    }
-    const ok = sendRandomBattleFrame("mouseup")
-    console.log("[Battle] mouseup sendRandomBattleFrame result=", ok)
-  }, [])
+  // 玩家操作后立刻发送真实 LAUNCH：内容取当前发射状态，帧号取当前 tick
+  const handleLaunch = useCallback(
+    (info: { dirX: number; dirY: number; speed: number }) => {
+      if (!sessionOkRef.current) {
+        console.warn("[Battle] skip send LAUNCH: session not ready")
+        return
+      }
+
+      const ok = sendLaunchFrame({
+        dirX: info.dirX,
+        dirY: info.dirY,
+        speed: info.speed,
+        // 不传 frameNumber：battleFrame 内部使用 battleTick.frameNumber
+      })
+      console.log(
+        "[Battle] launch send LAUNCH result=",
+        ok,
+        "tick=",
+        battleTick.frameNumber,
+        "dir=",
+        info.dirX,
+        info.dirY,
+        "speed=",
+        info.speed,
+      )
+    },
+    [],
+  )
 
   const { state, isAiming, aimOffset, hero, speedCoefficient, setSpeedCoefficient } = useHero(
     heroRef,
     containerRef,
     { x: cameraX, y: cameraY, zoom },
-    { onRelease: handleRelease },
+    { onLaunch: handleLaunch },
   )
 
   /**

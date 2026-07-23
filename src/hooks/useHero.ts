@@ -4,9 +4,21 @@ import { FIXED_SCALE, toFixed, fixedMul, fixedDiv, fixedHypot } from "../lib/fix
 
 const DEFAULT_SPEED_COEFFICIENT = 10
 
+export interface LaunchReleaseInfo {
+  /** fixed-point unit direction x */
+  dirX: number
+  /** fixed-point unit direction y */
+  dirY: number
+  /** fixed-point initial speed */
+  speed: number
+}
+
 export interface UseHeroOptions {
-  /** 鼠标抬起结束一次操作后回调（无论是否成功发射） */
-  onRelease?: () => void
+  /**
+   * 鼠标抬起且成功发射后回调。
+   * 参数为本次真实发射状态（定点），供上层立刻组 LAUNCH 帧发送。
+   */
+  onLaunch?: (info: LaunchReleaseInfo) => void
 }
 
 export function useHero(
@@ -30,7 +42,7 @@ export function useHero(
   const aimStartScreenRef = useRef<{ x: number; y: number } | null>(null)
   const cameraRef = useRef(camera)
   const prevTimeRef = useRef(0)
-  const onReleaseRef = useRef(options?.onRelease)
+  const onLaunchRef = useRef(options?.onLaunch)
 
   useEffect(() => {
     cameraRef.current = camera
@@ -41,8 +53,8 @@ export function useHero(
   }, [speedCoefficient])
 
   useEffect(() => {
-    onReleaseRef.current = options?.onRelease
-  }, [options?.onRelease])
+    onLaunchRef.current = options?.onLaunch
+  }, [options?.onLaunch])
 
   useEffect(() => {
     return hero.onChange(setState)
@@ -127,19 +139,24 @@ export function useHero(
       const dy = toFixed(dragWorld.y)
       const dist = fixedHypot(dx, dy)
 
-      if (dist >= FIXED_SCALE) {
-        const cappedDist = Math.min(dist, hero.maxLaunchSpeed)
-        const coeffFixed = toFixed(speedCoefficientRef.current)
-        const initialSpeed = fixedMul(cappedDist, coeffFixed)
-
-        // 发射方向 = 控制向量反向（弹弓）
-        const dirX = fixedDiv(-dx, dist)
-        const dirY = fixedDiv(-dy, dist)
-        hero.launch(dirX, dirY, initialSpeed)
+      if (dist < FIXED_SCALE) {
+        // 拖拽过短：视为取消，不发射、不发帧
+        setAimOffset({ x: 0, y: 0 })
+        return
       }
 
-      // 操作结束（鼠标抬起）：交给上层，不在此发网络包
-      onReleaseRef.current?.()
+      const cappedDist = Math.min(dist, hero.maxLaunchSpeed)
+      const coeffFixed = toFixed(speedCoefficientRef.current)
+      const initialSpeed = fixedMul(cappedDist, coeffFixed)
+
+      // 发射方向 = 控制向量反向（弹弓）
+      const dirX = fixedDiv(-dx, dist)
+      const dirY = fixedDiv(-dy, dist)
+
+      // 先写入本地真实状态，再立刻上报网络帧
+      hero.launch(dirX, dirY, initialSpeed)
+      setAimOffset({ x: 0, y: 0 })
+      onLaunchRef.current?.({ dirX, dirY, speed: initialSpeed })
     }
 
     el.addEventListener("mousedown", onMouseDown)
