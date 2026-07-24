@@ -34,7 +34,7 @@ function encodeHeartbeatPing(): Uint8Array {
 }
 
 function registerServerFrameIngest(): void {
-  gameNetwork.onMessage(OpCode.server_frame, (body) => {
+  gameNetwork.onMessage(OpCode.ServerFrame, (body) => {
     try {
       const frame = BattleOfCell.Message.server_frame.decode(new Uint8Array(body))
       // 无论当前阶段如何，只要有新帧就写入缓冲区（按帧号索引）

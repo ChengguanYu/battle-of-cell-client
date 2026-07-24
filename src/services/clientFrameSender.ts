@@ -21,7 +21,7 @@ export function sendClientFrame(payload: ClientFramePayload): boolean {
     .encode(BattleOfCell.Message.client_frame.create(payload))
     .finish()
 
-  gameNetwork.send(OpCode.client_frame, body)
+  gameNetwork.send(OpCode.ClientFrame, body)
   console.log(
     "[client_frame] send ok frameNumber=",
     payload.frameNumber,
