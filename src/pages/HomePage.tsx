@@ -72,7 +72,8 @@ export function HomePage() {
     try {
       const result = await startMatchMode2()
       if (result == null) return
-      toast.success("匹配模式2成功")
+      toast.success(`进入战场 ${result.roomId}`)
+      navigate(`/battle/${result.roomId}`)
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "匹配模式2失败")
     }

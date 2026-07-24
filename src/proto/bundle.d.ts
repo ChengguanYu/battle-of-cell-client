@@ -1506,240 +1506,6 @@ export namespace BattleOfCell {
         }
 
         /**
-         * Properties of an EntryRoomReq.
-         * @deprecated Use BattleOfCell.Message.EntryRoomReq.$Properties instead.
-         */
-        interface IEntryRoomReq extends BattleOfCell.Message.EntryRoomReq.$Properties {
-        }
-
-        /** Represents an EntryRoomReq. */
-        class EntryRoomReq {
-
-            /**
-             * Constructs a new EntryRoomReq.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: BattleOfCell.Message.EntryRoomReq.$Properties);
-
-            /** Unknown fields preserved while decoding when enabled */
-            $unknowns?: Uint8Array[];
-
-            /**
-             * Creates a new EntryRoomReq instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns EntryRoomReq instance
-             */
-            static create(properties: BattleOfCell.Message.EntryRoomReq.$Shape): BattleOfCell.Message.EntryRoomReq & BattleOfCell.Message.EntryRoomReq.$Shape;
-            static create(properties?: BattleOfCell.Message.EntryRoomReq.$Properties): BattleOfCell.Message.EntryRoomReq;
-
-            /**
-             * Encodes the specified EntryRoomReq message. Does not implicitly {@link BattleOfCell.Message.EntryRoomReq.verify|verify} messages.
-             * @param message EntryRoomReq message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encode(message: BattleOfCell.Message.EntryRoomReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified EntryRoomReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.EntryRoomReq.verify|verify} messages.
-             * @param message EntryRoomReq message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encodeDelimited(message: BattleOfCell.Message.EntryRoomReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes an EntryRoomReq message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.EntryRoomReq & BattleOfCell.Message.EntryRoomReq.$Shape} EntryRoomReq
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.EntryRoomReq & BattleOfCell.Message.EntryRoomReq.$Shape;
-
-            /**
-             * Decodes an EntryRoomReq message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.EntryRoomReq & BattleOfCell.Message.EntryRoomReq.$Shape} EntryRoomReq
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.EntryRoomReq & BattleOfCell.Message.EntryRoomReq.$Shape;
-
-            /**
-             * Verifies an EntryRoomReq message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates an EntryRoomReq message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns EntryRoomReq
-             */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.EntryRoomReq;
-
-            /**
-             * Creates a plain object from an EntryRoomReq message. Also converts values to other types if specified.
-             * @param message EntryRoomReq
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            static toObject(message: BattleOfCell.Message.EntryRoomReq, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this EntryRoomReq to JSON.
-             * @returns JSON object
-             */
-            toJSON(): { [k: string]: any };
-
-            /**
-             * Gets the type url for EntryRoomReq
-             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns The type url
-             */
-            static getTypeUrl(prefix?: string): string;
-        }
-
-        namespace EntryRoomReq {
-
-            /** Properties of an EntryRoomReq. */
-            interface $Properties {
-
-                /** Unknown fields preserved while decoding when enabled */
-                $unknowns?: Uint8Array[];
-            }
-
-            /** Shape of an EntryRoomReq. */
-            type $Shape = BattleOfCell.Message.EntryRoomReq.$Properties;
-        }
-
-        /**
-         * Properties of an EntryRoomResp.
-         * @deprecated Use BattleOfCell.Message.EntryRoomResp.$Properties instead.
-         */
-        interface IEntryRoomResp extends BattleOfCell.Message.EntryRoomResp.$Properties {
-        }
-
-        /** Represents an EntryRoomResp. */
-        class EntryRoomResp {
-
-            /**
-             * Constructs a new EntryRoomResp.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: BattleOfCell.Message.EntryRoomResp.$Properties);
-
-            /** Unknown fields preserved while decoding when enabled */
-            $unknowns?: Uint8Array[];
-
-            /** EntryRoomResp ok. */
-            ok: boolean;
-
-            /** EntryRoomResp error. */
-            error: BattleOfCell.Message.RespError.$Properties[];
-
-            /**
-             * Creates a new EntryRoomResp instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns EntryRoomResp instance
-             */
-            static create(properties: BattleOfCell.Message.EntryRoomResp.$Shape): BattleOfCell.Message.EntryRoomResp & BattleOfCell.Message.EntryRoomResp.$Shape;
-            static create(properties?: BattleOfCell.Message.EntryRoomResp.$Properties): BattleOfCell.Message.EntryRoomResp;
-
-            /**
-             * Encodes the specified EntryRoomResp message. Does not implicitly {@link BattleOfCell.Message.EntryRoomResp.verify|verify} messages.
-             * @param message EntryRoomResp message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encode(message: BattleOfCell.Message.EntryRoomResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified EntryRoomResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.EntryRoomResp.verify|verify} messages.
-             * @param message EntryRoomResp message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encodeDelimited(message: BattleOfCell.Message.EntryRoomResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes an EntryRoomResp message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.EntryRoomResp & BattleOfCell.Message.EntryRoomResp.$Shape} EntryRoomResp
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.EntryRoomResp & BattleOfCell.Message.EntryRoomResp.$Shape;
-
-            /**
-             * Decodes an EntryRoomResp message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.EntryRoomResp & BattleOfCell.Message.EntryRoomResp.$Shape} EntryRoomResp
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.EntryRoomResp & BattleOfCell.Message.EntryRoomResp.$Shape;
-
-            /**
-             * Verifies an EntryRoomResp message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates an EntryRoomResp message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns EntryRoomResp
-             */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.EntryRoomResp;
-
-            /**
-             * Creates a plain object from an EntryRoomResp message. Also converts values to other types if specified.
-             * @param message EntryRoomResp
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            static toObject(message: BattleOfCell.Message.EntryRoomResp, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this EntryRoomResp to JSON.
-             * @returns JSON object
-             */
-            toJSON(): { [k: string]: any };
-
-            /**
-             * Gets the type url for EntryRoomResp
-             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns The type url
-             */
-            static getTypeUrl(prefix?: string): string;
-        }
-
-        namespace EntryRoomResp {
-
-            /** Properties of an EntryRoomResp. */
-            interface $Properties {
-
-                /** EntryRoomResp ok */
-                ok?: (boolean|null);
-
-                /** EntryRoomResp error */
-                error?: (BattleOfCell.Message.RespError.$Properties[]|null);
-
-                /** Unknown fields preserved while decoding when enabled */
-                $unknowns?: Uint8Array[];
-            }
-
-            /** Shape of an EntryRoomResp. */
-            type $Shape = BattleOfCell.Message.EntryRoomResp.$Properties;
-        }
-
-        /**
          * Properties of a PlayerLeaveRoomReq.
          * @deprecated Use BattleOfCell.Message.PlayerLeaveRoomReq.$Properties instead.
          */
@@ -2245,7 +2011,7 @@ export namespace BattleOfCell {
         interface IMatchReq extends BattleOfCell.Message.MatchReq.$Properties {
         }
 
-        /** 客户端匹配请求（模式2 / 空转发链路） */
+        /** 客户端匹配请求 */
         class MatchReq {
 
             /**
@@ -2482,6 +2248,246 @@ export namespace BattleOfCell {
 
             /** Shape of a MatchResp. */
             type $Shape = BattleOfCell.Message.MatchResp.$Properties;
+        }
+
+        /**
+         * Properties of an EntryRoomReq.
+         * @deprecated Use BattleOfCell.Message.EntryRoomReq.$Properties instead.
+         */
+        interface IEntryRoomReq extends BattleOfCell.Message.EntryRoomReq.$Properties {
+        }
+
+        /** Represents an EntryRoomReq. */
+        class EntryRoomReq {
+
+            /**
+             * Constructs a new EntryRoomReq.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.EntryRoomReq.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /**
+             * Creates a new EntryRoomReq instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns EntryRoomReq instance
+             */
+            static create(properties: BattleOfCell.Message.EntryRoomReq.$Shape): BattleOfCell.Message.EntryRoomReq & BattleOfCell.Message.EntryRoomReq.$Shape;
+            static create(properties?: BattleOfCell.Message.EntryRoomReq.$Properties): BattleOfCell.Message.EntryRoomReq;
+
+            /**
+             * Encodes the specified EntryRoomReq message. Does not implicitly {@link BattleOfCell.Message.EntryRoomReq.verify|verify} messages.
+             * @param message EntryRoomReq message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.EntryRoomReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified EntryRoomReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.EntryRoomReq.verify|verify} messages.
+             * @param message EntryRoomReq message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.EntryRoomReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an EntryRoomReq message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.EntryRoomReq & BattleOfCell.Message.EntryRoomReq.$Shape} EntryRoomReq
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.EntryRoomReq & BattleOfCell.Message.EntryRoomReq.$Shape;
+
+            /**
+             * Decodes an EntryRoomReq message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.EntryRoomReq & BattleOfCell.Message.EntryRoomReq.$Shape} EntryRoomReq
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.EntryRoomReq & BattleOfCell.Message.EntryRoomReq.$Shape;
+
+            /**
+             * Verifies an EntryRoomReq message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an EntryRoomReq message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns EntryRoomReq
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.EntryRoomReq;
+
+            /**
+             * Creates a plain object from an EntryRoomReq message. Also converts values to other types if specified.
+             * @param message EntryRoomReq
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.EntryRoomReq, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this EntryRoomReq to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for EntryRoomReq
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace EntryRoomReq {
+
+            /** Properties of an EntryRoomReq. */
+            interface $Properties {
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of an EntryRoomReq. */
+            type $Shape = BattleOfCell.Message.EntryRoomReq.$Properties;
+        }
+
+        /**
+         * Properties of an EntryRoomResp.
+         * @deprecated Use BattleOfCell.Message.EntryRoomResp.$Properties instead.
+         */
+        interface IEntryRoomResp extends BattleOfCell.Message.EntryRoomResp.$Properties {
+        }
+
+        /** Represents an EntryRoomResp. */
+        class EntryRoomResp {
+
+            /**
+             * Constructs a new EntryRoomResp.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.EntryRoomResp.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** EntryRoomResp ok. */
+            ok: boolean;
+
+            /** EntryRoomResp error. */
+            error: BattleOfCell.Message.RespError.$Properties[];
+
+            /** EntryRoomResp roomId. */
+            roomId: (number|Long);
+
+            /**
+             * Creates a new EntryRoomResp instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns EntryRoomResp instance
+             */
+            static create(properties: BattleOfCell.Message.EntryRoomResp.$Shape): BattleOfCell.Message.EntryRoomResp & BattleOfCell.Message.EntryRoomResp.$Shape;
+            static create(properties?: BattleOfCell.Message.EntryRoomResp.$Properties): BattleOfCell.Message.EntryRoomResp;
+
+            /**
+             * Encodes the specified EntryRoomResp message. Does not implicitly {@link BattleOfCell.Message.EntryRoomResp.verify|verify} messages.
+             * @param message EntryRoomResp message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.EntryRoomResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified EntryRoomResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.EntryRoomResp.verify|verify} messages.
+             * @param message EntryRoomResp message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.EntryRoomResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an EntryRoomResp message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.EntryRoomResp & BattleOfCell.Message.EntryRoomResp.$Shape} EntryRoomResp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.EntryRoomResp & BattleOfCell.Message.EntryRoomResp.$Shape;
+
+            /**
+             * Decodes an EntryRoomResp message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.EntryRoomResp & BattleOfCell.Message.EntryRoomResp.$Shape} EntryRoomResp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.EntryRoomResp & BattleOfCell.Message.EntryRoomResp.$Shape;
+
+            /**
+             * Verifies an EntryRoomResp message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an EntryRoomResp message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns EntryRoomResp
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.EntryRoomResp;
+
+            /**
+             * Creates a plain object from an EntryRoomResp message. Also converts values to other types if specified.
+             * @param message EntryRoomResp
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.EntryRoomResp, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this EntryRoomResp to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for EntryRoomResp
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace EntryRoomResp {
+
+            /** Properties of an EntryRoomResp. */
+            interface $Properties {
+
+                /** EntryRoomResp ok */
+                ok?: (boolean|null);
+
+                /** EntryRoomResp error */
+                error?: (BattleOfCell.Message.RespError.$Properties[]|null);
+
+                /** EntryRoomResp roomId */
+                roomId?: (number|Long|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of an EntryRoomResp. */
+            type $Shape = BattleOfCell.Message.EntryRoomResp.$Properties;
         }
     }
 }
