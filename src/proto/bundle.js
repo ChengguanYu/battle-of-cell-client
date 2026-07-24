@@ -3784,6 +3784,532 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             return Frame;
         })();
 
+        Message.EntryRoomReq = (function() {
+
+            /**
+             * Properties of an EntryRoomReq.
+             * @typedef {Object} BattleOfCell.Message.EntryRoomReq.$Properties
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of an EntryRoomReq.
+             * @memberof BattleOfCell.Message
+             * @interface IEntryRoomReq
+             * @augments BattleOfCell.Message.EntryRoomReq.$Properties
+             * @deprecated Use BattleOfCell.Message.EntryRoomReq.$Properties instead.
+             */
+
+            /**
+             * Shape of an EntryRoomReq.
+             * @typedef {BattleOfCell.Message.EntryRoomReq.$Properties} BattleOfCell.Message.EntryRoomReq.$Shape
+             */
+
+            /**
+             * Constructs a new EntryRoomReq.
+             * @memberof BattleOfCell.Message
+             * @classdesc Represents an EntryRoomReq.
+             * @constructor
+             * @param {BattleOfCell.Message.EntryRoomReq.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const EntryRoomReq = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * Creates a new EntryRoomReq instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.EntryRoomReq
+             * @static
+             * @param {BattleOfCell.Message.EntryRoomReq.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.EntryRoomReq} EntryRoomReq instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.EntryRoomReq.$Shape): BattleOfCell.Message.EntryRoomReq & BattleOfCell.Message.EntryRoomReq.$Shape;
+             *   (properties?: BattleOfCell.Message.EntryRoomReq.$Properties): BattleOfCell.Message.EntryRoomReq;
+             * }}
+             */
+            EntryRoomReq.create = function(properties) {
+                return new EntryRoomReq(properties);
+            };
+
+            /**
+             * Encodes the specified EntryRoomReq message. Does not implicitly {@link BattleOfCell.Message.EntryRoomReq.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.EntryRoomReq
+             * @static
+             * @param {BattleOfCell.Message.EntryRoomReq.$Properties} message EntryRoomReq message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            EntryRoomReq.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified EntryRoomReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.EntryRoomReq.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.EntryRoomReq
+             * @static
+             * @param {BattleOfCell.Message.EntryRoomReq.$Properties} message EntryRoomReq message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            EntryRoomReq.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes an EntryRoomReq message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.EntryRoomReq
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.EntryRoomReq & BattleOfCell.Message.EntryRoomReq.$Shape} EntryRoomReq
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            EntryRoomReq.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.EntryRoomReq();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    reader.skipType(tag & 7, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes an EntryRoomReq message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.EntryRoomReq
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.EntryRoomReq & BattleOfCell.Message.EntryRoomReq.$Shape} EntryRoomReq
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            EntryRoomReq.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies an EntryRoomReq message.
+             * @function verify
+             * @memberof BattleOfCell.Message.EntryRoomReq
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            EntryRoomReq.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                return null;
+            };
+
+            /**
+             * Creates an EntryRoomReq message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.EntryRoomReq
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.EntryRoomReq} EntryRoomReq
+             */
+            EntryRoomReq.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.EntryRoomReq)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.EntryRoomReq: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                return new $root.BattleOfCell.Message.EntryRoomReq();
+            };
+
+            /**
+             * Creates a plain object from an EntryRoomReq message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.EntryRoomReq
+             * @static
+             * @param {BattleOfCell.Message.EntryRoomReq} message EntryRoomReq
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            EntryRoomReq.toObject = function () {
+                return {};
+            };
+
+            /**
+             * Converts this EntryRoomReq to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.EntryRoomReq
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            EntryRoomReq.prototype.toJSON = function() {
+                return EntryRoomReq.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for EntryRoomReq
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.EntryRoomReq
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            EntryRoomReq.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.EntryRoomReq";
+            };
+
+            return EntryRoomReq;
+        })();
+
+        Message.EntryRoomResp = (function() {
+
+            /**
+             * Properties of an EntryRoomResp.
+             * @typedef {Object} BattleOfCell.Message.EntryRoomResp.$Properties
+             * @property {boolean|null} [ok] EntryRoomResp ok
+             * @property {Array.<BattleOfCell.Message.RespError.$Properties>|null} [error] EntryRoomResp error
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of an EntryRoomResp.
+             * @memberof BattleOfCell.Message
+             * @interface IEntryRoomResp
+             * @augments BattleOfCell.Message.EntryRoomResp.$Properties
+             * @deprecated Use BattleOfCell.Message.EntryRoomResp.$Properties instead.
+             */
+
+            /**
+             * Shape of an EntryRoomResp.
+             * @typedef {BattleOfCell.Message.EntryRoomResp.$Properties} BattleOfCell.Message.EntryRoomResp.$Shape
+             */
+
+            /**
+             * Constructs a new EntryRoomResp.
+             * @memberof BattleOfCell.Message
+             * @classdesc Represents an EntryRoomResp.
+             * @constructor
+             * @param {BattleOfCell.Message.EntryRoomResp.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const EntryRoomResp = function (properties) {
+                this.error = [];
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * EntryRoomResp ok.
+             * @member {boolean} ok
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @instance
+             */
+            EntryRoomResp.prototype.ok = false;
+
+            /**
+             * EntryRoomResp error.
+             * @member {Array.<BattleOfCell.Message.RespError.$Properties>} error
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @instance
+             */
+            EntryRoomResp.prototype.error = $util.emptyArray;
+
+            /**
+             * Creates a new EntryRoomResp instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @static
+             * @param {BattleOfCell.Message.EntryRoomResp.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.EntryRoomResp} EntryRoomResp instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.EntryRoomResp.$Shape): BattleOfCell.Message.EntryRoomResp & BattleOfCell.Message.EntryRoomResp.$Shape;
+             *   (properties?: BattleOfCell.Message.EntryRoomResp.$Properties): BattleOfCell.Message.EntryRoomResp;
+             * }}
+             */
+            EntryRoomResp.create = function(properties) {
+                return new EntryRoomResp(properties);
+            };
+
+            /**
+             * Encodes the specified EntryRoomResp message. Does not implicitly {@link BattleOfCell.Message.EntryRoomResp.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @static
+             * @param {BattleOfCell.Message.EntryRoomResp.$Properties} message EntryRoomResp message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            EntryRoomResp.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok") && message.ok !== false)
+                    writer.uint32(/* id 1, wireType 0 =*/8).bool(message.ok);
+                if (message.error != null && message.error.length)
+                    for (let i = 0; i < message.error.length; ++i)
+                        $root.BattleOfCell.Message.RespError.encode(message.error[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified EntryRoomResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.EntryRoomResp.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @static
+             * @param {BattleOfCell.Message.EntryRoomResp.$Properties} message EntryRoomResp message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            EntryRoomResp.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes an EntryRoomResp message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.EntryRoomResp & BattleOfCell.Message.EntryRoomResp.$Shape} EntryRoomResp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            EntryRoomResp.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.EntryRoomResp(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.bool())
+                                message.ok = value;
+                            else
+                                delete message.ok;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            if (!(message.error && message.error.length))
+                                message.error = [];
+                            message.error.push($root.BattleOfCell.Message.RespError.decode(reader, reader.uint32(), $undefined, _depth + 1));
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes an EntryRoomResp message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.EntryRoomResp & BattleOfCell.Message.EntryRoomResp.$Shape} EntryRoomResp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            EntryRoomResp.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies an EntryRoomResp message.
+             * @function verify
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            EntryRoomResp.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
+                    if (typeof message.ok !== "boolean")
+                        return "ok: boolean expected";
+                if (message.error != null && $Object.hasOwnProperty.call(message, "error")) {
+                    if (!$Array.isArray(message.error))
+                        return "error: array expected";
+                    for (let i = 0; i < message.error.length; ++i) {
+                        let error = $root.BattleOfCell.Message.RespError.verify(message.error[i], _depth + 1);
+                        if (error)
+                            return "error." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates an EntryRoomResp message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.EntryRoomResp} EntryRoomResp
+             */
+            EntryRoomResp.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.EntryRoomResp)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.EntryRoomResp: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.BattleOfCell.Message.EntryRoomResp();
+                if (object.ok != null)
+                    if (object.ok)
+                        message.ok = $Boolean(object.ok);
+                if (object.error) {
+                    if (!$Array.isArray(object.error))
+                        throw $TypeError(".BattleOfCell.Message.EntryRoomResp.error: array expected");
+                    message.error = $Array(object.error.length);
+                    for (let i = 0; i < object.error.length; ++i) {
+                        if (!$util.isObject(object.error[i]))
+                            throw $TypeError(".BattleOfCell.Message.EntryRoomResp.error: object expected");
+                        message.error[i] = $root.BattleOfCell.Message.RespError.fromObject(object.error[i], _depth + 1);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from an EntryRoomResp message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @static
+             * @param {BattleOfCell.Message.EntryRoomResp} message EntryRoomResp
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            EntryRoomResp.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.arrays || options.defaults)
+                    object.error = [];
+                if (options.defaults)
+                    object.ok = false;
+                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
+                    object.ok = message.ok;
+                if (message.error && message.error.length) {
+                    object.error = $Array(message.error.length);
+                    for (let j = 0; j < message.error.length; ++j)
+                        object.error[j] = $root.BattleOfCell.Message.RespError.toObject(message.error[j], options, _depth + 1);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this EntryRoomResp to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            EntryRoomResp.prototype.toJSON = function() {
+                return EntryRoomResp.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for EntryRoomResp
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            EntryRoomResp.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.EntryRoomResp";
+            };
+
+            return EntryRoomResp;
+        })();
+
         Message.PlayerLeaveRoomReq = (function() {
 
             /**
