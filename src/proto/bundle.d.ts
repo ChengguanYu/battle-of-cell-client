@@ -1751,6 +1751,13 @@ export namespace BattleOfCell {
             type $Shape = BattleOfCell.Message.PlayerLeaveRoomResp.$Properties;
         }
 
+        /** MatchType enum. */
+        enum MatchType {
+
+            /** NORMAL value */
+            NORMAL = 0
+        }
+
         /**
          * Properties of a PlayerMatchReq.
          * @deprecated Use BattleOfCell.Message.PlayerMatchReq.$Properties instead.
@@ -1995,6 +2002,252 @@ export namespace BattleOfCell {
 
             /** Shape of a PlayerMatchResp. */
             type $Shape = BattleOfCell.Message.PlayerMatchResp.$Properties;
+        }
+
+        /**
+         * Properties of a MatchReq.
+         * @deprecated Use BattleOfCell.Message.MatchReq.$Properties instead.
+         */
+        interface IMatchReq extends BattleOfCell.Message.MatchReq.$Properties {
+        }
+
+        /** 客户端匹配请求（模式2 / 空转发链路） */
+        class MatchReq {
+
+            /**
+             * Constructs a new MatchReq.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.MatchReq.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** MatchReq matchType. */
+            matchType: BattleOfCell.Message.MatchType;
+
+            /**
+             * Creates a new MatchReq instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns MatchReq instance
+             */
+            static create(properties: BattleOfCell.Message.MatchReq.$Shape): BattleOfCell.Message.MatchReq & BattleOfCell.Message.MatchReq.$Shape;
+            static create(properties?: BattleOfCell.Message.MatchReq.$Properties): BattleOfCell.Message.MatchReq;
+
+            /**
+             * Encodes the specified MatchReq message. Does not implicitly {@link BattleOfCell.Message.MatchReq.verify|verify} messages.
+             * @param message MatchReq message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.MatchReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified MatchReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.MatchReq.verify|verify} messages.
+             * @param message MatchReq message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.MatchReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a MatchReq message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.MatchReq & BattleOfCell.Message.MatchReq.$Shape} MatchReq
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.MatchReq & BattleOfCell.Message.MatchReq.$Shape;
+
+            /**
+             * Decodes a MatchReq message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.MatchReq & BattleOfCell.Message.MatchReq.$Shape} MatchReq
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.MatchReq & BattleOfCell.Message.MatchReq.$Shape;
+
+            /**
+             * Verifies a MatchReq message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a MatchReq message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns MatchReq
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.MatchReq;
+
+            /**
+             * Creates a plain object from a MatchReq message. Also converts values to other types if specified.
+             * @param message MatchReq
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.MatchReq, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this MatchReq to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for MatchReq
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace MatchReq {
+
+            /** Properties of a MatchReq. */
+            interface $Properties {
+
+                /** MatchReq matchType */
+                matchType?: (BattleOfCell.Message.MatchType|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a MatchReq. */
+            type $Shape = BattleOfCell.Message.MatchReq.$Properties;
+        }
+
+        /**
+         * Properties of a MatchResp.
+         * @deprecated Use BattleOfCell.Message.MatchResp.$Properties instead.
+         */
+        interface IMatchResp extends BattleOfCell.Message.MatchResp.$Properties {
+        }
+
+        /** Represents a MatchResp. */
+        class MatchResp {
+
+            /**
+             * Constructs a new MatchResp.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.MatchResp.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** MatchResp meta. */
+            meta?: (BattleOfCell.Message.MetaData.$Properties|null);
+
+            /** MatchResp error. */
+            error: BattleOfCell.Message.RespError.$Properties[];
+
+            /** MatchResp ok. */
+            ok: boolean;
+
+            /**
+             * Creates a new MatchResp instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns MatchResp instance
+             */
+            static create(properties: BattleOfCell.Message.MatchResp.$Shape): BattleOfCell.Message.MatchResp & BattleOfCell.Message.MatchResp.$Shape;
+            static create(properties?: BattleOfCell.Message.MatchResp.$Properties): BattleOfCell.Message.MatchResp;
+
+            /**
+             * Encodes the specified MatchResp message. Does not implicitly {@link BattleOfCell.Message.MatchResp.verify|verify} messages.
+             * @param message MatchResp message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.MatchResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified MatchResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.MatchResp.verify|verify} messages.
+             * @param message MatchResp message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.MatchResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a MatchResp message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.MatchResp & BattleOfCell.Message.MatchResp.$Shape} MatchResp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.MatchResp & BattleOfCell.Message.MatchResp.$Shape;
+
+            /**
+             * Decodes a MatchResp message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.MatchResp & BattleOfCell.Message.MatchResp.$Shape} MatchResp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.MatchResp & BattleOfCell.Message.MatchResp.$Shape;
+
+            /**
+             * Verifies a MatchResp message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a MatchResp message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns MatchResp
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.MatchResp;
+
+            /**
+             * Creates a plain object from a MatchResp message. Also converts values to other types if specified.
+             * @param message MatchResp
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.MatchResp, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this MatchResp to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for MatchResp
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace MatchResp {
+
+            /** Properties of a MatchResp. */
+            interface $Properties {
+
+                /** MatchResp meta */
+                meta?: (BattleOfCell.Message.MetaData.$Properties|null);
+
+                /** MatchResp error */
+                error?: (BattleOfCell.Message.RespError.$Properties[]|null);
+
+                /** MatchResp ok */
+                ok?: (boolean|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a MatchResp. */
+            type $Shape = BattleOfCell.Message.MatchResp.$Properties;
         }
     }
 }

@@ -55,7 +55,7 @@ function LeaderboardCard({ entry }: { entry: LeaderboardEntry }) {
 export function HomePage() {
   const { logout } = useAuth()
   const navigate = useNavigate()
-  const { startMatch, pending, phase } = useMatch()
+  const { startMatch, startMatchMode2, pending, phase } = useMatch()
 
   const handleMatch = async () => {
     try {
@@ -65,6 +65,16 @@ export function HomePage() {
       navigate(`/battle/${result.roomId}`)
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "匹配失败")
+    }
+  }
+
+  const handleMatchMode2 = async () => {
+    try {
+      const result = await startMatchMode2()
+      if (result == null) return
+      toast.success("匹配模式2成功")
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "匹配模式2失败")
     }
   }
 
@@ -167,8 +177,19 @@ export function HomePage() {
             <ChatRoom />
           </div>
 
-          {/* 右下角开始匹配按钮 */}
-          <div className="flex justify-end">
+          {/* 右下角匹配按钮区 */}
+          <div className="flex justify-end gap-3">
+            <button
+              type="button"
+              disabled={pending}
+              onClick={handleMatchMode2}
+              className="h-14 w-48 cursor-pointer rounded-2xl border border-emerald-500/40 bg-card text-base font-bold text-emerald-400 shadow-lg shadow-emerald-500/10 transition-all hover:border-emerald-400 hover:bg-emerald-500/10 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <span className="flex items-center justify-center gap-2">
+                <span>🧪</span>
+                {pending ? "匹配中..." : "匹配模式2"}
+              </span>
+            </button>
             <button
               type="button"
               disabled={pending}

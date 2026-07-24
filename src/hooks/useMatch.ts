@@ -31,6 +31,34 @@ export function useMatch() {
   const [phase, setPhase] = useState<MatchPhase>("idle")
   const pendingRef = useRef(false)
 
+  const ensureGameSession = useCallback(async () => {
+    if (gameNetwork.isConnected) return
+    if (!token) throw new Error("未登录")
+
+    const wsAddress = `ws://${CONFIG.WS_HOST}:${CONFIG.WS_PORT}`
+    await wsService.connect(wsAddress)
+
+    const homeReq = BattleOfCell.Message.EntryHomeReq.encode(
+      BattleOfCell.Message.EntryHomeReq.create({ token }),
+    ).finish()
+
+    const homeResp = await gameNetwork.request(
+      OpCode.EntryHomeReq,
+      homeReq,
+      OpCode.EntryHomeResp,
+    )
+
+    const decoded = BattleOfCell.Message.EntryHomeResp.decode(
+      new Uint8Array(homeResp),
+    )
+    if (!(decoded.ok && (!decoded.meta || decoded.meta.statusCode === StatusCode.Ok))) {
+      throw new Error("重新建立游戏会话失败")
+    }
+
+    wsService.notifyAuthSuccess()
+    wsService.startHeartbeat()
+  }, [token])
+
   const startMatch = useCallback(async (timeout = 30000) => {
     if (pendingRef.current) return null
     pendingRef.current = true
@@ -39,32 +67,7 @@ export function useMatch() {
     gameSession.enterMatching()
 
     try {
-      if (!gameNetwork.isConnected) {
-        if (!token) throw new Error("未登录")
-
-        const wsAddress = `ws://${CONFIG.WS_HOST}:${CONFIG.WS_PORT}`
-        await wsService.connect(wsAddress)
-
-        const homeReq = BattleOfCell.Message.EntryHomeReq.encode(
-          BattleOfCell.Message.EntryHomeReq.create({ token }),
-        ).finish()
-
-        const homeResp = await gameNetwork.request(
-          OpCode.EntryHomeReq,
-          homeReq,
-          OpCode.EntryHomeResp,
-        )
-
-        const decoded = BattleOfCell.Message.EntryHomeResp.decode(
-          new Uint8Array(homeResp),
-        )
-        if (!(decoded.ok && (!decoded.meta || decoded.meta.statusCode === StatusCode.Ok))) {
-          throw new Error("重新建立游戏会话失败")
-        }
-
-        wsService.notifyAuthSuccess()
-        wsService.startHeartbeat()
-      }
+      await ensureGameSession()
 
       // 新一局匹配：清空旧帧，避免误把上一局首帧当成本局
       frameBuffer.clear()
@@ -124,7 +127,55 @@ export function useMatch() {
       setPending(false)
       setPhase("idle")
     }
-  }, [token])
+  }, [ensureGameSession])
 
-  return { startMatch, pending, phase }
+  /** 匹配模式2：走 Outer MatchReq 空转发链路，不入房 */
+  const startMatchMode2 = useCallback(async (timeout = 30000) => {
+    if (pendingRef.current) return null
+    pendingRef.current = true
+    setPending(true)
+    setPhase("matching")
+
+    try {
+      await ensureGameSession()
+
+      const reqBody = BattleOfCell.Message.MatchReq.encode(
+        BattleOfCell.Message.MatchReq.create({
+          matchType: BattleOfCell.Message.MatchType.NORMAL,
+        }),
+      ).finish()
+
+      const respBuffer = await gameNetwork.request(
+        OpCode.MatchReq,
+        reqBody,
+        OpCode.MatchResp,
+        timeout,
+      )
+
+      const resp = BattleOfCell.Message.MatchResp.decode(
+        new Uint8Array(respBuffer),
+      )
+      console.log("[MatchMode2] MatchResp:", JSON.stringify(resp))
+
+      if (!(resp.ok && (!resp.meta || resp.meta.statusCode === StatusCode.Ok))) {
+        const errors = resp.error ?? []
+        for (const err of errors) {
+          console.error("[MatchMode2] error:", formatRespError(err))
+        }
+        throw new Error(
+          errors.length > 0
+            ? errors.map(formatRespError).join("; ")
+            : "匹配模式2失败",
+        )
+      }
+
+      return { ok: true as const }
+    } finally {
+      pendingRef.current = false
+      setPending(false)
+      setPhase("idle")
+    }
+  }, [ensureGameSession])
+
+  return { startMatch, startMatchMode2, pending, phase }
 }

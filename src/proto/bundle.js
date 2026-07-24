@@ -4386,6 +4386,18 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             return PlayerLeaveRoomResp;
         })();
 
+        /**
+         * MatchType enum.
+         * @name BattleOfCell.Message.MatchType
+         * @enum {number}
+         * @property {number} NORMAL=0 NORMAL value
+         */
+        Message.MatchType = (function() {
+            const valuesById = $Object.create(null), values = $Object.create(valuesById);
+            values[valuesById[0] = "NORMAL"] = 0;
+            return values;
+        })();
+
         Message.PlayerMatchReq = (function() {
 
             /**
@@ -4986,6 +4998,611 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             return PlayerMatchResp;
+        })();
+
+        Message.MatchReq = (function() {
+
+            /**
+             * Properties of a MatchReq.
+             * @typedef {Object} BattleOfCell.Message.MatchReq.$Properties
+             * @property {BattleOfCell.Message.MatchType|null} [matchType] MatchReq matchType
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a MatchReq.
+             * @memberof BattleOfCell.Message
+             * @interface IMatchReq
+             * @augments BattleOfCell.Message.MatchReq.$Properties
+             * @deprecated Use BattleOfCell.Message.MatchReq.$Properties instead.
+             */
+
+            /**
+             * Shape of a MatchReq.
+             * @typedef {BattleOfCell.Message.MatchReq.$Properties} BattleOfCell.Message.MatchReq.$Shape
+             */
+
+            /**
+             * Constructs a new MatchReq.
+             * @memberof BattleOfCell.Message
+             * @classdesc 客户端匹配请求（模式2 / 空转发链路）
+             * @constructor
+             * @param {BattleOfCell.Message.MatchReq.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const MatchReq = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * MatchReq matchType.
+             * @member {BattleOfCell.Message.MatchType} matchType
+             * @memberof BattleOfCell.Message.MatchReq
+             * @instance
+             */
+            MatchReq.prototype.matchType = 0;
+
+            /**
+             * Creates a new MatchReq instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.MatchReq
+             * @static
+             * @param {BattleOfCell.Message.MatchReq.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.MatchReq} MatchReq instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.MatchReq.$Shape): BattleOfCell.Message.MatchReq & BattleOfCell.Message.MatchReq.$Shape;
+             *   (properties?: BattleOfCell.Message.MatchReq.$Properties): BattleOfCell.Message.MatchReq;
+             * }}
+             */
+            MatchReq.create = function(properties) {
+                return new MatchReq(properties);
+            };
+
+            /**
+             * Encodes the specified MatchReq message. Does not implicitly {@link BattleOfCell.Message.MatchReq.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.MatchReq
+             * @static
+             * @param {BattleOfCell.Message.MatchReq.$Properties} message MatchReq message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            MatchReq.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.matchType != null && $Object.hasOwnProperty.call(message, "matchType") && message.matchType !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.matchType);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified MatchReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.MatchReq.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.MatchReq
+             * @static
+             * @param {BattleOfCell.Message.MatchReq.$Properties} message MatchReq message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            MatchReq.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a MatchReq message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.MatchReq
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.MatchReq & BattleOfCell.Message.MatchReq.$Shape} MatchReq
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            MatchReq.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.MatchReq(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.int32())
+                                message.matchType = value;
+                            else
+                                delete message.matchType;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a MatchReq message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.MatchReq
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.MatchReq & BattleOfCell.Message.MatchReq.$Shape} MatchReq
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            MatchReq.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a MatchReq message.
+             * @function verify
+             * @memberof BattleOfCell.Message.MatchReq
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            MatchReq.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.matchType != null && $Object.hasOwnProperty.call(message, "matchType"))
+                    if (typeof message.matchType !== "number" || (message.matchType | 0) !== message.matchType)
+                        return "matchType: enum value expected";
+                return null;
+            };
+
+            /**
+             * Creates a MatchReq message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.MatchReq
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.MatchReq} MatchReq
+             */
+            MatchReq.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.MatchReq)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.MatchReq: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.BattleOfCell.Message.MatchReq();
+                if (object.matchType !== 0 && (typeof object.matchType !== "string" || $root.BattleOfCell.Message.MatchType[object.matchType] !== 0))
+                    switch (object.matchType) {
+                    case "NORMAL":
+                    case 0:
+                        message.matchType = 0;
+                        break;
+                    default:
+                        if (typeof object.matchType === "number" && (object.matchType | 0) === object.matchType)
+                            message.matchType = object.matchType;
+                    }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a MatchReq message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.MatchReq
+             * @static
+             * @param {BattleOfCell.Message.MatchReq} message MatchReq
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            MatchReq.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults)
+                    object.matchType = options.enums === $String ? "NORMAL" : 0;
+                if (message.matchType != null && $Object.hasOwnProperty.call(message, "matchType"))
+                    object.matchType = options.enums === $String ? $root.BattleOfCell.Message.MatchType[message.matchType] === $undefined ? message.matchType : $root.BattleOfCell.Message.MatchType[message.matchType] : message.matchType;
+                return object;
+            };
+
+            /**
+             * Converts this MatchReq to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.MatchReq
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            MatchReq.prototype.toJSON = function() {
+                return MatchReq.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for MatchReq
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.MatchReq
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            MatchReq.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.MatchReq";
+            };
+
+            return MatchReq;
+        })();
+
+        Message.MatchResp = (function() {
+
+            /**
+             * Properties of a MatchResp.
+             * @typedef {Object} BattleOfCell.Message.MatchResp.$Properties
+             * @property {BattleOfCell.Message.MetaData.$Properties|null} [meta] MatchResp meta
+             * @property {Array.<BattleOfCell.Message.RespError.$Properties>|null} [error] MatchResp error
+             * @property {boolean|null} [ok] MatchResp ok
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a MatchResp.
+             * @memberof BattleOfCell.Message
+             * @interface IMatchResp
+             * @augments BattleOfCell.Message.MatchResp.$Properties
+             * @deprecated Use BattleOfCell.Message.MatchResp.$Properties instead.
+             */
+
+            /**
+             * Shape of a MatchResp.
+             * @typedef {BattleOfCell.Message.MatchResp.$Properties} BattleOfCell.Message.MatchResp.$Shape
+             */
+
+            /**
+             * Constructs a new MatchResp.
+             * @memberof BattleOfCell.Message
+             * @classdesc Represents a MatchResp.
+             * @constructor
+             * @param {BattleOfCell.Message.MatchResp.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const MatchResp = function (properties) {
+                this.error = [];
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * MatchResp meta.
+             * @member {BattleOfCell.Message.MetaData.$Properties|null|undefined} meta
+             * @memberof BattleOfCell.Message.MatchResp
+             * @instance
+             */
+            MatchResp.prototype.meta = null;
+
+            /**
+             * MatchResp error.
+             * @member {Array.<BattleOfCell.Message.RespError.$Properties>} error
+             * @memberof BattleOfCell.Message.MatchResp
+             * @instance
+             */
+            MatchResp.prototype.error = $util.emptyArray;
+
+            /**
+             * MatchResp ok.
+             * @member {boolean} ok
+             * @memberof BattleOfCell.Message.MatchResp
+             * @instance
+             */
+            MatchResp.prototype.ok = false;
+
+            /**
+             * Creates a new MatchResp instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.MatchResp
+             * @static
+             * @param {BattleOfCell.Message.MatchResp.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.MatchResp} MatchResp instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.MatchResp.$Shape): BattleOfCell.Message.MatchResp & BattleOfCell.Message.MatchResp.$Shape;
+             *   (properties?: BattleOfCell.Message.MatchResp.$Properties): BattleOfCell.Message.MatchResp;
+             * }}
+             */
+            MatchResp.create = function(properties) {
+                return new MatchResp(properties);
+            };
+
+            /**
+             * Encodes the specified MatchResp message. Does not implicitly {@link BattleOfCell.Message.MatchResp.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.MatchResp
+             * @static
+             * @param {BattleOfCell.Message.MatchResp.$Properties} message MatchResp message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            MatchResp.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta"))
+                    $root.BattleOfCell.Message.MetaData.encode(message.meta, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+                if (message.error != null && message.error.length)
+                    for (let i = 0; i < message.error.length; ++i)
+                        $root.BattleOfCell.Message.RespError.encode(message.error[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
+                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok") && message.ok !== false)
+                    writer.uint32(/* id 3, wireType 0 =*/24).bool(message.ok);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified MatchResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.MatchResp.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.MatchResp
+             * @static
+             * @param {BattleOfCell.Message.MatchResp.$Properties} message MatchResp message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            MatchResp.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a MatchResp message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.MatchResp
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.MatchResp & BattleOfCell.Message.MatchResp.$Shape} MatchResp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            MatchResp.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.MatchResp(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            message.meta = $root.BattleOfCell.Message.MetaData.decode(reader, reader.uint32(), $undefined, _depth + 1, message.meta);
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            if (!(message.error && message.error.length))
+                                message.error = [];
+                            message.error.push($root.BattleOfCell.Message.RespError.decode(reader, reader.uint32(), $undefined, _depth + 1));
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.bool())
+                                message.ok = value;
+                            else
+                                delete message.ok;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a MatchResp message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.MatchResp
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.MatchResp & BattleOfCell.Message.MatchResp.$Shape} MatchResp
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            MatchResp.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a MatchResp message.
+             * @function verify
+             * @memberof BattleOfCell.Message.MatchResp
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            MatchResp.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta")) {
+                    let error = $root.BattleOfCell.Message.MetaData.verify(message.meta, _depth + 1);
+                    if (error)
+                        return "meta." + error;
+                }
+                if (message.error != null && $Object.hasOwnProperty.call(message, "error")) {
+                    if (!$Array.isArray(message.error))
+                        return "error: array expected";
+                    for (let i = 0; i < message.error.length; ++i) {
+                        let error = $root.BattleOfCell.Message.RespError.verify(message.error[i], _depth + 1);
+                        if (error)
+                            return "error." + error;
+                    }
+                }
+                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
+                    if (typeof message.ok !== "boolean")
+                        return "ok: boolean expected";
+                return null;
+            };
+
+            /**
+             * Creates a MatchResp message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.MatchResp
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.MatchResp} MatchResp
+             */
+            MatchResp.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.MatchResp)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.MatchResp: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.BattleOfCell.Message.MatchResp();
+                if (object.meta != null) {
+                    if (!$util.isObject(object.meta))
+                        throw $TypeError(".BattleOfCell.Message.MatchResp.meta: object expected");
+                    message.meta = $root.BattleOfCell.Message.MetaData.fromObject(object.meta, _depth + 1);
+                }
+                if (object.error) {
+                    if (!$Array.isArray(object.error))
+                        throw $TypeError(".BattleOfCell.Message.MatchResp.error: array expected");
+                    message.error = $Array(object.error.length);
+                    for (let i = 0; i < object.error.length; ++i) {
+                        if (!$util.isObject(object.error[i]))
+                            throw $TypeError(".BattleOfCell.Message.MatchResp.error: object expected");
+                        message.error[i] = $root.BattleOfCell.Message.RespError.fromObject(object.error[i], _depth + 1);
+                    }
+                }
+                if (object.ok != null)
+                    if (object.ok)
+                        message.ok = $Boolean(object.ok);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a MatchResp message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.MatchResp
+             * @static
+             * @param {BattleOfCell.Message.MatchResp} message MatchResp
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            MatchResp.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.arrays || options.defaults)
+                    object.error = [];
+                if (options.defaults) {
+                    object.meta = null;
+                    object.ok = false;
+                }
+                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta"))
+                    object.meta = $root.BattleOfCell.Message.MetaData.toObject(message.meta, options, _depth + 1);
+                if (message.error && message.error.length) {
+                    object.error = $Array(message.error.length);
+                    for (let j = 0; j < message.error.length; ++j)
+                        object.error[j] = $root.BattleOfCell.Message.RespError.toObject(message.error[j], options, _depth + 1);
+                }
+                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
+                    object.ok = message.ok;
+                return object;
+            };
+
+            /**
+             * Converts this MatchResp to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.MatchResp
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            MatchResp.prototype.toJSON = function() {
+                return MatchResp.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for MatchResp
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.MatchResp
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            MatchResp.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.MatchResp";
+            };
+
+            return MatchResp;
         })();
 
         return Message;
