@@ -1,6 +1,6 @@
 import { BattleOfCell } from "../proto/bundle"
 
-export type ServerFrameMessage = BattleOfCell.Message.server_frame
+export type ServerFrameMessage = BattleOfCell.Message.ServerFrame
 
 /** 默认保留的最近帧数（滑动窗口） */
 export const FRAME_BUFFER_CAPACITY = 100

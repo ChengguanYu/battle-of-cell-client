@@ -2,8 +2,8 @@ import { BattleOfCell } from "../proto/bundle"
 import { gameNetwork } from "../network/GameNetwork"
 import { OpCode } from "../proto/OpCode"
 
-export type ClientFramePayload = BattleOfCell.Message.client_frame.$Properties
-export type FrameOp = BattleOfCell.Message.frame.$Properties
+export type ClientFramePayload = BattleOfCell.Message.ClientFrame.$Properties
+export type FrameOp = BattleOfCell.Message.Frame.$Properties
 
 /**
  * 纯发帧：编码并发送 client_frame。
@@ -13,17 +13,17 @@ export type FrameOp = BattleOfCell.Message.frame.$Properties
  */
 export function sendClientFrame(payload: ClientFramePayload): boolean {
   if (!gameNetwork.isConnected) {
-    console.warn("[client_frame] skip send: not connected")
+    console.warn("[ClientFrame] skip send: not connected")
     return false
   }
 
-  const body = BattleOfCell.Message.client_frame
-    .encode(BattleOfCell.Message.client_frame.create(payload))
+  const body = BattleOfCell.Message.ClientFrame
+    .encode(BattleOfCell.Message.ClientFrame.create(payload))
     .finish()
 
   gameNetwork.send(OpCode.ClientFrame, body)
   console.log(
-    "[client_frame] send ok frameNumber=",
+    "[ClientFrame] send ok frameNumber=",
     payload.frameNumber,
     "ops=",
     payload.frames?.length ?? 0,

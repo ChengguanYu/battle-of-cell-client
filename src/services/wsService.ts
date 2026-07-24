@@ -36,10 +36,10 @@ function encodeHeartbeatPing(): Uint8Array {
 function registerServerFrameIngest(): void {
   gameNetwork.onMessage(OpCode.ServerFrame, (body) => {
     try {
-      const frame = BattleOfCell.Message.server_frame.decode(new Uint8Array(body))
+      const frame = BattleOfCell.Message.ServerFrame.decode(new Uint8Array(body))
       // 无论当前阶段如何，只要有新帧就写入缓冲区（按帧号索引）
       frameBuffer.push(frame)
-      const frameObj = BattleOfCell.Message.server_frame.toObject(frame, {
+      const frameObj = BattleOfCell.Message.ServerFrame.toObject(frame, {
         longs: String,
         enums: String,
         bytes: String,
@@ -47,9 +47,9 @@ function registerServerFrameIngest(): void {
         arrays: true,
         objects: true,
       })
-      console.log("[server_frame] received", frameObj)
+      console.log("[ServerFrame] received", frameObj)
     } catch (err) {
-      console.error("[server_frame] parse failed:", err)
+      console.error("[ServerFrame] parse failed:", err)
     }
   })
 }
