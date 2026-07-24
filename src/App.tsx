@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom"
+import { Navigate, Routes, Route } from "react-router-dom"
 import { HomePage } from "./pages/HomePage"
 import { LoginPage } from "./pages/LoginPage"
 import { RegisterPage } from "./pages/RegisterPage"
@@ -19,7 +19,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<GameWindow />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route
           path="/home"
           element={
@@ -39,6 +39,7 @@ function App() {
         <Route path="/battle/:roomId" element={<BattlePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
       <WsGuard />
       <Toaster />
