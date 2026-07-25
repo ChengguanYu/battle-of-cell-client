@@ -89,7 +89,10 @@ export function useMatch() {
     wsService.startHeartbeat()
   }, [token])
 
-  /** 模式1：PlayerMatch 直接返回 roomId */
+  /*
+   * 旧逻辑：PlayerMatch 直接返回 roomId（Match 服务内部调 Room，一把梭入房）
+   * 已切换到 Match 建会话 + EntryRoom 进入；协议保留，业务链路先整段注释。
+   *
   const resolveRoomByPlayerMatch: MatchStrategy = useCallback(async (timeout) => {
     const reqBody = BattleOfCell.Message.PlayerMatchReq.encode(
       BattleOfCell.Message.PlayerMatchReq.create({}),
@@ -114,8 +117,9 @@ export function useMatch() {
     }
     return roomId
   }, [])
+  */
 
-  /** 模式2：Match ok 后立刻 EntryRoom，用 EntryRoomResp.roomId */
+  /** 新逻辑：Match 创建匹配会话，成功后再 EntryRoom，roomId 以 EntryRoomResp 为准 */
   const resolveRoomByMatchThenEntry: MatchStrategy = useCallback(async (timeout) => {
     const matchReqBody = BattleOfCell.Message.MatchReq.encode(
       BattleOfCell.Message.MatchReq.create({
@@ -133,8 +137,8 @@ export function useMatch() {
     const matchResp = BattleOfCell.Message.MatchResp.decode(
       new Uint8Array(matchRespBuffer),
     )
-    console.log("[MatchMode2] MatchResp:", JSON.stringify(matchResp))
-    assertRespOk(matchResp, "匹配模式2失败", "[MatchMode2]")
+    console.log("[Match] MatchResp:", JSON.stringify(matchResp))
+    assertRespOk(matchResp, "匹配失败", "[Match]")
 
     // Match 成功后立刻入房；roomId 以 EntryRoomResp 为准
     const entryReqBody = BattleOfCell.Message.EntryRoomReq.encode(
@@ -151,8 +155,8 @@ export function useMatch() {
     const entryResp = BattleOfCell.Message.EntryRoomResp.decode(
       new Uint8Array(entryRespBuffer),
     )
-    console.log("[MatchMode2] EntryRoomResp:", JSON.stringify(entryResp))
-    assertRespOk(entryResp, "进入房间失败", "[MatchMode2]")
+    console.log("[Match] EntryRoomResp:", JSON.stringify(entryResp))
+    assertRespOk(entryResp, "进入房间失败", "[Match]")
 
     const roomId = toRoomId(entryResp.roomId)
     if (!roomId) {
@@ -212,11 +216,19 @@ export function useMatch() {
 
   const startMatch = useCallback(
     async (timeout = 30000) => {
-      return runEnterBattlePipeline(resolveRoomByPlayerMatch, timeout, "[Match]")
+      return runEnterBattlePipeline(
+        resolveRoomByMatchThenEntry,
+        timeout,
+        "[Match]",
+      )
     },
-    [runEnterBattlePipeline, resolveRoomByPlayerMatch],
+    [runEnterBattlePipeline, resolveRoomByMatchThenEntry],
   )
 
+  /*
+   * 旧展示入口：匹配模式2 按钮专用。
+   * 现已并入 startMatch，保留注释便于回溯。
+   *
   const startMatchMode2 = useCallback(
     async (timeout = 30000) => {
       return runEnterBattlePipeline(
@@ -227,6 +239,7 @@ export function useMatch() {
     },
     [runEnterBattlePipeline, resolveRoomByMatchThenEntry],
   )
+  */
 
-  return { startMatch, startMatchMode2, pending, phase }
+  return { startMatch, pending, phase }
 }
