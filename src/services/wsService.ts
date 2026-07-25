@@ -62,18 +62,27 @@ class WsService {
   private sessionLostCallbacks = new Set<() => void>()
   private statusChangeHandler: (status: ConnectionStatus) => void
   private serverFrameIngestRegistered = false
+  /** 主动 disconnect（如 logout）时不触发 sessionLost，避免循环跳转 */
+  private suppressSessionLost = false
 
   constructor() {
     this.statusChangeHandler = (status) => {
       if (status === "disconnected") {
-        const wasAuthenticated = this.state === "authenticated"
+        // 底层约定：断开后 ws 置 null，这里统一收敛状态机
+        const previous = this.state
         this.state = "disconnected"
         this.stopHeartbeat()
         this.serverFrameIngestRegistered = false
-        // WS 意外断开（authenticated→disconnected）触发 sessionLost
-        if (wasAuthenticated) {
+
+        // 只有已经建立过连接（connected/authenticated）再断开才算连接丢失
+        // connecting 失败交给登录/业务错误处理，避免登录页被误踢
+        // 主动 logout 通过 suppressSessionLost 屏蔽
+        const hadLiveSession =
+          previous === "connected" || previous === "authenticated"
+        if (hadLiveSession && !this.suppressSessionLost) {
           this.fireSessionLost()
         }
+        this.suppressSessionLost = false
       }
     }
     this.registerStatusCallback()
@@ -94,6 +103,7 @@ class WsService {
   /** 建立 WS 连接 */
   connect(address: string): Promise<void> {
     this.state = "connecting"
+    this.suppressSessionLost = false
     return gameNetwork.connect(address).then(() => {
       this.state = "connected"
       this.registerStatusCallback()
@@ -113,8 +123,13 @@ class WsService {
     this.state = "disconnected"
   }
 
-  /** 主动断开连接（不触发 sessionLost） */
+  /**
+   * 主动断开连接（logout 等）。
+   * 底层 disconnect 会 close → ws=null → disconnected；
+   * 这里屏蔽 sessionLost，避免“主动登出”再触发一遍丢失逻辑。
+   */
   disconnect(): void {
+    this.suppressSessionLost = true
     this.stopHeartbeat()
     this.state = "disconnected"
     this.serverFrameIngestRegistered = false
@@ -146,6 +161,11 @@ class WsService {
 
   get isAuthenticated(): boolean {
     return this.state === "authenticated"
+  }
+
+  /** 底层 socket 是否存在；null 即连接丢失 */
+  get hasSocket(): boolean {
+    return gameNetwork.hasSocket
   }
 
   // --- 心跳 ---

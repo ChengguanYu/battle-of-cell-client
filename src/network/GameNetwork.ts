@@ -31,6 +31,11 @@ class GameNetwork {
     return this.status === "connected"
   }
 
+  /** 当前底层 socket 是否存在（OPEN/CONNECTING 都算存在） */
+  get hasSocket(): boolean {
+    return this.ws != null
+  }
+
   onStatusChange(callback: StatusCallback): void {
     this.statusCallbacks.add(callback)
   }
@@ -65,9 +70,8 @@ class GameNetwork {
 
       this.ws.onclose = () => {
         console.log("[GameNetwork] connection closed")
-        this.setStatus("disconnected")
-        this.ws = null
-        this.rejectAllPending(new Error("WebSocket connection closed"))
+        // 统一走“断开 → 置 null → disconnected”，方便上层复用连接丢失逻辑
+        this.handleSocketClosed(new Error("WebSocket connection closed"))
       }
 
       this.ws.onerror = () => {
@@ -170,18 +174,25 @@ class GameNetwork {
 
   disconnect(): void {
     this.messageHandlers.clear()
-    this.rejectAllPending(new Error("GameNetwork: disconnected"))
 
     if (this.ws) {
-      this.ws.onopen = null
-      this.ws.onclose = null
-      this.ws.onerror = null
-      this.ws.onmessage = null
-      this.ws.close()
-      this.ws = null
+      const socket = this.ws
+      // 保留 onclose，主动关闭也走同一条“置 null”路径
+      socket.onopen = null
+      socket.onerror = null
+      socket.onmessage = null
+      try {
+        socket.close()
+      } catch {
+        // ignore close race
+      }
+      // 某些环境下 close 不会再触发 onclose，这里兜底复用同一逻辑
+      if (this.ws === socket) {
+        this.handleSocketClosed(new Error("GameNetwork: disconnected"))
+      }
+    } else if (this.status !== "disconnected") {
+      this.handleSocketClosed(new Error("GameNetwork: disconnected"))
     }
-
-    this.setStatus("disconnected")
   }
 
   private rejectAllPending(reason: Error): void {
@@ -190,6 +201,19 @@ class GameNetwork {
       pending.reject(reason)
     }
     this.pendingRequests.clear()
+  }
+
+  /**
+   * 所有断开入口最终都收敛到这里：
+   * ws = null → status = disconnected → 通知状态订阅方
+   */
+  private handleSocketClosed(reason: Error): void {
+    const alreadyClosed = this.ws == null && this.status === "disconnected"
+    this.ws = null
+    this.rejectAllPending(reason)
+    if (!alreadyClosed) {
+      this.setStatus("disconnected")
+    }
   }
 }
 
