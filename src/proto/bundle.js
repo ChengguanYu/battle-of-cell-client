@@ -5829,9 +5829,10 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             /**
              * Properties of an EntryRoomResp.
              * @typedef {Object} BattleOfCell.Message.EntryRoomResp.$Properties
-             * @property {boolean|null} [ok] EntryRoomResp ok
+             * @property {BattleOfCell.Message.MetaData.$Properties|null} [meta] EntryRoomResp meta
              * @property {Array.<BattleOfCell.Message.RespError.$Properties>|null} [error] EntryRoomResp error
-             * @property {number|Long|null} [roomId] EntryRoomResp roomId
+             * @property {boolean|null} [ok] 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段）
+             * @property {number|Long|null} [roomId] 进入成功后的房间 ID；失败时为 0
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
@@ -5865,12 +5866,12 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             /**
-             * EntryRoomResp ok.
-             * @member {boolean} ok
+             * EntryRoomResp meta.
+             * @member {BattleOfCell.Message.MetaData.$Properties|null|undefined} meta
              * @memberof BattleOfCell.Message.EntryRoomResp
              * @instance
              */
-            EntryRoomResp.prototype.ok = false;
+            EntryRoomResp.prototype.meta = null;
 
             /**
              * EntryRoomResp error.
@@ -5881,7 +5882,15 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             EntryRoomResp.prototype.error = $util.emptyArray;
 
             /**
-             * EntryRoomResp roomId.
+             * 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段）
+             * @member {boolean} ok
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @instance
+             */
+            EntryRoomResp.prototype.ok = false;
+
+            /**
+             * 进入成功后的房间 ID；失败时为 0
              * @member {number|Long} roomId
              * @memberof BattleOfCell.Message.EntryRoomResp
              * @instance
@@ -5920,13 +5929,15 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     throw $Error("max depth exceeded");
-                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok") && message.ok !== false)
-                    writer.uint32(/* id 1, wireType 0 =*/8).bool(message.ok);
+                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta"))
+                    $root.BattleOfCell.Message.MetaData.encode(message.meta, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
                 if (message.error != null && message.error.length)
                     for (let i = 0; i < message.error.length; ++i)
                         $root.BattleOfCell.Message.RespError.encode(message.error[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
+                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok") && message.ok !== false)
+                    writer.uint32(/* id 3, wireType 0 =*/24).bool(message.ok);
                 if (message.roomId != null && $Object.hasOwnProperty.call(message, "roomId") && (typeof message.roomId === "object" ? message.roomId.low || message.roomId.high : message.roomId !== 0))
-                    writer.uint32(/* id 3, wireType 0 =*/24).int64(message.roomId);
+                    writer.uint32(/* id 5, wireType 0 =*/40).int64(message.roomId);
                 if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
@@ -5975,12 +5986,9 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                     let wireType = tag & 7;
                     switch (tag >>>= 3) {
                     case 1: {
-                            if (wireType !== 0)
+                            if (wireType !== 2)
                                 break;
-                            if (value = reader.bool())
-                                message.ok = value;
-                            else
-                                delete message.ok;
+                            message.meta = $root.BattleOfCell.Message.MetaData.decode(reader, reader.uint32(), $undefined, _depth + 1, message.meta);
                             continue;
                         }
                     case 2: {
@@ -5992,6 +6000,15 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                             continue;
                         }
                     case 3: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.bool())
+                                message.ok = value;
+                            else
+                                delete message.ok;
+                            continue;
+                        }
+                    case 5: {
                             if (wireType !== 0)
                                 break;
                             if (typeof (value = reader.int64()) === "object" ? value.low || value.high : value !== 0)
@@ -6043,9 +6060,11 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
-                    if (typeof message.ok !== "boolean")
-                        return "ok: boolean expected";
+                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta")) {
+                    let error = $root.BattleOfCell.Message.MetaData.verify(message.meta, _depth + 1);
+                    if (error)
+                        return "meta." + error;
+                }
                 if (message.error != null && $Object.hasOwnProperty.call(message, "error")) {
                     if (!$Array.isArray(message.error))
                         return "error: array expected";
@@ -6055,6 +6074,9 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                             return "error." + error;
                     }
                 }
+                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
+                    if (typeof message.ok !== "boolean")
+                        return "ok: boolean expected";
                 if (message.roomId != null && $Object.hasOwnProperty.call(message, "roomId"))
                     if (!$util.isInteger(message.roomId) && !(message.roomId && $util.isInteger(message.roomId.low) && $util.isInteger(message.roomId.high)))
                         return "roomId: integer|Long expected";
@@ -6079,9 +6101,11 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                 if (_depth > $util.recursionLimit)
                     throw $Error("max depth exceeded");
                 let message = new $root.BattleOfCell.Message.EntryRoomResp();
-                if (object.ok != null)
-                    if (object.ok)
-                        message.ok = $Boolean(object.ok);
+                if (object.meta != null) {
+                    if (!$util.isObject(object.meta))
+                        throw $TypeError(".BattleOfCell.Message.EntryRoomResp.meta: object expected");
+                    message.meta = $root.BattleOfCell.Message.MetaData.fromObject(object.meta, _depth + 1);
+                }
                 if (object.error) {
                     if (!$Array.isArray(object.error))
                         throw $TypeError(".BattleOfCell.Message.EntryRoomResp.error: array expected");
@@ -6092,6 +6116,9 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                         message.error[i] = $root.BattleOfCell.Message.RespError.fromObject(object.error[i], _depth + 1);
                     }
                 }
+                if (object.ok != null)
+                    if (object.ok)
+                        message.ok = $Boolean(object.ok);
                 if (object.roomId != null)
                     if (typeof object.roomId === "object" ? object.roomId.low || object.roomId.high : $Number(object.roomId) !== 0)
                         if ($util.Long)
@@ -6125,6 +6152,7 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                 if (options.arrays || options.defaults)
                     object.error = [];
                 if (options.defaults) {
+                    object.meta = null;
                     object.ok = false;
                     if ($util.Long) {
                         let long = new $util.Long(0, 0, false);
@@ -6132,13 +6160,15 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                     } else
                         object.roomId = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                 }
-                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
-                    object.ok = message.ok;
+                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta"))
+                    object.meta = $root.BattleOfCell.Message.MetaData.toObject(message.meta, options, _depth + 1);
                 if (message.error && message.error.length) {
                     object.error = $Array(message.error.length);
                     for (let j = 0; j < message.error.length; ++j)
                         object.error[j] = $root.BattleOfCell.Message.RespError.toObject(message.error[j], options, _depth + 1);
                 }
+                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
+                    object.ok = message.ok;
                 if (message.roomId != null && $Object.hasOwnProperty.call(message, "roomId"))
                     if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
                         object.roomId = typeof message.roomId === "number" ? $BigInt(message.roomId) : $util.Long.fromBits(message.roomId.low >>> 0, message.roomId.high >>> 0, false).toBigInt();

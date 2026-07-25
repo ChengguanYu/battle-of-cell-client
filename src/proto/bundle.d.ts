@@ -2380,13 +2380,16 @@ export namespace BattleOfCell {
             /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
-            /** EntryRoomResp ok. */
-            ok: boolean;
+            /** EntryRoomResp meta. */
+            meta?: (BattleOfCell.Message.MetaData.$Properties|null);
 
             /** EntryRoomResp error. */
             error: BattleOfCell.Message.RespError.$Properties[];
 
-            /** EntryRoomResp roomId. */
+            /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
+            ok: boolean;
+
+            /** 进入成功后的房间 ID；失败时为 0 */
             roomId: (number|Long);
 
             /**
@@ -2473,13 +2476,16 @@ export namespace BattleOfCell {
             /** Properties of an EntryRoomResp. */
             interface $Properties {
 
-                /** EntryRoomResp ok */
-                ok?: (boolean|null);
+                /** EntryRoomResp meta */
+                meta?: (BattleOfCell.Message.MetaData.$Properties|null);
 
                 /** EntryRoomResp error */
                 error?: (BattleOfCell.Message.RespError.$Properties[]|null);
 
-                /** EntryRoomResp roomId */
+                /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
+                ok?: (boolean|null);
+
+                /** 进入成功后的房间 ID；失败时为 0 */
                 roomId?: (number|Long|null);
 
                 /** Unknown fields preserved while decoding when enabled */
