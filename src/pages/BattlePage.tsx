@@ -14,6 +14,7 @@ import { gameSession } from "../state/gameSession"
 import { resetBattleFrameCursor, sendLaunchFrame } from "../services/battleFrame"
 import { battleTick } from "../services/battleTick"
 import { leaveRoom } from "../services/leaveRoom"
+import { CONFIG } from "../network/config"
 
 const WORLD_SIZE = 10000
 const OUT_OF_BOUNDS = "#050805"
@@ -69,6 +70,29 @@ export function BattlePage() {
    */
   const initBattle = (routeRoomId?: string): boolean => {
     const session = gameSession.getState()
+
+    // 调试模式：无真实会话也能进战斗页，方便本地看场景/HUD/操作
+    if (CONFIG.DEBUG_MODE && !gameSession.isBattleReady()) {
+      const debugRoomId = Number(routeRoomId) || session.roomId || 0
+      const debugFirstFrame = session.firstFrameNumber ?? 0
+      console.info(
+        "[Battle] DEBUG_MODE bypass session check roomId=",
+        debugRoomId,
+        "firstFrame=",
+        debugFirstFrame,
+      )
+      resetBattleFrameCursor(debugFirstFrame)
+      const origin = battleTick.start(debugFirstFrame)
+      console.log(
+        "[Battle] debug init ready roomId=",
+        debugRoomId,
+        "firstFrame=",
+        debugFirstFrame,
+        "tickOrigin=",
+        origin,
+      )
+      return true
+    }
 
     if (!gameSession.isBattleReady()) {
       console.error("[Battle] missing game session", session)

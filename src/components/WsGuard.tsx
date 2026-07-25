@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import { useAuth } from "../hooks/AuthContext"
+import { CONFIG } from "../network/config"
 import { wsService } from "../services/wsService"
 import { frameBuffer } from "../services/frameBuffer"
 import { gameSession } from "../state/gameSession"
@@ -18,6 +19,7 @@ function isAuthFreePath(pathname: string): boolean {
  * - 除 login/register 外：
  *   1) 运行时断开事件 → 连接丢失
  *   2) 已登录但发现 ws=null/未连接 → 复用同一套连接丢失逻辑
+ * - DEBUG_MODE 下完全放行，方便本地调试页面/战斗场景
  */
 export function WsGuard() {
   const { logout, isAuthenticated } = useAuth()
@@ -26,6 +28,11 @@ export function WsGuard() {
   const handlingRef = useRef(false)
 
   useEffect(() => {
+    if (CONFIG.DEBUG_MODE) {
+      console.info("[WsGuard] DEBUG_MODE enabled, skip connection checks")
+      return
+    }
+
     const handleConnectionLost = (reason: "event" | "null-check") => {
       if (handlingRef.current) return
       if (isAuthFreePath(location.pathname)) return

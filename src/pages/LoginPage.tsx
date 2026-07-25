@@ -25,6 +25,7 @@ import {
   loadRememberedLogin,
   saveRememberedLogin,
 } from "../services/rememberLogin"
+import { CONFIG } from "../network/config"
 
 /** Guard across StrictMode remounts in the same page visit. */
 let autoLoginAttempted = false
@@ -48,7 +49,8 @@ export function LoginPage() {
   const busy = isSubmitting || isAutoLogging
 
   useEffect(() => {
-    if (isAuthenticated) {
+    // 调试模式允许停在登录页反复测表单/自动登录
+    if (!CONFIG.DEBUG_MODE && isAuthenticated) {
       navigate("/home", { replace: true })
     }
   }, [isAuthenticated, navigate])

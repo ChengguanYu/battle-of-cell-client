@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly VITE_TICK: string
   readonly VITE_SEND_DELAY_FRAMES: string
   readonly VITE_HEARTBEAT_INTERVAL_MS: string
+  readonly VITE_DEBUG_MODE: string
 }
 
 interface ImportMeta {

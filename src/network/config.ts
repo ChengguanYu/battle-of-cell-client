@@ -10,4 +10,10 @@ export const CONFIG = {
    * 当前默认 0（立刻归属当前逻辑帧）；后续可调大以对齐服务端缓冲/延迟广播。
    */
   SEND_DELAY_FRAMES: Number(import.meta.env.VITE_SEND_DELAY_FRAMES) || 0,
+  /**
+   * 调试模式：放行路由鉴权、WS 守卫、战斗会话校验等。
+   * 仅用于本地开发，生产务必保持 false。
+   */
+  DEBUG_MODE:
+    String(import.meta.env.VITE_DEBUG_MODE ?? "false").toLowerCase() === "true",
 } as const
