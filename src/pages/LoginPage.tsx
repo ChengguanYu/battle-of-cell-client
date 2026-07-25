@@ -25,7 +25,6 @@ import {
   loadRememberedLogin,
   saveRememberedLogin,
 } from "../services/rememberLogin"
-import { CONFIG } from "../network/config"
 
 /** Guard across StrictMode remounts in the same page visit. */
 let autoLoginAttempted = false
@@ -49,8 +48,9 @@ export function LoginPage() {
   const busy = isSubmitting || isAutoLogging
 
   useEffect(() => {
-    // 调试模式允许停在登录页反复测表单/自动登录
-    if (!CONFIG.DEBUG_MODE && isAuthenticated) {
+    // 已登录访问登录页：走正常业务跳转。
+    // DEBUG_MODE 只放行直接敲 URL 的路由/WS 守卫，不拦登录成功跳转。
+    if (isAuthenticated) {
       navigate("/home", { replace: true })
     }
   }, [isAuthenticated, navigate])
@@ -69,6 +69,7 @@ export function LoginPage() {
       try {
         await login(remembered.account, remembered.password)
         toast.success("自动登录成功")
+        navigate("/home", { replace: true })
       } catch (e) {
         // Credentials may be stale; keep form filled so user can retry/edit.
         toast.error(e instanceof Error ? e.message : "自动登录失败")
@@ -76,7 +77,7 @@ export function LoginPage() {
         setIsAutoLogging(false)
       }
     })()
-  }, [isAuthenticated, login, remembered])
+  }, [isAuthenticated, login, remembered, navigate])
 
   async function onSubmit(data: LoginFormData) {
     try {
@@ -87,6 +88,7 @@ export function LoginPage() {
         clearRememberedLogin()
       }
       toast.success("登录成功")
+      navigate("/home", { replace: true })
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "登录失败")
     }
