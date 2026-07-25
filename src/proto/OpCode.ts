@@ -10,12 +10,10 @@ export const OpCode = {
   MetaData: 134227730,
   PlayerLeaveRoomReq: 268445460,
   PlayerLeaveRoomResp: 402663188,
-  PlayerMatchReq: 268445461,
-  PlayerMatchResp: 402663189,
   RespError: 134227731,
   ServerFrame: 134227732,
-  SessionHeartbeatPing: 268445462,
-  SessionHeartbeatPong: 402663190,
+  SessionHeartbeatPing: 268445461,
+  SessionHeartbeatPong: 402663189,
 } as const
 
 export type OpCode = (typeof OpCode)[keyof typeof OpCode]

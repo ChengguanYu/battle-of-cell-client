@@ -68,6 +68,7 @@ export function HomePage() {
     }
   }
 
+
   const handleLogout = () => {
     logout()
     navigate("/login", { replace: true })
@@ -167,7 +168,7 @@ export function HomePage() {
             <ChatRoom />
           </div>
 
-          {/* 右下角开始匹配按钮 */}
+          {/* 右下角匹配按钮区 */}
           <div className="flex justify-end">
             <button
               type="button"
