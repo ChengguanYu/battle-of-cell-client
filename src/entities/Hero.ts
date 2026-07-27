@@ -57,11 +57,11 @@ export class Hero extends Entity<HeroConfig> {
   private listeners = new Map<HeroEvent, Set<(state: HeroState) => void>>()
 
   /**
-   * @param worldSize Real world size in px (converted to fixed).
+   * @param worldSizeX Real world width in px (converted to fixed).
    * @param options Real-valued configuration overrides.
    */
-  constructor(worldSize: number, options?: HeroOptions) {
-    super(worldSize, resolveHeroConfig(options))
+  constructor(worldSizeX: number, worldSizeY: number, options?: HeroOptions) {
+    super(worldSizeX, worldSizeY, resolveHeroConfig(options))
     this._deceleration = toFixed(this.config.deceleration)
     this._maxLaunchSpeed = toFixed(this.config.maxLaunchSpeed)
     this._elasticity = fixedClamp(toFixed(this.config.elasticity), 0, FIXED_SCALE)
@@ -168,22 +168,22 @@ export class Hero extends Entity<HeroConfig> {
     const dt = toFixed(dtSeconds)
     let nextX = this._x + fixedMul(this._vx, dt)
     let nextY = this._y + fixedMul(this._vy, dt)
-    const { min, max } = this.bounds
+    const { minX, maxX, minY, maxY } = this.bounds
 
     // Bounce when the hero's edge hits the world edge (center constrained by radius).
-    if (nextX < min) {
-      nextX = min
+    if (nextX < minX) {
+      nextX = minX
       this._vx = -fixedMul(this._vx, this._elasticity)
-    } else if (nextX > max) {
-      nextX = max
+    } else if (nextX > maxX) {
+      nextX = maxX
       this._vx = -fixedMul(this._vx, this._elasticity)
     }
 
-    if (nextY < min) {
-      nextY = min
+    if (nextY < minY) {
+      nextY = minY
       this._vy = -fixedMul(this._vy, this._elasticity)
-    } else if (nextY > max) {
-      nextY = max
+    } else if (nextY > maxY) {
+      nextY = maxY
       this._vy = -fixedMul(this._vy, this._elasticity)
     }
 

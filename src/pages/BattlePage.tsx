@@ -21,9 +21,9 @@ const OUT_OF_BOUNDS = "#050805"
 export function BattlePage() {
   const { roomId } = useParams()
   const navigate = useNavigate()
-  const [world] = useState(() => new BattleWorld())
+  const [world] = useState(() => new BattleWorld(12000, 8000))
   const heroRef = useRef(world.hero)
-  const { cameraX, cameraY, zoom, containerRef } = useCamera(heroRef, world.size)
+  const { cameraX, cameraY, zoom, containerRef } = useCamera(heroRef, world.width, world.height)
   const [debugVisible, setDebugVisible] = useState(false)
   const [sessionOk, setSessionOk] = useState(false)
   const sessionOkRef = useRef(false)
@@ -190,7 +190,8 @@ export function BattlePage() {
     >
       {sessionOk && world.isCreated && (
         <GameWorld
-          size={world.size}
+          width={world.width}
+          height={world.height}
           cameraX={cameraX}
           cameraY={cameraY}
           zoom={zoom}

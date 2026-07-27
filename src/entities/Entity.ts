@@ -31,19 +31,22 @@ export abstract class Entity<TConfig extends EntityConfig = EntityConfig>
   protected _dirX: Fixed = 0
   protected _dirY: Fixed = 0
   protected _radius: Fixed
-  protected worldSize: Fixed
+  protected worldSizeX: Fixed
+  protected worldSizeY: Fixed
   protected readonly config: TConfig
 
   /**
-   * @param worldSize Real world size in px (converted to fixed).
+   * @param worldSizeX Real world width in px (converted to fixed).
+   * @param worldSizeY Real world height in px (converted to fixed).
    * @param config Real-valued entity configuration (converted to fixed).
    */
-  constructor(worldSize: number, config: TConfig) {
+  constructor(worldSizeX: number, worldSizeY: number, config: TConfig) {
     this.config = config
-    this.worldSize = toFixed(worldSize)
+    this.worldSizeX = toFixed(worldSizeX)
+    this.worldSizeY = toFixed(worldSizeY)
     this._radius = toFixed(config.radius ?? 0)
-    this._x = toFixed(config.x ?? worldSize / 2)
-    this._y = toFixed(config.y ?? worldSize / 2)
+    this._x = toFixed(config.x ?? worldSizeX / 2)
+    this._y = toFixed(config.y ?? worldSizeY / 2)
     this.clampPositionToBounds()
   }
 
@@ -166,9 +169,9 @@ export abstract class Entity<TConfig extends EntityConfig = EntityConfig>
   /** @param x Real world X */
   /** @param y Real world Y */
   setPosition(x: number, y: number): void {
-    const { min, max } = this.bounds
-    this._x = fixedClamp(toFixed(x), min, max)
-    this._y = fixedClamp(toFixed(y), min, max)
+    const { minX, maxX, minY, maxY } = this.bounds
+    this._x = fixedClamp(toFixed(x), minX, maxX)
+    this._y = fixedClamp(toFixed(y), minY, maxY)
   }
 
   /** @param value Real px */
@@ -177,16 +180,18 @@ export abstract class Entity<TConfig extends EntityConfig = EntityConfig>
     this.clampPositionToBounds()
   }
 
-  protected get bounds(): { min: Fixed; max: Fixed } {
-    const min = this._radius
-    const max = Math.max(min, this.worldSize - this._radius)
-    return { min, max }
+  protected get bounds(): { minX: Fixed; maxX: Fixed; minY: Fixed; maxY: Fixed } {
+    const minX = this._radius
+    const maxX = Math.max(minX, this.worldSizeX - this._radius)
+    const minY = this._radius
+    const maxY = Math.max(minY, this.worldSizeY - this._radius)
+    return { minX, maxX, minY, maxY }
   }
 
   protected clampPositionToBounds(): void {
-    const { min, max } = this.bounds
-    this._x = fixedClamp(this._x, min, max)
-    this._y = fixedClamp(this._y, min, max)
+    const { minX, maxX, minY, maxY } = this.bounds
+    this._x = fixedClamp(this._x, minX, maxX)
+    this._y = fixedClamp(this._y, minY, maxY)
   }
 
   /** Entity-specific generation hook invoked by spawn(). */

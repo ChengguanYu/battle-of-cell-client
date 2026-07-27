@@ -5,14 +5,15 @@ const WORLD_BG = "#0d1a0d"
 const GRID_COLOR = "rgba(255, 255, 255, 0.06)"
 
 interface GameWorldProps {
-  size: number
+  width: number
+  height: number
   cameraX: number
   cameraY: number
   zoom: number
   children: ReactNode
 }
 
-export function GameWorld({ size, cameraX, cameraY, zoom, children }: GameWorldProps) {
+export function GameWorld({ width, height, cameraX, cameraY, zoom, children }: GameWorldProps) {
   const cx = window.innerWidth / 2
   const cy = window.innerHeight / 2
 
@@ -20,8 +21,8 @@ export function GameWorld({ size, cameraX, cameraY, zoom, children }: GameWorldP
     <div
       className="absolute left-0 top-0"
       style={{
-        width: size,
-        height: size,
+        width,
+        height,
         transform: [
           `translate(${cx}px, ${cy}px)`,
           `scale(${zoom})`,

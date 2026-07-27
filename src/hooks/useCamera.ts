@@ -13,7 +13,8 @@ const CAMERA_ACCELERATION = 0.06
  */
 export function useCamera(
   heroRef: React.RefObject<{ x: number; y: number } | null>,
-  worldSize: number,
+  worldWidth: number,
+  worldHeight: number,
 ) {
   const [camera, setCamera] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
@@ -65,8 +66,8 @@ export function useCamera(
 
       if (prevTimeRef.current === 0) {
         prevTimeRef.current = timestamp
-        cam.x = Math.max(0, Math.min(px - cx, worldSize - vw))
-        cam.y = Math.max(0, Math.min(py - cy, worldSize - vh))
+        cam.x = Math.max(0, Math.min(px - cx, worldWidth - vw))
+        cam.y = Math.max(0, Math.min(py - cy, worldHeight - vh))
         setCamera({ x: cam.x, y: cam.y })
         rafId = requestAnimationFrame(animate)
         return
@@ -85,8 +86,8 @@ export function useCamera(
       cam.x += vel.x * dt
       cam.y += vel.y * dt
 
-      const maxX = Math.max(0, worldSize - vw)
-      const maxY = Math.max(0, worldSize - vh)
+      const maxX = Math.max(0, worldWidth - vw)
+      const maxY = Math.max(0, worldHeight - vh)
       if (cam.x <= 0 || cam.x >= maxX) vel.x = 0
       if (cam.y <= 0 || cam.y >= maxY) vel.y = 0
       cam.x = Math.max(0, Math.min(cam.x, maxX))
@@ -98,7 +99,7 @@ export function useCamera(
 
     rafId = requestAnimationFrame(animate)
     return () => cancelAnimationFrame(rafId)
-  }, [heroRef, worldSize])
+  }, [heroRef, worldWidth, worldHeight])
 
   return { cameraX: camera.x, cameraY: camera.y, zoom, containerRef }
 }
