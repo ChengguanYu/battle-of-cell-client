@@ -3,8 +3,11 @@ export type {
   Velocity,
   Direction,
   AABB,
-  EntityOptions,
 } from "./types"
+export { EntityConfig } from "./config/EntityConfig"
+export type { EntityConfigOptions } from "./config/EntityConfig"
+export { HeroConfig } from "./config/HeroConfig"
+export type { HeroConfigOptions } from "./config/HeroConfig"
 export type { IEntityView } from "./view"
 export type { IEntityDetection } from "./detection"
 export {

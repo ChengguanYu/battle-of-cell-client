@@ -1,6 +1,7 @@
-import type { Position, Velocity, Direction, AABB, EntityOptions } from "./types"
+import type { Position, Velocity, Direction, AABB } from "./types"
 import type { IEntityView } from "./view"
 import type { IEntityDetection } from "./detection"
+import { EntityConfig } from "./config/EntityConfig"
 import {
   aabbIntersects,
   circleContainsPoint,
@@ -20,7 +21,8 @@ import {
  * Owns position / direction / velocity / radius and implements view + detection.
  * Subclasses keep domain logic (HP, launch, bounce, events, etc.).
  */
-export abstract class Entity implements IEntityView, IEntityDetection {
+export abstract class Entity<TConfig extends EntityConfig = EntityConfig>
+  implements IEntityView, IEntityDetection {
   private _isSpawned = false
   protected _x: Fixed
   protected _y: Fixed
@@ -30,16 +32,18 @@ export abstract class Entity implements IEntityView, IEntityDetection {
   protected _dirY: Fixed = 0
   protected _radius: Fixed
   protected worldSize: Fixed
+  protected readonly config: TConfig
 
   /**
    * @param worldSize Real world size in px (converted to fixed).
-   * @param opts Real-valued options (converted to fixed).
+   * @param config Real-valued entity configuration (converted to fixed).
    */
-  constructor(worldSize: number, opts?: EntityOptions) {
+  constructor(worldSize: number, config: TConfig) {
+    this.config = config
     this.worldSize = toFixed(worldSize)
-    this._radius = toFixed(opts?.radius ?? 20)
-    this._x = toFixed(opts?.x ?? worldSize / 2)
-    this._y = toFixed(opts?.y ?? worldSize / 2)
+    this._radius = toFixed(config.radius ?? 0)
+    this._x = toFixed(config.x ?? worldSize / 2)
+    this._y = toFixed(config.y ?? worldSize / 2)
     this.clampPositionToBounds()
   }
 

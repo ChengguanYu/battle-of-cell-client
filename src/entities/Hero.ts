@@ -1,4 +1,5 @@
 import { Entity } from "./Entity"
+import { HeroConfig, type HeroConfigOptions } from "./config/HeroConfig"
 import {
   FIXED_SCALE,
   type Fixed,
@@ -20,19 +21,21 @@ export interface HeroState {
 
 export type HeroEvent = "move" | "damage" | "heal" | "death" | "change"
 
-export interface HeroOptions {
-  x?: number
-  y?: number
-  hp?: number
-  maxHp?: number
-  /** Real units (px/s^2). Converted to fixed on entry. */
-  deceleration?: number
-  /** Real units (px). Converted to fixed on entry. */
-  maxLaunchSpeed?: number
-  /** Real units (px). Converted to fixed on entry. */
-  radius?: number
-  /** Real units 0..1. Converted to fixed on entry. */
-  elasticity?: number
+export type HeroOptions = HeroConfigOptions
+
+function resolveHeroConfig(options?: HeroOptions): HeroConfig {
+  const config = new HeroConfig()
+  if (!options) return config
+
+  config.x = options.x
+  config.y = options.y
+  config.hp = options.hp ?? config.hp
+  config.maxHp = options.maxHp ?? config.maxHp
+  config.deceleration = options.deceleration ?? config.deceleration
+  config.maxLaunchSpeed = options.maxLaunchSpeed ?? config.maxLaunchSpeed
+  config.radius = options.radius ?? config.radius
+  config.elasticity = options.elasticity ?? config.elasticity
+  return config
 }
 
 /**
@@ -43,7 +46,7 @@ export interface HeroOptions {
  * Spatial fields (position / direction / velocity / radius / hitTest)
  * live on {@link Entity}; Hero only owns hero-domain state and motion rules.
  */
-export class Hero extends Entity {
+export class Hero extends Entity<HeroConfig> {
   private _hp: number
   private _maxHp: number
   private _initSpeed: Fixed = 0
@@ -55,19 +58,15 @@ export class Hero extends Entity {
 
   /**
    * @param worldSize Real world size in px (converted to fixed).
-   * @param opts Real-valued options (converted to fixed).
+   * @param options Real-valued configuration overrides.
    */
-  constructor(worldSize: number, opts?: HeroOptions) {
-    super(worldSize, {
-      x: opts?.x,
-      y: opts?.y,
-      radius: opts?.radius,
-    })
-    this._deceleration = toFixed(opts?.deceleration ?? 200)
-    this._maxLaunchSpeed = toFixed(opts?.maxLaunchSpeed ?? 150)
-    this._elasticity = fixedClamp(toFixed(opts?.elasticity ?? 0.7), 0, FIXED_SCALE)
-    this._hp = opts?.hp ?? 100
-    this._maxHp = opts?.maxHp ?? 100
+  constructor(worldSize: number, options?: HeroOptions) {
+    super(worldSize, resolveHeroConfig(options))
+    this._deceleration = toFixed(this.config.deceleration)
+    this._maxLaunchSpeed = toFixed(this.config.maxLaunchSpeed)
+    this._elasticity = fixedClamp(toFixed(this.config.elasticity), 0, FIXED_SCALE)
+    this._hp = this.config.hp
+    this._maxHp = this.config.maxHp
   }
 
   get state(): HeroState {

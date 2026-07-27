@@ -25,11 +25,3 @@ export interface AABB {
   maxX: number
   maxY: number
 }
-
-/** Real-valued options shared by all world entities. */
-export interface EntityOptions {
-  x?: number
-  y?: number
-  /** Real units (px). Converted to fixed on entry. */
-  radius?: number
-}
