@@ -4398,608 +4398,6 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             return values;
         })();
 
-        Message.PlayerMatchReq = (function() {
-
-            /**
-             * Properties of a PlayerMatchReq.
-             * @typedef {Object} BattleOfCell.Message.PlayerMatchReq.$Properties
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
-             */
-
-            /**
-             * Properties of a PlayerMatchReq.
-             * @memberof BattleOfCell.Message
-             * @interface IPlayerMatchReq
-             * @augments BattleOfCell.Message.PlayerMatchReq.$Properties
-             * @deprecated Use BattleOfCell.Message.PlayerMatchReq.$Properties instead.
-             */
-
-            /**
-             * Shape of a PlayerMatchReq.
-             * @typedef {BattleOfCell.Message.PlayerMatchReq.$Properties} BattleOfCell.Message.PlayerMatchReq.$Shape
-             */
-
-            /**
-             * Constructs a new PlayerMatchReq.
-             * @memberof BattleOfCell.Message
-             * @classdesc 客户端发起匹配请求
-             * @constructor
-             * @param {BattleOfCell.Message.PlayerMatchReq.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
-             */
-            const PlayerMatchReq = function (properties) {
-                if (properties)
-                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
-                            this[keys[i]] = properties[keys[i]];
-            };
-
-            /**
-             * Creates a new PlayerMatchReq instance using the specified properties.
-             * @function create
-             * @memberof BattleOfCell.Message.PlayerMatchReq
-             * @static
-             * @param {BattleOfCell.Message.PlayerMatchReq.$Properties=} [properties] Properties to set
-             * @returns {BattleOfCell.Message.PlayerMatchReq} PlayerMatchReq instance
-             * @type {{
-             *   (properties: BattleOfCell.Message.PlayerMatchReq.$Shape): BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape;
-             *   (properties?: BattleOfCell.Message.PlayerMatchReq.$Properties): BattleOfCell.Message.PlayerMatchReq;
-             * }}
-             */
-            PlayerMatchReq.create = function(properties) {
-                return new PlayerMatchReq(properties);
-            };
-
-            /**
-             * Encodes the specified PlayerMatchReq message. Does not implicitly {@link BattleOfCell.Message.PlayerMatchReq.verify|verify} messages.
-             * @function encode
-             * @memberof BattleOfCell.Message.PlayerMatchReq
-             * @static
-             * @param {BattleOfCell.Message.PlayerMatchReq.$Properties} message PlayerMatchReq message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            PlayerMatchReq.encode = function (message, writer, _depth) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    throw $Error("max depth exceeded");
-                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
-                    for (let i = 0; i < message.$unknowns.length; ++i)
-                        writer.raw(message.$unknowns[i]);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified PlayerMatchReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerMatchReq.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof BattleOfCell.Message.PlayerMatchReq
-             * @static
-             * @param {BattleOfCell.Message.PlayerMatchReq.$Properties} message PlayerMatchReq message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            PlayerMatchReq.encodeDelimited = function(message, writer) {
-                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
-            };
-
-            /**
-             * Decodes a PlayerMatchReq message from the specified reader or buffer.
-             * @function decode
-             * @memberof BattleOfCell.Message.PlayerMatchReq
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape} PlayerMatchReq
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            PlayerMatchReq.decode = function (reader, length, _end, _depth, _target) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $Reader.recursionLimit)
-                    throw $Error("max depth exceeded");
-                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.PlayerMatchReq();
-                while (reader.pos < end) {
-                    let start = reader.pos;
-                    let tag = reader.tag();
-                    if (tag === _end) {
-                        _end = $undefined;
-                        break;
-                    }
-                    reader.skipType(tag & 7, _depth, tag);
-                    if (!reader.discardUnknown) {
-                        $util.makeProp(message, "$unknowns", false);
-                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
-                    }
-                }
-                if (_end !== $undefined)
-                    throw $Error("missing end group");
-                return message;
-            };
-
-            /**
-             * Decodes a PlayerMatchReq message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof BattleOfCell.Message.PlayerMatchReq
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape} PlayerMatchReq
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            PlayerMatchReq.decodeDelimited = function(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a PlayerMatchReq message.
-             * @function verify
-             * @memberof BattleOfCell.Message.PlayerMatchReq
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            PlayerMatchReq.verify = function (message, _depth) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    return "max depth exceeded";
-                return null;
-            };
-
-            /**
-             * Creates a PlayerMatchReq message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof BattleOfCell.Message.PlayerMatchReq
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {BattleOfCell.Message.PlayerMatchReq} PlayerMatchReq
-             */
-            PlayerMatchReq.fromObject = function (object, _depth) {
-                if (object instanceof $root.BattleOfCell.Message.PlayerMatchReq)
-                    return object;
-                if (!$util.isObject(object))
-                    throw $TypeError(".BattleOfCell.Message.PlayerMatchReq: object expected");
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    throw $Error("max depth exceeded");
-                return new $root.BattleOfCell.Message.PlayerMatchReq();
-            };
-
-            /**
-             * Creates a plain object from a PlayerMatchReq message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof BattleOfCell.Message.PlayerMatchReq
-             * @static
-             * @param {BattleOfCell.Message.PlayerMatchReq} message PlayerMatchReq
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            PlayerMatchReq.toObject = function () {
-                return {};
-            };
-
-            /**
-             * Converts this PlayerMatchReq to JSON.
-             * @function toJSON
-             * @memberof BattleOfCell.Message.PlayerMatchReq
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            PlayerMatchReq.prototype.toJSON = function() {
-                return PlayerMatchReq.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            /**
-             * Gets the type url for PlayerMatchReq
-             * @function getTypeUrl
-             * @memberof BattleOfCell.Message.PlayerMatchReq
-             * @static
-             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns {string} The type url
-             */
-            PlayerMatchReq.getTypeUrl = function(prefix) {
-                if (prefix === $undefined)
-                    prefix = "type.googleapis.com";
-                return prefix + "/BattleOfCell.Message.PlayerMatchReq";
-            };
-
-            return PlayerMatchReq;
-        })();
-
-        Message.PlayerMatchResp = (function() {
-
-            /**
-             * Properties of a PlayerMatchResp.
-             * @typedef {Object} BattleOfCell.Message.PlayerMatchResp.$Properties
-             * @property {BattleOfCell.Message.MetaData.$Properties|null} [meta] PlayerMatchResp meta
-             * @property {Array.<BattleOfCell.Message.RespError.$Properties>|null} [error] PlayerMatchResp error
-             * @property {boolean|null} [ok] 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段）
-             * @property {number|Long|null} [roomId] 匹配成功后的房间 ID；失败时为 0
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
-             */
-
-            /**
-             * Properties of a PlayerMatchResp.
-             * @memberof BattleOfCell.Message
-             * @interface IPlayerMatchResp
-             * @augments BattleOfCell.Message.PlayerMatchResp.$Properties
-             * @deprecated Use BattleOfCell.Message.PlayerMatchResp.$Properties instead.
-             */
-
-            /**
-             * Shape of a PlayerMatchResp.
-             * @typedef {BattleOfCell.Message.PlayerMatchResp.$Properties} BattleOfCell.Message.PlayerMatchResp.$Shape
-             */
-
-            /**
-             * Constructs a new PlayerMatchResp.
-             * @memberof BattleOfCell.Message
-             * @classdesc Represents a PlayerMatchResp.
-             * @constructor
-             * @param {BattleOfCell.Message.PlayerMatchResp.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
-             */
-            const PlayerMatchResp = function (properties) {
-                this.error = [];
-                if (properties)
-                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
-                            this[keys[i]] = properties[keys[i]];
-            };
-
-            /**
-             * PlayerMatchResp meta.
-             * @member {BattleOfCell.Message.MetaData.$Properties|null|undefined} meta
-             * @memberof BattleOfCell.Message.PlayerMatchResp
-             * @instance
-             */
-            PlayerMatchResp.prototype.meta = null;
-
-            /**
-             * PlayerMatchResp error.
-             * @member {Array.<BattleOfCell.Message.RespError.$Properties>} error
-             * @memberof BattleOfCell.Message.PlayerMatchResp
-             * @instance
-             */
-            PlayerMatchResp.prototype.error = $util.emptyArray;
-
-            /**
-             * 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段）
-             * @member {boolean} ok
-             * @memberof BattleOfCell.Message.PlayerMatchResp
-             * @instance
-             */
-            PlayerMatchResp.prototype.ok = false;
-
-            /**
-             * 匹配成功后的房间 ID；失败时为 0
-             * @member {number|Long} roomId
-             * @memberof BattleOfCell.Message.PlayerMatchResp
-             * @instance
-             */
-            PlayerMatchResp.prototype.roomId = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-            /**
-             * Creates a new PlayerMatchResp instance using the specified properties.
-             * @function create
-             * @memberof BattleOfCell.Message.PlayerMatchResp
-             * @static
-             * @param {BattleOfCell.Message.PlayerMatchResp.$Properties=} [properties] Properties to set
-             * @returns {BattleOfCell.Message.PlayerMatchResp} PlayerMatchResp instance
-             * @type {{
-             *   (properties: BattleOfCell.Message.PlayerMatchResp.$Shape): BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape;
-             *   (properties?: BattleOfCell.Message.PlayerMatchResp.$Properties): BattleOfCell.Message.PlayerMatchResp;
-             * }}
-             */
-            PlayerMatchResp.create = function(properties) {
-                return new PlayerMatchResp(properties);
-            };
-
-            /**
-             * Encodes the specified PlayerMatchResp message. Does not implicitly {@link BattleOfCell.Message.PlayerMatchResp.verify|verify} messages.
-             * @function encode
-             * @memberof BattleOfCell.Message.PlayerMatchResp
-             * @static
-             * @param {BattleOfCell.Message.PlayerMatchResp.$Properties} message PlayerMatchResp message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            PlayerMatchResp.encode = function (message, writer, _depth) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    throw $Error("max depth exceeded");
-                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta"))
-                    $root.BattleOfCell.Message.MetaData.encode(message.meta, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
-                if (message.error != null && message.error.length)
-                    for (let i = 0; i < message.error.length; ++i)
-                        $root.BattleOfCell.Message.RespError.encode(message.error[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
-                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok") && message.ok !== false)
-                    writer.uint32(/* id 3, wireType 0 =*/24).bool(message.ok);
-                if (message.roomId != null && $Object.hasOwnProperty.call(message, "roomId") && (typeof message.roomId === "object" ? message.roomId.low || message.roomId.high : message.roomId !== 0))
-                    writer.uint32(/* id 5, wireType 0 =*/40).int64(message.roomId);
-                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
-                    for (let i = 0; i < message.$unknowns.length; ++i)
-                        writer.raw(message.$unknowns[i]);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified PlayerMatchResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerMatchResp.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof BattleOfCell.Message.PlayerMatchResp
-             * @static
-             * @param {BattleOfCell.Message.PlayerMatchResp.$Properties} message PlayerMatchResp message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            PlayerMatchResp.encodeDelimited = function(message, writer) {
-                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
-            };
-
-            /**
-             * Decodes a PlayerMatchResp message from the specified reader or buffer.
-             * @function decode
-             * @memberof BattleOfCell.Message.PlayerMatchResp
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape} PlayerMatchResp
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            PlayerMatchResp.decode = function (reader, length, _end, _depth, _target) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $Reader.recursionLimit)
-                    throw $Error("max depth exceeded");
-                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.PlayerMatchResp(), value;
-                while (reader.pos < end) {
-                    let start = reader.pos;
-                    let tag = reader.tag();
-                    if (tag === _end) {
-                        _end = $undefined;
-                        break;
-                    }
-                    let wireType = tag & 7;
-                    switch (tag >>>= 3) {
-                    case 1: {
-                            if (wireType !== 2)
-                                break;
-                            message.meta = $root.BattleOfCell.Message.MetaData.decode(reader, reader.uint32(), $undefined, _depth + 1, message.meta);
-                            continue;
-                        }
-                    case 2: {
-                            if (wireType !== 2)
-                                break;
-                            if (!(message.error && message.error.length))
-                                message.error = [];
-                            message.error.push($root.BattleOfCell.Message.RespError.decode(reader, reader.uint32(), $undefined, _depth + 1));
-                            continue;
-                        }
-                    case 3: {
-                            if (wireType !== 0)
-                                break;
-                            if (value = reader.bool())
-                                message.ok = value;
-                            else
-                                delete message.ok;
-                            continue;
-                        }
-                    case 5: {
-                            if (wireType !== 0)
-                                break;
-                            if (typeof (value = reader.int64()) === "object" ? value.low || value.high : value !== 0)
-                                message.roomId = value;
-                            else
-                                delete message.roomId;
-                            continue;
-                        }
-                    }
-                    reader.skipType(wireType, _depth, tag);
-                    if (!reader.discardUnknown) {
-                        $util.makeProp(message, "$unknowns", false);
-                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
-                    }
-                }
-                if (_end !== $undefined)
-                    throw $Error("missing end group");
-                return message;
-            };
-
-            /**
-             * Decodes a PlayerMatchResp message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof BattleOfCell.Message.PlayerMatchResp
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape} PlayerMatchResp
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            PlayerMatchResp.decodeDelimited = function(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a PlayerMatchResp message.
-             * @function verify
-             * @memberof BattleOfCell.Message.PlayerMatchResp
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            PlayerMatchResp.verify = function (message, _depth) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    return "max depth exceeded";
-                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta")) {
-                    let error = $root.BattleOfCell.Message.MetaData.verify(message.meta, _depth + 1);
-                    if (error)
-                        return "meta." + error;
-                }
-                if (message.error != null && $Object.hasOwnProperty.call(message, "error")) {
-                    if (!$Array.isArray(message.error))
-                        return "error: array expected";
-                    for (let i = 0; i < message.error.length; ++i) {
-                        let error = $root.BattleOfCell.Message.RespError.verify(message.error[i], _depth + 1);
-                        if (error)
-                            return "error." + error;
-                    }
-                }
-                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
-                    if (typeof message.ok !== "boolean")
-                        return "ok: boolean expected";
-                if (message.roomId != null && $Object.hasOwnProperty.call(message, "roomId"))
-                    if (!$util.isInteger(message.roomId) && !(message.roomId && $util.isInteger(message.roomId.low) && $util.isInteger(message.roomId.high)))
-                        return "roomId: integer|Long expected";
-                return null;
-            };
-
-            /**
-             * Creates a PlayerMatchResp message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof BattleOfCell.Message.PlayerMatchResp
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {BattleOfCell.Message.PlayerMatchResp} PlayerMatchResp
-             */
-            PlayerMatchResp.fromObject = function (object, _depth) {
-                if (object instanceof $root.BattleOfCell.Message.PlayerMatchResp)
-                    return object;
-                if (!$util.isObject(object))
-                    throw $TypeError(".BattleOfCell.Message.PlayerMatchResp: object expected");
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    throw $Error("max depth exceeded");
-                let message = new $root.BattleOfCell.Message.PlayerMatchResp();
-                if (object.meta != null) {
-                    if (!$util.isObject(object.meta))
-                        throw $TypeError(".BattleOfCell.Message.PlayerMatchResp.meta: object expected");
-                    message.meta = $root.BattleOfCell.Message.MetaData.fromObject(object.meta, _depth + 1);
-                }
-                if (object.error) {
-                    if (!$Array.isArray(object.error))
-                        throw $TypeError(".BattleOfCell.Message.PlayerMatchResp.error: array expected");
-                    message.error = $Array(object.error.length);
-                    for (let i = 0; i < object.error.length; ++i) {
-                        if (!$util.isObject(object.error[i]))
-                            throw $TypeError(".BattleOfCell.Message.PlayerMatchResp.error: object expected");
-                        message.error[i] = $root.BattleOfCell.Message.RespError.fromObject(object.error[i], _depth + 1);
-                    }
-                }
-                if (object.ok != null)
-                    if (object.ok)
-                        message.ok = $Boolean(object.ok);
-                if (object.roomId != null)
-                    if (typeof object.roomId === "object" ? object.roomId.low || object.roomId.high : $Number(object.roomId) !== 0)
-                        if ($util.Long)
-                            message.roomId = $util.Long.fromValue(object.roomId, false);
-                        else if (typeof object.roomId === "string")
-                            message.roomId = $parseInt(object.roomId, 10);
-                        else if (typeof object.roomId === "number")
-                            message.roomId = object.roomId;
-                        else if (typeof object.roomId === "object")
-                            message.roomId = new $util.LongBits(object.roomId.low >>> 0, object.roomId.high >>> 0).toNumber();
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a PlayerMatchResp message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof BattleOfCell.Message.PlayerMatchResp
-             * @static
-             * @param {BattleOfCell.Message.PlayerMatchResp} message PlayerMatchResp
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            PlayerMatchResp.toObject = function (message, options, _depth) {
-                if (!options)
-                    options = {};
-                if (_depth === $undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    throw $Error("max depth exceeded");
-                let object = {};
-                if (options.arrays || options.defaults)
-                    object.error = [];
-                if (options.defaults) {
-                    object.meta = null;
-                    object.ok = false;
-                    if ($util.Long) {
-                        let long = new $util.Long(0, 0, false);
-                        object.roomId = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
-                    } else
-                        object.roomId = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
-                }
-                if (message.meta != null && $Object.hasOwnProperty.call(message, "meta"))
-                    object.meta = $root.BattleOfCell.Message.MetaData.toObject(message.meta, options, _depth + 1);
-                if (message.error && message.error.length) {
-                    object.error = $Array(message.error.length);
-                    for (let j = 0; j < message.error.length; ++j)
-                        object.error[j] = $root.BattleOfCell.Message.RespError.toObject(message.error[j], options, _depth + 1);
-                }
-                if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
-                    object.ok = message.ok;
-                if (message.roomId != null && $Object.hasOwnProperty.call(message, "roomId"))
-                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
-                        object.roomId = typeof message.roomId === "number" ? $BigInt(message.roomId) : $util.Long.fromBits(message.roomId.low >>> 0, message.roomId.high >>> 0, false).toBigInt();
-                    else if (typeof message.roomId === "number")
-                        object.roomId = options.longs === $String ? $String(message.roomId) : message.roomId;
-                    else
-                        object.roomId = options.longs === $String ? $util.Long.prototype.toString.call(message.roomId) : options.longs === $Number ? new $util.LongBits(message.roomId.low >>> 0, message.roomId.high >>> 0).toNumber() : message.roomId;
-                return object;
-            };
-
-            /**
-             * Converts this PlayerMatchResp to JSON.
-             * @function toJSON
-             * @memberof BattleOfCell.Message.PlayerMatchResp
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            PlayerMatchResp.prototype.toJSON = function() {
-                return PlayerMatchResp.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            /**
-             * Gets the type url for PlayerMatchResp
-             * @function getTypeUrl
-             * @memberof BattleOfCell.Message.PlayerMatchResp
-             * @static
-             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns {string} The type url
-             */
-            PlayerMatchResp.getTypeUrl = function(prefix) {
-                if (prefix === $undefined)
-                    prefix = "type.googleapis.com";
-                return prefix + "/BattleOfCell.Message.PlayerMatchResp";
-            };
-
-            return PlayerMatchResp;
-        })();
-
         Message.MatchReq = (function() {
 
             /**
@@ -5832,6 +5230,7 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
              * @property {BattleOfCell.Message.MetaData.$Properties|null} [meta] EntryRoomResp meta
              * @property {Array.<BattleOfCell.Message.RespError.$Properties>|null} [error] EntryRoomResp error
              * @property {boolean|null} [ok] 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段）
+             * @property {BattleOfCell.Message.WorldInit.$Properties|null} [world] 房间的世界参数；注意 field 6 避免与 IResponse.ErrorCode 的 ProtoMember(4) 冲突
              * @property {number|Long|null} [roomId] 进入成功后的房间 ID；失败时为 0
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
@@ -5890,6 +5289,14 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             EntryRoomResp.prototype.ok = false;
 
             /**
+             * 房间的世界参数；注意 field 6 避免与 IResponse.ErrorCode 的 ProtoMember(4) 冲突
+             * @member {BattleOfCell.Message.WorldInit.$Properties|null|undefined} world
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @instance
+             */
+            EntryRoomResp.prototype.world = null;
+
+            /**
              * 进入成功后的房间 ID；失败时为 0
              * @member {number|Long} roomId
              * @memberof BattleOfCell.Message.EntryRoomResp
@@ -5936,6 +5343,8 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                         $root.BattleOfCell.Message.RespError.encode(message.error[i], writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
                 if (message.ok != null && $Object.hasOwnProperty.call(message, "ok") && message.ok !== false)
                     writer.uint32(/* id 3, wireType 0 =*/24).bool(message.ok);
+                if (message.world != null && $Object.hasOwnProperty.call(message, "world"))
+                    $root.BattleOfCell.Message.WorldInit.encode(message.world, writer.uint32(/* id 4, wireType 2 =*/34).fork(), _depth + 1).ldelim();
                 if (message.roomId != null && $Object.hasOwnProperty.call(message, "roomId") && (typeof message.roomId === "object" ? message.roomId.low || message.roomId.high : message.roomId !== 0))
                     writer.uint32(/* id 5, wireType 0 =*/40).int64(message.roomId);
                 if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
@@ -6008,6 +5417,12 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                                 delete message.ok;
                             continue;
                         }
+                    case 4: {
+                            if (wireType !== 2)
+                                break;
+                            message.world = $root.BattleOfCell.Message.WorldInit.decode(reader, reader.uint32(), $undefined, _depth + 1, message.world);
+                            continue;
+                        }
                     case 5: {
                             if (wireType !== 0)
                                 break;
@@ -6077,6 +5492,11 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                 if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
                     if (typeof message.ok !== "boolean")
                         return "ok: boolean expected";
+                if (message.world != null && $Object.hasOwnProperty.call(message, "world")) {
+                    let error = $root.BattleOfCell.Message.WorldInit.verify(message.world, _depth + 1);
+                    if (error)
+                        return "world." + error;
+                }
                 if (message.roomId != null && $Object.hasOwnProperty.call(message, "roomId"))
                     if (!$util.isInteger(message.roomId) && !(message.roomId && $util.isInteger(message.roomId.low) && $util.isInteger(message.roomId.high)))
                         return "roomId: integer|Long expected";
@@ -6119,6 +5539,11 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                 if (object.ok != null)
                     if (object.ok)
                         message.ok = $Boolean(object.ok);
+                if (object.world != null) {
+                    if (!$util.isObject(object.world))
+                        throw $TypeError(".BattleOfCell.Message.EntryRoomResp.world: object expected");
+                    message.world = $root.BattleOfCell.Message.WorldInit.fromObject(object.world, _depth + 1);
+                }
                 if (object.roomId != null)
                     if (typeof object.roomId === "object" ? object.roomId.low || object.roomId.high : $Number(object.roomId) !== 0)
                         if ($util.Long)
@@ -6154,6 +5579,7 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                 if (options.defaults) {
                     object.meta = null;
                     object.ok = false;
+                    object.world = null;
                     if ($util.Long) {
                         let long = new $util.Long(0, 0, false);
                         object.roomId = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
@@ -6169,6 +5595,8 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                 }
                 if (message.ok != null && $Object.hasOwnProperty.call(message, "ok"))
                     object.ok = message.ok;
+                if (message.world != null && $Object.hasOwnProperty.call(message, "world"))
+                    object.world = $root.BattleOfCell.Message.WorldInit.toObject(message.world, options, _depth + 1);
                 if (message.roomId != null && $Object.hasOwnProperty.call(message, "roomId"))
                     if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
                         object.roomId = typeof message.roomId === "number" ? $BigInt(message.roomId) : $util.Long.fromBits(message.roomId.low >>> 0, message.roomId.high >>> 0, false).toBigInt();
@@ -6205,6 +5633,328 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             };
 
             return EntryRoomResp;
+        })();
+
+        Message.WorldInit = (function() {
+
+            /**
+             * Properties of a WorldInit.
+             * @typedef {Object} BattleOfCell.Message.WorldInit.$Properties
+             * @property {number|Long|null} [xSize] WorldInit xSize
+             * @property {number|Long|null} [ySize] WorldInit ySize
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a WorldInit.
+             * @memberof BattleOfCell.Message
+             * @interface IWorldInit
+             * @augments BattleOfCell.Message.WorldInit.$Properties
+             * @deprecated Use BattleOfCell.Message.WorldInit.$Properties instead.
+             */
+
+            /**
+             * Shape of a WorldInit.
+             * @typedef {BattleOfCell.Message.WorldInit.$Properties} BattleOfCell.Message.WorldInit.$Shape
+             */
+
+            /**
+             * Constructs a new WorldInit.
+             * @memberof BattleOfCell.Message
+             * @classdesc Represents a WorldInit.
+             * @constructor
+             * @param {BattleOfCell.Message.WorldInit.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const WorldInit = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * WorldInit xSize.
+             * @member {number|Long} xSize
+             * @memberof BattleOfCell.Message.WorldInit
+             * @instance
+             */
+            WorldInit.prototype.xSize = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+            /**
+             * WorldInit ySize.
+             * @member {number|Long} ySize
+             * @memberof BattleOfCell.Message.WorldInit
+             * @instance
+             */
+            WorldInit.prototype.ySize = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+            /**
+             * Creates a new WorldInit instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.WorldInit
+             * @static
+             * @param {BattleOfCell.Message.WorldInit.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.WorldInit} WorldInit instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.WorldInit.$Shape): BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape;
+             *   (properties?: BattleOfCell.Message.WorldInit.$Properties): BattleOfCell.Message.WorldInit;
+             * }}
+             */
+            WorldInit.create = function(properties) {
+                return new WorldInit(properties);
+            };
+
+            /**
+             * Encodes the specified WorldInit message. Does not implicitly {@link BattleOfCell.Message.WorldInit.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.WorldInit
+             * @static
+             * @param {BattleOfCell.Message.WorldInit.$Properties} message WorldInit message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            WorldInit.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.xSize != null && $Object.hasOwnProperty.call(message, "xSize") && (typeof message.xSize === "object" ? message.xSize.low || message.xSize.high : message.xSize !== 0))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.xSize);
+                if (message.ySize != null && $Object.hasOwnProperty.call(message, "ySize") && (typeof message.ySize === "object" ? message.ySize.low || message.ySize.high : message.ySize !== 0))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.ySize);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified WorldInit message, length delimited. Does not implicitly {@link BattleOfCell.Message.WorldInit.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.WorldInit
+             * @static
+             * @param {BattleOfCell.Message.WorldInit.$Properties} message WorldInit message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            WorldInit.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a WorldInit message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.WorldInit
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape} WorldInit
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            WorldInit.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.WorldInit(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (typeof (value = reader.uint64()) === "object" ? value.low || value.high : value !== 0)
+                                message.xSize = value;
+                            else
+                                delete message.xSize;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (typeof (value = reader.uint64()) === "object" ? value.low || value.high : value !== 0)
+                                message.ySize = value;
+                            else
+                                delete message.ySize;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a WorldInit message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.WorldInit
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape} WorldInit
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            WorldInit.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a WorldInit message.
+             * @function verify
+             * @memberof BattleOfCell.Message.WorldInit
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            WorldInit.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.xSize != null && $Object.hasOwnProperty.call(message, "xSize"))
+                    if (!$util.isInteger(message.xSize) && !(message.xSize && $util.isInteger(message.xSize.low) && $util.isInteger(message.xSize.high)))
+                        return "xSize: integer|Long expected";
+                if (message.ySize != null && $Object.hasOwnProperty.call(message, "ySize"))
+                    if (!$util.isInteger(message.ySize) && !(message.ySize && $util.isInteger(message.ySize.low) && $util.isInteger(message.ySize.high)))
+                        return "ySize: integer|Long expected";
+                return null;
+            };
+
+            /**
+             * Creates a WorldInit message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.WorldInit
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.WorldInit} WorldInit
+             */
+            WorldInit.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.WorldInit)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.WorldInit: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.BattleOfCell.Message.WorldInit();
+                if (object.xSize != null)
+                    if (typeof object.xSize === "object" ? object.xSize.low || object.xSize.high : $Number(object.xSize) !== 0)
+                        if ($util.Long)
+                            message.xSize = $util.Long.fromValue(object.xSize, true);
+                        else if (typeof object.xSize === "string")
+                            message.xSize = $parseInt(object.xSize, 10);
+                        else if (typeof object.xSize === "number")
+                            message.xSize = object.xSize;
+                        else if (typeof object.xSize === "object")
+                            message.xSize = new $util.LongBits(object.xSize.low >>> 0, object.xSize.high >>> 0).toNumber(true);
+                if (object.ySize != null)
+                    if (typeof object.ySize === "object" ? object.ySize.low || object.ySize.high : $Number(object.ySize) !== 0)
+                        if ($util.Long)
+                            message.ySize = $util.Long.fromValue(object.ySize, true);
+                        else if (typeof object.ySize === "string")
+                            message.ySize = $parseInt(object.ySize, 10);
+                        else if (typeof object.ySize === "number")
+                            message.ySize = object.ySize;
+                        else if (typeof object.ySize === "object")
+                            message.ySize = new $util.LongBits(object.ySize.low >>> 0, object.ySize.high >>> 0).toNumber(true);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a WorldInit message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.WorldInit
+             * @static
+             * @param {BattleOfCell.Message.WorldInit} message WorldInit
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            WorldInit.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults) {
+                    if ($util.Long) {
+                        let long = new $util.Long(0, 0, true);
+                        object.xSize = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
+                    } else
+                        object.xSize = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
+                    if ($util.Long) {
+                        let long = new $util.Long(0, 0, true);
+                        object.ySize = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
+                    } else
+                        object.ySize = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
+                }
+                if (message.xSize != null && $Object.hasOwnProperty.call(message, "xSize"))
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.xSize = typeof message.xSize === "number" ? $BigInt(message.xSize) : $util.Long.fromBits(message.xSize.low >>> 0, message.xSize.high >>> 0, true).toBigInt();
+                    else if (typeof message.xSize === "number")
+                        object.xSize = options.longs === $String ? $String(message.xSize) : message.xSize;
+                    else
+                        object.xSize = options.longs === $String ? $util.Long.prototype.toString.call(message.xSize) : options.longs === $Number ? new $util.LongBits(message.xSize.low >>> 0, message.xSize.high >>> 0).toNumber(true) : message.xSize;
+                if (message.ySize != null && $Object.hasOwnProperty.call(message, "ySize"))
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.ySize = typeof message.ySize === "number" ? $BigInt(message.ySize) : $util.Long.fromBits(message.ySize.low >>> 0, message.ySize.high >>> 0, true).toBigInt();
+                    else if (typeof message.ySize === "number")
+                        object.ySize = options.longs === $String ? $String(message.ySize) : message.ySize;
+                    else
+                        object.ySize = options.longs === $String ? $util.Long.prototype.toString.call(message.ySize) : options.longs === $Number ? new $util.LongBits(message.ySize.low >>> 0, message.ySize.high >>> 0).toNumber(true) : message.ySize;
+                return object;
+            };
+
+            /**
+             * Converts this WorldInit to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.WorldInit
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            WorldInit.prototype.toJSON = function() {
+                return WorldInit.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for WorldInit
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.WorldInit
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            WorldInit.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.WorldInit";
+            };
+
+            return WorldInit;
         })();
 
         return Message;

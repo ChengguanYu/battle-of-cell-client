@@ -1759,252 +1759,6 @@ export namespace BattleOfCell {
         }
 
         /**
-         * Properties of a PlayerMatchReq.
-         * @deprecated Use BattleOfCell.Message.PlayerMatchReq.$Properties instead.
-         */
-        interface IPlayerMatchReq extends BattleOfCell.Message.PlayerMatchReq.$Properties {
-        }
-
-        /** 客户端发起匹配请求 */
-        class PlayerMatchReq {
-
-            /**
-             * Constructs a new PlayerMatchReq.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: BattleOfCell.Message.PlayerMatchReq.$Properties);
-
-            /** Unknown fields preserved while decoding when enabled */
-            $unknowns?: Uint8Array[];
-
-            /**
-             * Creates a new PlayerMatchReq instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns PlayerMatchReq instance
-             */
-            static create(properties: BattleOfCell.Message.PlayerMatchReq.$Shape): BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape;
-            static create(properties?: BattleOfCell.Message.PlayerMatchReq.$Properties): BattleOfCell.Message.PlayerMatchReq;
-
-            /**
-             * Encodes the specified PlayerMatchReq message. Does not implicitly {@link BattleOfCell.Message.PlayerMatchReq.verify|verify} messages.
-             * @param message PlayerMatchReq message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encode(message: BattleOfCell.Message.PlayerMatchReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified PlayerMatchReq message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerMatchReq.verify|verify} messages.
-             * @param message PlayerMatchReq message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encodeDelimited(message: BattleOfCell.Message.PlayerMatchReq.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a PlayerMatchReq message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape} PlayerMatchReq
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape;
-
-            /**
-             * Decodes a PlayerMatchReq message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape} PlayerMatchReq
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.PlayerMatchReq & BattleOfCell.Message.PlayerMatchReq.$Shape;
-
-            /**
-             * Verifies a PlayerMatchReq message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a PlayerMatchReq message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns PlayerMatchReq
-             */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.PlayerMatchReq;
-
-            /**
-             * Creates a plain object from a PlayerMatchReq message. Also converts values to other types if specified.
-             * @param message PlayerMatchReq
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            static toObject(message: BattleOfCell.Message.PlayerMatchReq, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this PlayerMatchReq to JSON.
-             * @returns JSON object
-             */
-            toJSON(): { [k: string]: any };
-
-            /**
-             * Gets the type url for PlayerMatchReq
-             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns The type url
-             */
-            static getTypeUrl(prefix?: string): string;
-        }
-
-        namespace PlayerMatchReq {
-
-            /** Properties of a PlayerMatchReq. */
-            interface $Properties {
-
-                /** Unknown fields preserved while decoding when enabled */
-                $unknowns?: Uint8Array[];
-            }
-
-            /** Shape of a PlayerMatchReq. */
-            type $Shape = BattleOfCell.Message.PlayerMatchReq.$Properties;
-        }
-
-        /**
-         * Properties of a PlayerMatchResp.
-         * @deprecated Use BattleOfCell.Message.PlayerMatchResp.$Properties instead.
-         */
-        interface IPlayerMatchResp extends BattleOfCell.Message.PlayerMatchResp.$Properties {
-        }
-
-        /** Represents a PlayerMatchResp. */
-        class PlayerMatchResp {
-
-            /**
-             * Constructs a new PlayerMatchResp.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: BattleOfCell.Message.PlayerMatchResp.$Properties);
-
-            /** Unknown fields preserved while decoding when enabled */
-            $unknowns?: Uint8Array[];
-
-            /** PlayerMatchResp meta. */
-            meta?: (BattleOfCell.Message.MetaData.$Properties|null);
-
-            /** PlayerMatchResp error. */
-            error: BattleOfCell.Message.RespError.$Properties[];
-
-            /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
-            ok: boolean;
-
-            /** 匹配成功后的房间 ID；失败时为 0 */
-            roomId: (number|Long);
-
-            /**
-             * Creates a new PlayerMatchResp instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns PlayerMatchResp instance
-             */
-            static create(properties: BattleOfCell.Message.PlayerMatchResp.$Shape): BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape;
-            static create(properties?: BattleOfCell.Message.PlayerMatchResp.$Properties): BattleOfCell.Message.PlayerMatchResp;
-
-            /**
-             * Encodes the specified PlayerMatchResp message. Does not implicitly {@link BattleOfCell.Message.PlayerMatchResp.verify|verify} messages.
-             * @param message PlayerMatchResp message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encode(message: BattleOfCell.Message.PlayerMatchResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified PlayerMatchResp message, length delimited. Does not implicitly {@link BattleOfCell.Message.PlayerMatchResp.verify|verify} messages.
-             * @param message PlayerMatchResp message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encodeDelimited(message: BattleOfCell.Message.PlayerMatchResp.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a PlayerMatchResp message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape} PlayerMatchResp
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape;
-
-            /**
-             * Decodes a PlayerMatchResp message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape} PlayerMatchResp
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.PlayerMatchResp & BattleOfCell.Message.PlayerMatchResp.$Shape;
-
-            /**
-             * Verifies a PlayerMatchResp message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a PlayerMatchResp message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns PlayerMatchResp
-             */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.PlayerMatchResp;
-
-            /**
-             * Creates a plain object from a PlayerMatchResp message. Also converts values to other types if specified.
-             * @param message PlayerMatchResp
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            static toObject(message: BattleOfCell.Message.PlayerMatchResp, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this PlayerMatchResp to JSON.
-             * @returns JSON object
-             */
-            toJSON(): { [k: string]: any };
-
-            /**
-             * Gets the type url for PlayerMatchResp
-             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns The type url
-             */
-            static getTypeUrl(prefix?: string): string;
-        }
-
-        namespace PlayerMatchResp {
-
-            /** Properties of a PlayerMatchResp. */
-            interface $Properties {
-
-                /** PlayerMatchResp meta */
-                meta?: (BattleOfCell.Message.MetaData.$Properties|null);
-
-                /** PlayerMatchResp error */
-                error?: (BattleOfCell.Message.RespError.$Properties[]|null);
-
-                /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
-                ok?: (boolean|null);
-
-                /** 匹配成功后的房间 ID；失败时为 0 */
-                roomId?: (number|Long|null);
-
-                /** Unknown fields preserved while decoding when enabled */
-                $unknowns?: Uint8Array[];
-            }
-
-            /** Shape of a PlayerMatchResp. */
-            type $Shape = BattleOfCell.Message.PlayerMatchResp.$Properties;
-        }
-
-        /**
          * Properties of a MatchReq.
          * @deprecated Use BattleOfCell.Message.MatchReq.$Properties instead.
          */
@@ -2389,6 +2143,9 @@ export namespace BattleOfCell {
             /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
             ok: boolean;
 
+            /** 房间的世界参数；注意 field 6 避免与 IResponse.ErrorCode 的 ProtoMember(4) 冲突 */
+            world?: (BattleOfCell.Message.WorldInit.$Properties|null);
+
             /** 进入成功后的房间 ID；失败时为 0 */
             roomId: (number|Long);
 
@@ -2485,6 +2242,9 @@ export namespace BattleOfCell {
                 /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
                 ok?: (boolean|null);
 
+                /** 房间的世界参数；注意 field 6 避免与 IResponse.ErrorCode 的 ProtoMember(4) 冲突 */
+                world?: (BattleOfCell.Message.WorldInit.$Properties|null);
+
                 /** 进入成功后的房间 ID；失败时为 0 */
                 roomId?: (number|Long|null);
 
@@ -2494,6 +2254,129 @@ export namespace BattleOfCell {
 
             /** Shape of an EntryRoomResp. */
             type $Shape = BattleOfCell.Message.EntryRoomResp.$Properties;
+        }
+
+        /**
+         * Properties of a WorldInit.
+         * @deprecated Use BattleOfCell.Message.WorldInit.$Properties instead.
+         */
+        interface IWorldInit extends BattleOfCell.Message.WorldInit.$Properties {
+        }
+
+        /** Represents a WorldInit. */
+        class WorldInit {
+
+            /**
+             * Constructs a new WorldInit.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.WorldInit.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** WorldInit xSize. */
+            xSize: (number|Long);
+
+            /** WorldInit ySize. */
+            ySize: (number|Long);
+
+            /**
+             * Creates a new WorldInit instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns WorldInit instance
+             */
+            static create(properties: BattleOfCell.Message.WorldInit.$Shape): BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape;
+            static create(properties?: BattleOfCell.Message.WorldInit.$Properties): BattleOfCell.Message.WorldInit;
+
+            /**
+             * Encodes the specified WorldInit message. Does not implicitly {@link BattleOfCell.Message.WorldInit.verify|verify} messages.
+             * @param message WorldInit message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.WorldInit.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified WorldInit message, length delimited. Does not implicitly {@link BattleOfCell.Message.WorldInit.verify|verify} messages.
+             * @param message WorldInit message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.WorldInit.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a WorldInit message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape} WorldInit
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape;
+
+            /**
+             * Decodes a WorldInit message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape} WorldInit
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape;
+
+            /**
+             * Verifies a WorldInit message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a WorldInit message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns WorldInit
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.WorldInit;
+
+            /**
+             * Creates a plain object from a WorldInit message. Also converts values to other types if specified.
+             * @param message WorldInit
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.WorldInit, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this WorldInit to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for WorldInit
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace WorldInit {
+
+            /** Properties of a WorldInit. */
+            interface $Properties {
+
+                /** WorldInit xSize */
+                xSize?: (number|Long|null);
+
+                /** WorldInit ySize */
+                ySize?: (number|Long|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a WorldInit. */
+            type $Shape = BattleOfCell.Message.WorldInit.$Properties;
         }
     }
 }

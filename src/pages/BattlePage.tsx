@@ -17,11 +17,15 @@ import { leaveRoom } from "../services/leaveRoom"
 import { CONFIG } from "../network/config"
 
 const OUT_OF_BOUNDS = "#050805"
+const DEBUG_WORLD_SIZE = { width: 12000, height: 8000 }
 
 export function BattlePage() {
   const { roomId } = useParams()
   const navigate = useNavigate()
-  const [world] = useState(() => new BattleWorld(12000, 8000))
+  const [world] = useState(() => {
+    const worldSize = gameSession.getState().worldSize ?? DEBUG_WORLD_SIZE
+    return new BattleWorld(worldSize.width, worldSize.height)
+  })
   const heroRef = useRef(world.hero)
   const { cameraX, cameraY, zoom, containerRef } = useCamera(heroRef, world.width, world.height)
   const [debugVisible, setDebugVisible] = useState(false)

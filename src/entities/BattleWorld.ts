@@ -11,7 +11,10 @@ export class BattleWorld {
   constructor(width: number, height: number) {
     this.width = width
     this.height = height
-    this.hero = new Hero(width, height)
+    this.hero = new Hero(width, height, {
+      x: width / 2,
+      y: height / 2,
+    })
   }
 
   get isCreated(): boolean {

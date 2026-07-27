@@ -7,9 +7,15 @@ export type GamePhase =
   | "waiting_first_frame" // 匹配成功，等待服务端首帧
   | "in_battle" // 已收到首帧，战斗会话有效
 
+export interface WorldSize {
+  width: number
+  height: number
+}
+
 export interface GameSessionState {
   phase: GamePhase
   roomId: number | null
+  worldSize: WorldSize | null
   /** 进入战斗时锁定的首帧帧号；无则 null */
   firstFrameNumber: number | null
 }
@@ -17,6 +23,7 @@ export interface GameSessionState {
 const INITIAL_STATE: GameSessionState = {
   phase: "lobby",
   roomId: null,
+  worldSize: null,
   firstFrameNumber: null,
 }
 
@@ -49,6 +56,7 @@ class GameSessionStore {
     this.set({
       phase: "lobby",
       roomId: null,
+      worldSize: null,
       firstFrameNumber: null,
     })
   }
@@ -58,24 +66,27 @@ class GameSessionStore {
     this.set({
       phase: "matching",
       roomId: null,
+      worldSize: null,
       firstFrameNumber: null,
     })
   }
 
   /** 匹配响应成功，等待首帧 */
-  enterWaitingFirstFrame(roomId: number): void {
+  enterWaitingFirstFrame(roomId: number, worldSize: WorldSize): void {
     this.set({
       phase: "waiting_first_frame",
       roomId,
+      worldSize,
       firstFrameNumber: null,
     })
   }
 
   /** 收到首帧后进入战斗态 */
-  enterBattle(roomId: number, firstFrameNumber: number): void {
+  enterBattle(roomId: number, firstFrameNumber: number, worldSize: WorldSize): void {
     this.set({
       phase: "in_battle",
       roomId,
+      worldSize,
       firstFrameNumber,
     })
   }
@@ -85,6 +96,7 @@ class GameSessionStore {
     return (
       this.state.phase === "in_battle" &&
       this.state.roomId != null &&
+      this.state.worldSize != null &&
       this.state.firstFrameNumber != null
     )
   }

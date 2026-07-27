@@ -14,6 +14,7 @@ export const OpCode = {
   ServerFrame: 134227732,
   SessionHeartbeatPing: 268445461,
   SessionHeartbeatPong: 402663189,
+  WorldInit: 134227733,
 } as const
 
 export type OpCode = (typeof OpCode)[keyof typeof OpCode]

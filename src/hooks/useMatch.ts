@@ -9,6 +9,7 @@ import { useAuth } from "./AuthContext"
 import { wsService } from "../services/wsService"
 import { frameBuffer } from "../services/frameBuffer"
 import { gameSession } from "../state/gameSession"
+import type { WorldSize } from "../state/gameSession"
 
 function toRoomId(value: unknown): number {
   if (value == null) return 0
@@ -21,6 +22,14 @@ function toRoomId(value: unknown): number {
     }
   }
   return Number(value)
+}
+
+function toWorldDimension(value: unknown, fieldName: string): number {
+  const dimension = Number(String(value))
+  if (!Number.isSafeInteger(dimension) || dimension <= 0) {
+    throw new Error(`进入房间成功但世界尺寸 ${fieldName} 无效`)
+  }
+  return dimension
 }
 
 type RespLike = {
@@ -50,10 +59,16 @@ export type MatchPhase = "idle" | "matching" | "waiting_first_frame"
 export interface MatchEnterResult {
   roomId: number
   firstFrameNumber: number
+  worldSize: WorldSize
 }
 
-/** 可替换匹配策略：产出有效 roomId 后，由共享流水线负责等首帧并入战 */
-type MatchStrategy = (timeout: number) => Promise<number>
+interface MatchResolution {
+  roomId: number
+  worldSize: WorldSize
+}
+
+/** 可替换匹配策略：产出房间初始化数据后，由共享流水线负责等首帧并入战 */
+type MatchStrategy = (timeout: number) => Promise<MatchResolution>
 
 export function useMatch() {
   const { token } = useAuth()
@@ -162,7 +177,16 @@ export function useMatch() {
     if (!roomId) {
       throw new Error("进入房间成功但房间 ID 无效")
     }
-    return roomId
+    if (!entryResp.world) {
+      throw new Error("进入房间成功但缺少世界信息")
+    }
+
+    const worldSize = {
+      width: toWorldDimension(entryResp.world.xSize, "x_size"),
+      height: toWorldDimension(entryResp.world.ySize, "y_size"),
+    }
+    console.log("[Match] Map:", worldSize)
+    return { roomId, worldSize }
   }, [])
 
   /**
@@ -187,10 +211,10 @@ export function useMatch() {
         // 新一局匹配：清空旧帧，避免误把上一局首帧当成本局
         frameBuffer.clear()
 
-        const roomId = await strategy(timeout)
+        const { roomId, worldSize } = await strategy(timeout)
 
         setPhase("waiting_first_frame")
-        gameSession.enterWaitingFirstFrame(roomId)
+        gameSession.enterWaitingFirstFrame(roomId, worldSize)
 
         const firstFrameNumber = await frameBuffer.waitForFirstFrame(timeout)
         console.log(
@@ -200,8 +224,8 @@ export function useMatch() {
           roomId,
         )
 
-        gameSession.enterBattle(roomId, firstFrameNumber)
-        return { roomId, firstFrameNumber }
+        gameSession.enterBattle(roomId, firstFrameNumber, worldSize)
+        return { roomId, firstFrameNumber, worldSize }
       } catch (err) {
         gameSession.enterLobby()
         throw err
