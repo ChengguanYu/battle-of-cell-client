@@ -133,11 +133,14 @@ export function BattlePage() {
   useEffect(() => {
     // 每次挂载都初始化；StrictMode 会先 cleanup 再二次挂载，
     // 不能用“只 init 一次”的 ref，否则 sessionOk 会被 cleanup 清掉后无法恢复。
+    const hero = heroRef.current
     const ok = initBattle(roomId)
+    if (ok) hero.spawn()
     setSessionOk(ok)
     sessionOkRef.current = ok
 
     return () => {
+      hero.kill()
       battleTick.stop()
       sessionOkRef.current = false
       setSessionOk(false)
@@ -186,7 +189,7 @@ export function BattlePage() {
       className="relative h-screen w-screen overflow-hidden select-none"
       style={{ background: OUT_OF_BOUNDS }}
     >
-      {sessionOk && (
+      {sessionOk && hero.isSpawned && (
         <GameWorld cameraX={cameraX} cameraY={cameraY} zoom={zoom}>
           <HeroView x={heroX} y={heroY} radius={heroRadius} />
           <AimLine

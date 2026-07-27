@@ -229,6 +229,13 @@ export class Hero extends Entity {
     this.emit("change")
   }
 
+  /** Hero-specific generation logic called through Entity.spawn(). */
+  protected onSpawn(): void {
+    this.clampPositionToBounds()
+    this.emit("move")
+    this.emit("change")
+  }
+
   on(event: HeroEvent, fn: (state: HeroState) => void): () => void {
     if (!this.listeners.has(event)) {
       this.listeners.set(event, new Set())

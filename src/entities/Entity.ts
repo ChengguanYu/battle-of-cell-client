@@ -21,6 +21,7 @@ import {
  * Subclasses keep domain logic (HP, launch, bounce, events, etc.).
  */
 export abstract class Entity implements IEntityView, IEntityDetection {
+  private _isSpawned = false
   protected _x: Fixed
   protected _y: Fixed
   protected _vx: Fixed = 0
@@ -40,6 +41,38 @@ export abstract class Entity implements IEntityView, IEntityDetection {
     this._x = toFixed(opts?.x ?? worldSize / 2)
     this._y = toFixed(opts?.y ?? worldSize / 2)
     this.clampPositionToBounds()
+  }
+
+  /** Whether this entity currently belongs to the world lifecycle. */
+  get isSpawned(): boolean {
+    return this._isSpawned
+  }
+
+  /**
+   * Add this entity to the world lifecycle.
+   * Concrete entities customize generation through onSpawn().
+   */
+  spawn(): void {
+    if (this._isSpawned) return
+
+    this._isSpawned = true
+    try {
+      this.onSpawn()
+    } catch (error) {
+      this._isSpawned = false
+      throw error
+    }
+  }
+
+  /**
+   * Remove this entity from the world lifecycle.
+   * Actual world-detachment behavior is intentionally left to onKill().
+   */
+  kill(): void {
+    if (!this._isSpawned) return
+
+    this.onKill()
+    this._isSpawned = false
   }
 
   /** Fixed-point X */
@@ -151,4 +184,10 @@ export abstract class Entity implements IEntityView, IEntityDetection {
     this._x = fixedClamp(this._x, min, max)
     this._y = fixedClamp(this._y, min, max)
   }
+
+  /** Entity-specific generation hook invoked by spawn(). */
+  protected abstract onSpawn(): void
+
+  /** Entity-specific removal hook. Reserved for future world detachment. */
+  protected onKill(): void {}
 }
