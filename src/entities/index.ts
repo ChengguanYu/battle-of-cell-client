@@ -24,3 +24,4 @@ export {
 export { Entity } from "./Entity"
 export { Hero } from "./Hero"
 export type { HeroState, HeroEvent, HeroOptions } from "./Hero"
+export { BattleWorld } from "./BattleWorld"

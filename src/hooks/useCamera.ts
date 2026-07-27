@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react"
 import { fromFixed } from "../lib/fixed"
 
-const WORLD_SIZE = 10000
 const ZOOM_MIN = 0.25
 const ZOOM_MAX = 4
 const ZOOM_STEP = 0.1
@@ -12,7 +11,10 @@ const CAMERA_ACCELERATION = 0.06
  * Camera follows a hero-like target. The target's x/y are fixed-point business
  * coordinates; camera converts them to real pixels for rendering/math.
  */
-export function useCamera(heroRef: React.RefObject<{ x: number; y: number } | null>) {
+export function useCamera(
+  heroRef: React.RefObject<{ x: number; y: number } | null>,
+  worldSize: number,
+) {
   const [camera, setCamera] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -63,8 +65,8 @@ export function useCamera(heroRef: React.RefObject<{ x: number; y: number } | nu
 
       if (prevTimeRef.current === 0) {
         prevTimeRef.current = timestamp
-        cam.x = Math.max(0, Math.min(px - cx, WORLD_SIZE - vw))
-        cam.y = Math.max(0, Math.min(py - cy, WORLD_SIZE - vh))
+        cam.x = Math.max(0, Math.min(px - cx, worldSize - vw))
+        cam.y = Math.max(0, Math.min(py - cy, worldSize - vh))
         setCamera({ x: cam.x, y: cam.y })
         rafId = requestAnimationFrame(animate)
         return
@@ -83,8 +85,8 @@ export function useCamera(heroRef: React.RefObject<{ x: number; y: number } | nu
       cam.x += vel.x * dt
       cam.y += vel.y * dt
 
-      const maxX = Math.max(0, WORLD_SIZE - vw)
-      const maxY = Math.max(0, WORLD_SIZE - vh)
+      const maxX = Math.max(0, worldSize - vw)
+      const maxY = Math.max(0, worldSize - vh)
       if (cam.x <= 0 || cam.x >= maxX) vel.x = 0
       if (cam.y <= 0 || cam.y >= maxY) vel.y = 0
       cam.x = Math.max(0, Math.min(cam.x, maxX))
@@ -96,7 +98,7 @@ export function useCamera(heroRef: React.RefObject<{ x: number; y: number } | nu
 
     rafId = requestAnimationFrame(animate)
     return () => cancelAnimationFrame(rafId)
-  }, [heroRef])
+  }, [heroRef, worldSize])
 
   return { cameraX: camera.x, cameraY: camera.y, zoom, containerRef }
 }

@@ -1,18 +1,18 @@
 import type { ReactNode } from "react"
 
-const WORLD_SIZE = 10000
 const GRID_SIZE = 100
 const WORLD_BG = "#0d1a0d"
 const GRID_COLOR = "rgba(255, 255, 255, 0.06)"
 
 interface GameWorldProps {
+  size: number
   cameraX: number
   cameraY: number
   zoom: number
   children: ReactNode
 }
 
-export function GameWorld({ cameraX, cameraY, zoom, children }: GameWorldProps) {
+export function GameWorld({ size, cameraX, cameraY, zoom, children }: GameWorldProps) {
   const cx = window.innerWidth / 2
   const cy = window.innerHeight / 2
 
@@ -20,8 +20,8 @@ export function GameWorld({ cameraX, cameraY, zoom, children }: GameWorldProps) 
     <div
       className="absolute left-0 top-0"
       style={{
-        width: WORLD_SIZE,
-        height: WORLD_SIZE,
+        width: size,
+        height: size,
         transform: [
           `translate(${cx}px, ${cy}px)`,
           `scale(${zoom})`,

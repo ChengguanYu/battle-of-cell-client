@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
-import { Hero } from "../entities/Hero"
+import { BattleWorld } from "../entities/BattleWorld"
 import { useHero } from "../hooks/useHero"
 import { useCamera } from "../hooks/useCamera"
 import { GameWorld } from "../components/GameWorld"
@@ -16,14 +16,14 @@ import { battleTick } from "../services/battleTick"
 import { leaveRoom } from "../services/leaveRoom"
 import { CONFIG } from "../network/config"
 
-const WORLD_SIZE = 10000
 const OUT_OF_BOUNDS = "#050805"
 
 export function BattlePage() {
   const { roomId } = useParams()
   const navigate = useNavigate()
-  const heroRef = useRef(new Hero(WORLD_SIZE, { radius: 20 }))
-  const { cameraX, cameraY, zoom, containerRef } = useCamera(heroRef)
+  const [world] = useState(() => new BattleWorld())
+  const heroRef = useRef(world.hero)
+  const { cameraX, cameraY, zoom, containerRef } = useCamera(heroRef, world.size)
   const [debugVisible, setDebugVisible] = useState(false)
   const [sessionOk, setSessionOk] = useState(false)
   const sessionOkRef = useRef(false)
@@ -68,7 +68,7 @@ export function BattlePage() {
    * Battle 内部初始化：校验全局会话态、对齐帧游标，并启动 tick。
    * 有有效态 → true；无 → toast 错误并返回 false。
    */
-  const initBattle = (routeRoomId?: string): boolean => {
+  const initBattle = useCallback((routeRoomId?: string): boolean => {
     const session = gameSession.getState()
 
     // 调试模式：无真实会话也能进战斗页，方便本地看场景/HUD/操作
@@ -128,24 +128,23 @@ export function BattlePage() {
       origin,
     )
     return true
-  }
+  }, [navigate])
 
   useEffect(() => {
     // 每次挂载都初始化；StrictMode 会先 cleanup 再二次挂载，
     // 不能用“只 init 一次”的 ref，否则 sessionOk 会被 cleanup 清掉后无法恢复。
-    const hero = heroRef.current
     const ok = initBattle(roomId)
-    if (ok) hero.spawn()
+    if (ok) world.create()
     setSessionOk(ok)
     sessionOkRef.current = ok
 
     return () => {
-      hero.kill()
+      world.destroy()
       battleTick.stop()
       sessionOkRef.current = false
       setSessionOk(false)
     }
-  }, [roomId, navigate])
+  }, [roomId, initBattle, world])
 
   // Render layer uses real pixels; hero business state is fixed-point.
   const heroX = fromFixed(state.x)
@@ -189,8 +188,13 @@ export function BattlePage() {
       className="relative h-screen w-screen overflow-hidden select-none"
       style={{ background: OUT_OF_BOUNDS }}
     >
-      {sessionOk && hero.isSpawned && (
-        <GameWorld cameraX={cameraX} cameraY={cameraY} zoom={zoom}>
+      {sessionOk && world.isCreated && (
+        <GameWorld
+          size={world.size}
+          cameraX={cameraX}
+          cameraY={cameraY}
+          zoom={zoom}
+        >
           <HeroView x={heroX} y={heroY} radius={heroRadius} />
           <AimLine
             fromX={heroX}
