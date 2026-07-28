@@ -8,6 +8,17 @@ const CAMERA_MAX_SPEED = 8000
 const CAMERA_ACCELERATION = 0.06
 
 /**
+ * Clamp a camera axis value to the allowed range for a world whose span
+ * (worldSize - viewport) may be negative. When the world is smaller than the
+ * viewpoint, the camera centers the world (span/2). When larger, the camera is
+ * constrained to [0, span] so the edges never scroll past the viewport.
+ */
+function clampCam(value: number, span: number): number {
+  if (span >= 0) return Math.max(0, Math.min(value, span))
+  return span / 2
+}
+
+/**
  * Camera follows a hero-like target. The target's x/y are fixed-point business
  * coordinates; camera converts them to real pixels for rendering/math.
  */
@@ -66,8 +77,8 @@ export function useCamera(
 
       if (prevTimeRef.current === 0) {
         prevTimeRef.current = timestamp
-        cam.x = Math.max(0, Math.min(px - cx, worldWidth - vw))
-        cam.y = Math.max(0, Math.min(py - cy, worldHeight - vh))
+        cam.x = clampCam(px - cx, worldWidth - vw)
+        cam.y = clampCam(py - cy, worldHeight - vh)
         setCamera({ x: cam.x, y: cam.y })
         rafId = requestAnimationFrame(animate)
         return
@@ -86,12 +97,12 @@ export function useCamera(
       cam.x += vel.x * dt
       cam.y += vel.y * dt
 
-      const maxX = Math.max(0, worldWidth - vw)
-      const maxY = Math.max(0, worldHeight - vh)
-      if (cam.x <= 0 || cam.x >= maxX) vel.x = 0
-      if (cam.y <= 0 || cam.y >= maxY) vel.y = 0
-      cam.x = Math.max(0, Math.min(cam.x, maxX))
-      cam.y = Math.max(0, Math.min(cam.y, maxY))
+      const spanX = worldWidth - vw
+      const spanY = worldHeight - vh
+      if (spanX >= 0 && (cam.x <= 0 || cam.x >= spanX)) vel.x = 0
+      if (spanY >= 0 && (cam.y <= 0 || cam.y >= spanY)) vel.y = 0
+      cam.x = clampCam(cam.x, spanX)
+      cam.y = clampCam(cam.y, spanY)
 
       setCamera({ x: cam.x, y: cam.y })
       rafId = requestAnimationFrame(animate)
