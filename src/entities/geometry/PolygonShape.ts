@@ -1,5 +1,5 @@
 import { Shape, type Collision, type ShapeAABB, NO_HIT, aabbOverlap } from "./Shape"
-import { circleVsPolygon } from "./collision"
+import { circleVsPolygon, type Vec2 } from "./collision"
 import { Polygon } from "./Polygon"
 import { CircleShape } from "./CircleShape"
 
@@ -14,6 +14,15 @@ export class PolygonShape extends Shape {
   constructor(polygon: Polygon) {
     super()
     this.polygon = polygon
+  }
+
+  /**
+   * One-shot factory: raw vertices -> validated Polygon -> PolygonShape.
+   * Throws on invalid geometry (see Polygon.validate). Use this when you
+   * have a vertex ring and want a collision-ready shape in one call.
+   */
+  static fromVertices(vertices: Vec2[]): PolygonShape {
+    return new PolygonShape(new Polygon(vertices))
   }
 
   get aabb(): ShapeAABB {
