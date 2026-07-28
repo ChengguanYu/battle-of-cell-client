@@ -1,4 +1,5 @@
 import { Entity } from "./Entity"
+import { CircleShape } from "./geometry/CircleShape"
 import { HeroConfig, type HeroConfigOptions } from "./config/HeroConfig"
 import {
   FIXED_SCALE,
@@ -8,6 +9,7 @@ import {
   fixedDiv,
   fixedHypot,
   fixedClamp,
+  fromFixed,
 } from "../lib/fixed"
 
 export interface HeroState {
@@ -54,6 +56,7 @@ export class Hero extends Entity<HeroConfig> {
   private _maxLaunchSpeed: Fixed
   /** 0 = fully inelastic, FIXED_SCALE = perfectly elastic. */
   private _elasticity: Fixed
+  private _shape: CircleShape
   private listeners = new Map<HeroEvent, Set<(state: HeroState) => void>>()
 
   /**
@@ -67,6 +70,22 @@ export class Hero extends Entity<HeroConfig> {
     this._elasticity = fixedClamp(toFixed(this.config.elasticity), 0, FIXED_SCALE)
     this._hp = this.config.hp
     this._maxHp = this.config.maxHp
+
+    this._shape = new CircleShape(
+      fromFixed(this._x),
+      fromFixed(this._y),
+      fromFixed(this._radius),
+    )
+  }
+
+  get shape(): CircleShape {
+    return this._shape
+  }
+
+  private syncShape(): void {
+    this._shape.x = fromFixed(this._x)
+    this._shape.y = fromFixed(this._y)
+    this._shape.r = fromFixed(this._radius)
   }
 
   get state(): HeroState {
@@ -115,6 +134,7 @@ export class Hero extends Entity<HeroConfig> {
   /** @param value Real px */
   setRadius(value: number): void {
     super.setRadius(value)
+    this.syncShape()
     this.emit("move")
     this.emit("change")
   }
@@ -122,6 +142,54 @@ export class Hero extends Entity<HeroConfig> {
   /** @param value Real 0..1 */
   setElasticity(value: number): void {
     this._elasticity = fixedClamp(toFixed(value), 0, FIXED_SCALE)
+  }
+
+  /**
+   * Resolve a contact against an obstacle given a unit outward normal
+   * (fixed-point) and a penetration depth (fixed-point). The normal points
+   * from the obstacle wall toward where the hero center should sit.
+   *
+   * - Position is pushed out along the normal by penetration.
+   * - Velocity is reflected about the normal and scaled by elasticity:
+   *     v' = (v - 2(v.n)n) * e
+   * - Reflection is skipped when v is already moving away (v.n >= 0) to
+   *   avoid re-bounce jitter once the position correction has separated them.
+   */
+  bounce(normalX: Fixed, normalY: Fixed, penetration: Fixed): void {
+    this._x = this._x + fixedMul(normalX, penetration)
+    this._y = this._y + fixedMul(normalY, penetration)
+    this.clampPositionToBounds()
+    this.syncShape()
+
+    const nvx = fromFixed(this._vx)
+    const nvy = fromFixed(this._vy)
+    const nx = fromFixed(normalX)
+    const ny = fromFixed(normalY)
+    const dot = nvx * nx + nvy * ny
+    if (dot >= 0) {
+      this.emit("move")
+      this.emit("change")
+      return
+    }
+    const e = fromFixed(this._elasticity)
+    const reflVx = (nvx - 2 * dot * nx) * e
+    const reflVy = (nvy - 2 * dot * ny) * e
+    this._vx = toFixed(reflVx)
+    this._vy = toFixed(reflVy)
+
+    const speed = fixedHypot(this._vx, this._vy)
+    if (speed === 0) {
+      this._dirX = 0
+      this._dirY = 0
+      this._initSpeed = 0
+    } else {
+      this._dirX = fixedDiv(this._vx, speed)
+      this._dirY = fixedDiv(this._vy, speed)
+      this._initSpeed = speed
+    }
+
+    this.emit("move")
+    this.emit("change")
   }
 
   /**
@@ -189,6 +257,7 @@ export class Hero extends Entity<HeroConfig> {
 
     this._x = nextX
     this._y = nextY
+    this.syncShape()
 
     const currentSpeed = fixedHypot(this._vx, this._vy)
     const decelAmount = fixedMul(this._deceleration, dt)
@@ -210,6 +279,7 @@ export class Hero extends Entity<HeroConfig> {
   /** @param y Real world Y */
   setPosition(x: number, y: number): void {
     super.setPosition(x, y)
+    this.syncShape()
     this.emit("move")
     this.emit("change")
   }
@@ -231,6 +301,7 @@ export class Hero extends Entity<HeroConfig> {
   /** Hero-specific generation logic called through Entity.spawn(). */
   protected onSpawn(): void {
     this.clampPositionToBounds()
+    this.syncShape()
     this.emit("move")
     this.emit("change")
   }

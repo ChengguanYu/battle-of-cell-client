@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useCallback } from "react"
+import { useRef, useState, useEffect, useCallback, useMemo } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import { BattleWorld } from "../entities/BattleWorld"
@@ -8,13 +8,16 @@ import { GameWorld } from "../components/GameWorld"
 import { HeroView } from "../components/hero"
 import { BattleHUD } from "../components/BattleHUD"
 import { AimLine } from "../components/AimLine"
+import { PolygonLayer } from "../components/PolygonLayer"
 import { DebugPanel } from "../components/DebugPanel"
-import { fromFixed } from "../lib/fixed"
+import { fromFixed, toFixed } from "../lib/fixed"
 import { gameSession } from "../state/gameSession"
 import { resetBattleFrameCursor, sendLaunchFrame } from "../services/battleFrame"
 import { battleTick } from "../services/battleTick"
 import { leaveRoom } from "../services/leaveRoom"
 import { CONFIG } from "../network/config"
+import { ObstacleField } from "../entities/ObstacleField"
+import { createDemoObstacles } from "../services/demoObstacles"
 
 const OUT_OF_BOUNDS = "#050805"
 const DEBUG_WORLD_SIZE = { width: 12000, height: 8000 }
@@ -29,6 +32,10 @@ export function BattlePage() {
   const heroRef = useRef(world.hero)
   const { cameraX, cameraY, zoom, containerRef } = useCamera(heroRef, world.width, world.height)
   const [debugVisible, setDebugVisible] = useState(false)
+  const [obstacles] = useState(() =>
+    createDemoObstacles(fromFixed(world.hero.x), fromFixed(world.hero.y)),
+  )
+  const obstacleField = useMemo(() => new ObstacleField(obstacles), [obstacles])
   const [sessionOk, setSessionOk] = useState(false)
   const sessionOkRef = useRef(false)
 
@@ -65,7 +72,7 @@ export function BattlePage() {
     heroRef,
     containerRef,
     { x: cameraX, y: cameraY, zoom },
-    { onLaunch: handleLaunch },
+    { onLaunch: handleLaunch, onStep: () => obstacleField.resolve(heroRef.current) },
   )
 
   /**
@@ -200,6 +207,11 @@ export function BattlePage() {
           cameraY={cameraY}
           zoom={zoom}
         >
+          <PolygonLayer
+            shapes={obstacles}
+            width={world.width}
+            height={world.height}
+          />
           <HeroView x={heroX} y={heroY} radius={heroRadius} />
           <AimLine
             fromX={heroX}

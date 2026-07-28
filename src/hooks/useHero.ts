@@ -19,6 +19,8 @@ export interface UseHeroOptions {
    * 参数为本次真实发射状态（定点），供上层立刻组 LAUNCH 帧发送。
    */
   onLaunch?: (info: LaunchReleaseInfo) => void
+  /** Called once per rAF step after hero.update(dt); dt in seconds. */
+  onStep?: (dt: number) => void
 }
 
 export function useHero(
@@ -43,6 +45,7 @@ export function useHero(
   const cameraRef = useRef(camera)
   const prevTimeRef = useRef(0)
   const onLaunchRef = useRef(options?.onLaunch)
+  const onStepRef = useRef(options?.onStep)
 
   useEffect(() => {
     cameraRef.current = camera
@@ -54,7 +57,8 @@ export function useHero(
 
   useEffect(() => {
     onLaunchRef.current = options?.onLaunch
-  }, [options?.onLaunch])
+    onStepRef.current = options?.onStep
+  }, [options?.onLaunch, options?.onStep])
 
   useEffect(() => {
     return hero.onChange(setState)
@@ -73,6 +77,7 @@ export function useHero(
       const dt = Math.min((timestamp - prevTimeRef.current) / 1000, 0.05)
       prevTimeRef.current = timestamp
       hero.update(dt)
+      onStepRef.current?.(dt)
       rafId = requestAnimationFrame(tick)
     }
 
