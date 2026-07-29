@@ -71,12 +71,16 @@ export interface MatchEnterResult {
   firstFrameNumber: number
   worldSize: WorldSize
   worldShapes: WorldShapeData[]
+  /** 服务端分配的本局出生点（世界坐标 px），无则 fallback 到世界中心 */
+  spawnPosition: { x: number; y: number } | null
 }
 
 interface MatchResolution {
   roomId: number
   worldSize: WorldSize
   worldShapes: WorldShapeData[]
+  /** 服务端分配的本局出生点 */
+  spawnPosition: { x: number; y: number } | null
 }
 
 /** 可替换匹配策略：产出房间初始化数据后，由共享流水线负责等首帧并入战 */
@@ -115,36 +119,6 @@ export function useMatch() {
     wsService.notifyAuthSuccess()
     wsService.startHeartbeat()
   }, [token])
-
-  /*
-   * 旧逻辑：PlayerMatch 直接返回 roomId（Match 服务内部调 Room，一把梭入房）
-   * 已切换到 Match 建会话 + EntryRoom 进入；协议保留，业务链路先整段注释。
-   *
-  const resolveRoomByPlayerMatch: MatchStrategy = useCallback(async (timeout) => {
-    const reqBody = BattleOfCell.Message.PlayerMatchReq.encode(
-      BattleOfCell.Message.PlayerMatchReq.create({}),
-    ).finish()
-
-    const respBuffer = await gameNetwork.request(
-      OpCode.PlayerMatchReq,
-      reqBody,
-      OpCode.PlayerMatchResp,
-      timeout,
-    )
-
-    const resp = BattleOfCell.Message.PlayerMatchResp.decode(
-      new Uint8Array(respBuffer),
-    )
-    console.log("[Match] PlayerMatchResp:", JSON.stringify(resp))
-    assertRespOk(resp, "匹配失败", "[Match]")
-
-    const roomId = toRoomId(resp.roomId)
-    if (!roomId) {
-      throw new Error("匹配成功但房间 ID 无效")
-    }
-    return roomId
-  }, [])
-  */
 
   /** 新逻辑：Match 创建匹配会话，成功后再 EntryRoom，roomId 以 EntryRoomResp 为准 */
   const resolveRoomByMatchThenEntry: MatchStrategy = useCallback(async (timeout) => {
@@ -197,7 +171,7 @@ export function useMatch() {
       width: toWorldDimension(entryResp.world.xSize, "x_size"),
       height: toWorldDimension(entryResp.world.ySize, "y_size"),
     }
-   console.log("[Match] Map:", worldSize)
+    console.log("[Match] Map:", worldSize)
 
     // 顶点与世界尺寸同单位（直接以 int64 透传的原始 world px），仅做数值类型转换
     const worldShapes: WorldShapeData[] = (entryResp.world.shapes ?? []).map(
@@ -208,7 +182,14 @@ export function useMatch() {
         })),
       }),
     )
-    return { roomId, worldSize, worldShapes }
+
+    // 提取服务端分配的出生点
+    const spawnPosition = (entryResp.position != null)
+      ? { x: toNumber(entryResp.position.x), y: toNumber(entryResp.position.y) }
+      : null
+    console.log("[Match] Spawn position:", spawnPosition)
+
+    return { roomId, worldSize, worldShapes, spawnPosition }
   }, [])
 
   /**
@@ -233,21 +214,20 @@ export function useMatch() {
         // 新一局匹配：清空旧帧，避免误把上一局首帧当成本局
         frameBuffer.clear()
 
-        const { roomId, worldSize, worldShapes } = await strategy(timeout)
+        const { roomId, worldSize, worldShapes, spawnPosition } = await strategy(timeout)
 
         setPhase("waiting_first_frame")
-        gameSession.enterWaitingFirstFrame(roomId, worldSize, worldShapes)
+        gameSession.enterWaitingFirstFrame(roomId, worldSize, worldShapes, spawnPosition ?? undefined)
 
         const firstFrameNumber = await frameBuffer.waitForFirstFrame(timeout)
-        console.log(
-          `${logPrefix} first server_frame received, frameNumber=`,
+        console.log(`${logPrefix} first server_frame received, frameNumber=`,
           firstFrameNumber,
           "roomId=",
           roomId,
         )
 
-        gameSession.enterBattle(roomId, firstFrameNumber, worldSize, worldShapes)
-        return { roomId, firstFrameNumber, worldSize, worldShapes }
+        gameSession.enterBattle(roomId, firstFrameNumber, worldSize, worldShapes, spawnPosition ?? undefined)
+        return { roomId, firstFrameNumber, worldSize, worldShapes, spawnPosition }
       } catch (err) {
         gameSession.enterLobby()
         throw err
@@ -270,22 +250,6 @@ export function useMatch() {
     },
     [runEnterBattlePipeline, resolveRoomByMatchThenEntry],
   )
-
-  /*
-   * 旧展示入口：匹配模式2 按钮专用。
-   * 现已并入 startMatch，保留注释便于回溯。
-   *
-  const startMatchMode2 = useCallback(
-    async (timeout = 30000) => {
-      return runEnterBattlePipeline(
-        resolveRoomByMatchThenEntry,
-        timeout,
-        "[MatchMode2]",
-      )
-    },
-    [runEnterBattlePipeline, resolveRoomByMatchThenEntry],
-  )
-  */
 
   return { startMatch, pending, phase }
 }

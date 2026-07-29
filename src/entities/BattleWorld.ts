@@ -18,13 +18,13 @@ export class BattleWorld {
   /** 世界中的静态形状（障碍物），由进房数据初始化 */
   readonly shapes: Shape[]
 
-  constructor(width: number, height: number, shapeVertices: WorldShapeVertices = []) {
+  constructor(width: number, height: number, shapeVertices: WorldShapeVertices = [], spawnPosition?: { x: number; y: number }) {
     this.width = width
     this.height = height
     this.shapes = BattleWorld.buildShapes(shapeVertices)
     this._hero = new Hero(width, height, {
-      x: width / 2,
-      y: height / 2,
+      x: spawnPosition?.x ?? width / 2,
+      y: spawnPosition?.y ?? height / 2,
     })
     this.addEntity(this._hero)
   }

@@ -2518,6 +2518,9 @@ export namespace BattleOfCell {
             /** EntryRoomResp roomId. */
             roomId: (number|Long);
 
+            /** 玩家在房间中的出生坐标 */
+            position?: (BattleOfCell.Message.Position2d.$Properties|null);
+
             /**
              * Creates a new EntryRoomResp instance using the specified properties.
              * @param [properties] Properties to set
@@ -2616,6 +2619,9 @@ export namespace BattleOfCell {
 
                 /** EntryRoomResp roomId */
                 roomId?: (number|Long|null);
+
+                /** 玩家在房间中的出生坐标 */
+                position?: (BattleOfCell.Message.Position2d.$Properties|null);
 
                 /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];

@@ -29,7 +29,8 @@ export function BattlePage() {
     const worldSize = session.worldSize ?? debugWorldSize
     const shapes = session.worldShapes ?? debugWorldShapes
     const worldShapes = shapes.map((s) => s.vertices)
-    return new BattleWorld(worldSize.width, worldSize.height, worldShapes)
+    const spawnPosition = session.spawnPosition ?? undefined
+    return new BattleWorld(worldSize.width, worldSize.height, worldShapes, spawnPosition)
   })
   const heroRef = useRef(world.hero)
   const { cameraX, cameraY, zoom, containerRef } = useCamera(heroRef, world.width, world.height)
@@ -143,7 +144,7 @@ export function BattlePage() {
 
   useEffect(() => {
     // 每次挂载都初始化；StrictMode 会先 cleanup 再二次挂载，
-    // 不能用“只 init 一次”的 ref，否则 sessionOk 会被 cleanup 清掉后无法恢复。
+    // 不能用"只 init 一次"的 ref，否则 sessionOk 会被 cleanup 清掉后无法恢复。
     const ok = initBattle(roomId)
     if (ok) world.create()
     setSessionOk(ok)

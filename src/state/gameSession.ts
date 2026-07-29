@@ -27,6 +27,8 @@ export interface GameSessionState {
   phase: GamePhase
   roomId: number | null
   worldSize: WorldSize | null
+  /** 服务端分配的本局出生点（世界坐标 px），进房后非空 */
+  spawnPosition: { x: number; y: number } | null
   /** 进房下发的世界形状（顶点为真实 world px），无则 null */
   worldShapes: WorldShapeData[] | null
   /** 进入战斗时锁定的首帧帧号；无则 null */
@@ -37,6 +39,7 @@ const INITIAL_STATE: GameSessionState = {
   phase: "lobby",
   roomId: null,
   worldSize: null,
+  spawnPosition: null,
   worldShapes: null,
   firstFrameNumber: null,
 }
@@ -71,6 +74,7 @@ class GameSessionStore {
       phase: "lobby",
       roomId: null,
       worldSize: null,
+      spawnPosition: null,
       firstFrameNumber: null,
     })
   }
@@ -81,18 +85,20 @@ class GameSessionStore {
       phase: "matching",
       roomId: null,
       worldSize: null,
+      spawnPosition: null,
       worldShapes: null,
       firstFrameNumber: null,
     })
   }
 
   /** 匹配响应成功，等待首帧 */
-  enterWaitingFirstFrame(roomId: number, worldSize: WorldSize, worldShapes: WorldShapeData[]): void {
+  enterWaitingFirstFrame(roomId: number, worldSize: WorldSize, worldShapes: WorldShapeData[], spawnPosition?: { x: number; y: number }): void {
     this.set({
       phase: "waiting_first_frame",
       roomId,
       worldSize,
       worldShapes,
+      spawnPosition: spawnPosition ?? null,
       firstFrameNumber: null,
     })
   }
@@ -103,12 +109,14 @@ class GameSessionStore {
     firstFrameNumber: number,
     worldSize: WorldSize,
     worldShapes: WorldShapeData[],
+    spawnPosition?: { x: number; y: number },
   ): void {
     this.set({
       phase: "in_battle",
       roomId,
       worldSize,
       worldShapes,
+      spawnPosition: spawnPosition ?? null,
       firstFrameNumber,
     })
   }

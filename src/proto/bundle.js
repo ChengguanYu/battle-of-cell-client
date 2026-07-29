@@ -6200,6 +6200,7 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
              * @property {boolean|null} [ok] EntryRoomResp ok
              * @property {BattleOfCell.Message.WorldInit.$Properties|null} [world] 房间的世界参数
              * @property {number|Long|null} [roomId] EntryRoomResp roomId
+             * @property {BattleOfCell.Message.Position2d.$Properties|null} [position] 玩家在房间中的出生坐标
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
@@ -6273,6 +6274,14 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             EntryRoomResp.prototype.roomId = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
             /**
+             * 玩家在房间中的出生坐标
+             * @member {BattleOfCell.Message.Position2d.$Properties|null|undefined} position
+             * @memberof BattleOfCell.Message.EntryRoomResp
+             * @instance
+             */
+            EntryRoomResp.prototype.position = null;
+
+            /**
              * Creates a new EntryRoomResp instance using the specified properties.
              * @function create
              * @memberof BattleOfCell.Message.EntryRoomResp
@@ -6315,6 +6324,8 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                     $root.BattleOfCell.Message.WorldInit.encode(message.world, writer.uint32(/* id 4, wireType 2 =*/34).fork(), _depth + 1).ldelim();
                 if (message.roomId != null && $Object.hasOwnProperty.call(message, "roomId") && (typeof message.roomId === "object" ? message.roomId.low || message.roomId.high : message.roomId !== 0))
                     writer.uint32(/* id 5, wireType 0 =*/40).int64(message.roomId);
+                if (message.position != null && $Object.hasOwnProperty.call(message, "position"))
+                    $root.BattleOfCell.Message.Position2d.encode(message.position, writer.uint32(/* id 7, wireType 2 =*/58).fork(), _depth + 1).ldelim();
                 if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
@@ -6400,6 +6411,12 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                                 delete message.roomId;
                             continue;
                         }
+                    case 7: {
+                            if (wireType !== 2)
+                                break;
+                            message.position = $root.BattleOfCell.Message.Position2d.decode(reader, reader.uint32(), $undefined, _depth + 1, message.position);
+                            continue;
+                        }
                     }
                     reader.skipType(wireType, _depth, tag);
                     if (!reader.discardUnknown) {
@@ -6468,6 +6485,11 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                 if (message.roomId != null && $Object.hasOwnProperty.call(message, "roomId"))
                     if (!$util.isInteger(message.roomId) && !(message.roomId && $util.isInteger(message.roomId.low) && $util.isInteger(message.roomId.high)))
                         return "roomId: integer|Long expected";
+                if (message.position != null && $Object.hasOwnProperty.call(message, "position")) {
+                    let error = $root.BattleOfCell.Message.Position2d.verify(message.position, _depth + 1);
+                    if (error)
+                        return "position." + error;
+                }
                 return null;
             };
 
@@ -6522,6 +6544,11 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                             message.roomId = object.roomId;
                         else if (typeof object.roomId === "object")
                             message.roomId = new $util.LongBits(object.roomId.low >>> 0, object.roomId.high >>> 0).toNumber();
+                if (object.position != null) {
+                    if (!$util.isObject(object.position))
+                        throw $TypeError(".BattleOfCell.Message.EntryRoomResp.position: object expected");
+                    message.position = $root.BattleOfCell.Message.Position2d.fromObject(object.position, _depth + 1);
+                }
                 return message;
             };
 
@@ -6553,6 +6580,7 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                         object.roomId = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                     } else
                         object.roomId = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
+                    object.position = null;
                 }
                 if (message.meta != null && $Object.hasOwnProperty.call(message, "meta"))
                     object.meta = $root.BattleOfCell.Message.MetaData.toObject(message.meta, options, _depth + 1);
@@ -6572,6 +6600,8 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                         object.roomId = options.longs === $String ? $String(message.roomId) : message.roomId;
                     else
                         object.roomId = options.longs === $String ? $util.Long.prototype.toString.call(message.roomId) : options.longs === $Number ? new $util.LongBits(message.roomId.low >>> 0, message.roomId.high >>> 0).toNumber() : message.roomId;
+                if (message.position != null && $Object.hasOwnProperty.call(message, "position"))
+                    object.position = $root.BattleOfCell.Message.Position2d.toObject(message.position, options, _depth + 1);
                 return object;
             };
 
