@@ -111,13 +111,20 @@ export function circleVsPolygon(
     if (!inside) return { hit: true, nx: 1, ny: 0, penetration: 0 }
   }
 
-  if (inside) {
-    // Find the shallowest exit: for each edge, project the center onto the
-    // edge's outward normal (resolved winding-independently via
-    // pointInPolygon sampling). The minimum positive exit depth gives the
-    // contact normal and penetration to move the circle just outside that
-    // edge. Robust for concave polygons where the Euclidean-nearest edge
-    // may lie across a concave bay and push the circle deeper.
+ if (inside) {
+    // Find the shallowest exit. For each edge, resolve its outward unit
+    // normal winding-independently (sample pointInPolygon from the edge
+    // midpoint, which sits on the boundary, not from the interior point),
+    // then measure the signed distance from the center to that edge along
+    // the outward normal. For an interior center this is positive; the
+    // exit depth to push the circle just outside that edge is dist + r =
+    // signed + r. Taking the minimum across all edges handles concave
+    // polygons correctly: the Euclidean-nearest edge might lie across a
+    // concave bay and not be a valid exit, while the per-edge minimum
+    // naturally lands on the genuine shallowest exit. Back-facing edges
+    // (signed clamped to a vertex) end up with a larger value and lose the
+    // min, so no explicit skip is needed; the returned normal is a unit
+    // vector so downstream reflection does not blow up velocity.
     let minExit = Infinity
     let exitNx = 0
     let exitNy = 0
@@ -131,10 +138,9 @@ export function circleVsPolygon(
       if (elen === 0) continue
       ex /= elen
       ey /= elen
-      // Left-hand normal candidate; flip if it points into the polygon.
-      // Sample from the edge midpoint (on the boundary), not the circle
-      // center (interior): an interior point offset stays interior so the
-      // flip always triggers and the normal ends up winding-dependent.
+      // Outer normal candidate (left-hand); flip if it points into the
+      // polygon. Sample from the edge midpoint so the offset actually
+      // crosses the boundary, keeping the result winding-independent.
       let nx = -ey
       let ny = ex
       const mx = (a.x + b.x) / 2
@@ -144,13 +150,10 @@ export function circleVsPolygon(
         ny = -ny
       }
       const p = closestPointOnSegment(cx, cy, a.x, a.y, b.x, b.y)
-      // Signed distance from edge to center along outward normal.
-      // Negative = center on the interior side (valid exit edge).
-      // Positive = back-facing edge in a concave bay; skip it so it is
-      // not mistaken for the shallowest exit.
+      // Signed distance from center to edge along the outward normal.
+      // Positive for an interior center; the exit depth is dist + r.
       const signed = (p.x - cx) * nx + (p.y - cy) * ny
-      if (signed > 0) continue
-      const exit = -signed + r
+      const exit = signed + r
       if (exit < minExit) {
         minExit = exit
         exitNx = nx
@@ -160,8 +163,10 @@ export function circleVsPolygon(
     if (Number.isFinite(minExit)) {
       return { hit: true, nx: exitNx, ny: exitNy, penetration: minExit }
     }
-    // Should not happen for a valid simple polygon, but guard against NaNs.
-    return { hit: true, nx: -bestDx || 1, ny: -bestDy || 0, penetration: r }
+    // Fallback: every edge degenerate. Normalize the push direction so a
+    // non-unit normal cannot blow up the reflection in bounce.
+    const fd = d === 0 ? 1 : d
+    return { hit: true, nx: -bestDx / fd, ny: -bestDy / fd, penetration: r + d }
   }
 
   return {
