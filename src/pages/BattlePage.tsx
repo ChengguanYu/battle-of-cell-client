@@ -234,7 +234,13 @@ export function BattlePage() {
             width={world.width}
             height={world.height}
           />
-          <HeroView x={heroX} y={heroY} radius={heroRadius} />
+          <HeroView
+            x={heroX}
+            y={heroY}
+            radius={heroRadius}
+            launchCooldownMs={hero.launchCooldownMs}
+            lastLaunchTimeMs={hero.lastLaunchTimeMs}
+          />
           <AimLine
             fromX={heroX}
             fromY={heroY}

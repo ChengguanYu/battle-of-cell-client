@@ -37,6 +37,7 @@ function resolveHeroConfig(options?: HeroOptions): HeroConfig {
   config.maxLaunchSpeed = options.maxLaunchSpeed ?? config.maxLaunchSpeed
   config.radius = options.radius ?? config.radius
   config.elasticity = options.elasticity ?? config.elasticity
+  config.launchCooldownMs = options.launchCooldownMs ?? config.launchCooldownMs
   return config
 }
 
@@ -57,6 +58,10 @@ export class Hero extends Entity<HeroConfig> {
   /** 0 = fully inelastic, FIXED_SCALE = perfectly elastic. */
   private _elasticity: Fixed
   private _shape: CircleShape
+  /** 发射冷却时间 (ms) */
+  private _launchCooldownMs: number
+  /** 上次发射时间戳 (performance.now ms) */
+  private _lastLaunchTimeMs: number = 0
   private listeners = new Map<HeroEvent, Set<(state: HeroState) => void>>()
 
   /**
@@ -68,6 +73,8 @@ export class Hero extends Entity<HeroConfig> {
     this._deceleration = toFixed(this.config.deceleration)
     this._maxLaunchSpeed = toFixed(this.config.maxLaunchSpeed)
     this._elasticity = fixedClamp(toFixed(this.config.elasticity), 0, FIXED_SCALE)
+    this._launchCooldownMs = this.config.launchCooldownMs
+    this._lastLaunchTimeMs = -this._launchCooldownMs
     this._hp = this.config.hp
     this._maxHp = this.config.maxHp
 
@@ -144,6 +151,22 @@ export class Hero extends Entity<HeroConfig> {
     this._elasticity = fixedClamp(toFixed(value), 0, FIXED_SCALE)
   }
 
+  get launchCooldownMs(): number {
+    return this._launchCooldownMs
+  }
+
+  get lastLaunchTimeMs(): number {
+    return this._lastLaunchTimeMs
+  }
+
+  setLaunchCooldownMs(value: number): void {
+    this._launchCooldownMs = Math.max(0, value)
+  }
+
+  canLaunch(nowMs: number = performance.now()): boolean {
+    return nowMs - this._lastLaunchTimeMs >= this._launchCooldownMs
+  }
+
   /**
    * Resolve a contact against an obstacle given a unit outward normal
    * (fixed-point) and a penetration depth (fixed-point). The normal points
@@ -200,7 +223,8 @@ export class Hero extends Entity<HeroConfig> {
    * Then direction / initSpeed are refreshed from v'.
    * Callers that receive API floats must convert first via toFixed / fixedDiv.
    */
-  launch(dirX: Fixed, dirY: Fixed, initialSpeed: Fixed): void {
+  launch(dirX: Fixed, dirY: Fixed, initialSpeed: Fixed, nowMs?: number): boolean {
+    if (!this.canLaunch(nowMs)) return false
     const impulseX = fixedMul(dirX, initialSpeed)
     const impulseY = fixedMul(dirY, initialSpeed)
 
@@ -223,8 +247,10 @@ export class Hero extends Entity<HeroConfig> {
       this._initSpeed = composedSpeed
     }
 
+    this._lastLaunchTimeMs = nowMs ?? performance.now()
     this.emit("move")
     this.emit("change")
+    return true
   }
 
   /**

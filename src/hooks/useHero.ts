@@ -125,6 +125,7 @@ export function useHero(
     }
 
     const onMouseDown = (e: MouseEvent) => {
+      if (!hero.canLaunch()) return
       aimStartScreenRef.current = { x: e.clientX, y: e.clientY }
       isAimingRef.current = true
       setIsAiming(true)
