@@ -82,7 +82,7 @@ hitTest(worldX, worldY, cameraX, cameraY, zoom): boolean {
 
 ---
 
-## 3. BattleWorld 引入 entities 注册表
+## 3. BattleWorld 引入 entities 注册表（第一步已落地）
 
 ### 现状
 `BattleWorld` 直接硬挂 `hero: Hero`，世界形状走 `shapes: Shape[]`，
@@ -91,8 +91,11 @@ hitTest(worldX, worldY, cameraX, cameraY, zoom): boolean {
 ```ts
 // src/entities/BattleWorld.ts
 readonly hero: Hero
-readonly shapes: Shape[]
+  readonly shapes: Shape[]
 ```
+> **第一步已落地**：hero 已进入 `entities: Entity[]`，
+> `create`/`destroy` 改为遍历数组。`world.hero` getter 保留 `Hero` 类型，
+> 外部控制路径（useHero 的 hero.update/hero.launch）零改动。
 
 ### 问题
 - 加第二个会动的实体（动障碍 / 子弹 / food）就得改 `BattleWorld` 签名。
@@ -107,6 +110,9 @@ readonly shapes: Shape[]
 - 保留 `shapes: Shape[]` 不变，静态障碍继续走这条；
   hero 碰撞查询继续对 shapes 跑，不混入 entities 互相碰撞逻辑。
 - tick 遍历 `entities` 调 `update`，碰撞遍历 `shapes` 做候选筛选。
+  **暂缓**：当前唯一动态实体是 hero，rAF 在 useHero 里直接 `hero.update(dt)`
+  跑得好好的，硬提一层 world.update 纯属为单实体加间接，可能动到客户端预测手感。
+  等出现第二个动态体或服务端帧需要对账多个实体时再动。
 - 暂不抽 `IWorldObject` 统一接口——只有静态 shapes + 单个 hero，抽接口
   属于过度设计；等出现多类可遍历/可渲染对象再补。
 
@@ -136,6 +142,6 @@ readonly shapes: Shape[]
 |----|----------|------|
 | 分派表 | `Shape.ts` / `PolygonShape.ts` / `CircleShape.ts` + 新增表文件 | 中 |
 | hitTest 剥离 | `Entity.ts` + `detection.ts`（已完成，直接删除） | — |
-| entities 注册表 | `BattleWorld.ts` + tick 调用处 | 小 |
+| entities 注册表 | `BattleWorld.ts`（第一步已完成） | 小 |
 
 三条改动互相独立，可分别提交。
