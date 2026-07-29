@@ -4,9 +4,11 @@ interface BattleHUDProps {
   playerY: number
   zoom: number
   onBack: () => void
+  /** 测试：模拟蓄满力向右释放 */
+  onSimulateFullRight?: () => void
 }
 
-export function BattleHUD({ roomId, playerX, playerY, zoom, onBack }: BattleHUDProps) {
+export function BattleHUD({ roomId, playerX, playerY, zoom, onBack, onSimulateFullRight }: BattleHUDProps) {
   return (
     <div className="pointer-events-none absolute inset-0 z-10">
       {/* 左上角：退出 + 房间号 */}
@@ -22,6 +24,19 @@ export function BattleHUD({ roomId, playerX, playerY, zoom, onBack }: BattleHUDP
           房间: {roomId}
         </span>
       </div>
+
+      {/* 右上角：测试模拟按钮 */}
+      {onSimulateFullRight && (
+        <div className="pointer-events-auto absolute right-4 top-4">
+          <button
+            type="button"
+            onClick={onSimulateFullRight}
+            className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-yellow-500/40 bg-yellow-500/10 px-3 py-1.5 text-xs text-yellow-400 transition-colors hover:bg-yellow-500/20"
+          >
+            ▶ 模拟发射
+          </button>
+        </div>
+      )}
 
       {/* 右下角：玩家坐标 + 缩放 */}
       <div className="pointer-events-auto absolute bottom-4 right-4 flex items-center gap-2 rounded-md bg-card/80 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur-sm">

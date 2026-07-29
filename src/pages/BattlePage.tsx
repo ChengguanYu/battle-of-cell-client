@@ -10,7 +10,7 @@ import { BattleHUD } from "../components/BattleHUD"
 import { AimLine } from "../components/AimLine"
 import { PolygonLayer } from "../components/PolygonLayer"
 import { DebugPanel } from "../components/DebugPanel"
-import { fromFixed, toFixed } from "../lib/fixed"
+import { fromFixed, toFixed, fixedMul } from "../lib/fixed"
 import { gameSession } from "../state/gameSession"
 import { resetBattleFrameCursor, sendLaunchFrame } from "../services/battleFrame"
 import { battleTick } from "../services/battleTick"
@@ -177,6 +177,28 @@ export function BattlePage() {
 
   const [leaving, setLeaving] = useState(false)
 
+  /** 测试：模拟蓄满力向右释放，走正常操作流程 */
+  const handleSimulateFullRight = useCallback(() => {
+    const hero = heroRef.current
+    const coeffFixed = toFixed(speedCoefficient)
+    const initialSpeed = fixedMul(hero.maxLaunchSpeed, coeffFixed)
+    const dirX = toFixed(1)
+    const dirY = toFixed(0)
+
+    // 1) 客户端本地执行
+    hero.launch(dirX, dirY, initialSpeed)
+
+    // 2) 按正常入帧逻辑发送（内部用 battleTick.frameNumber 算帧号）
+    sendLaunchFrame({ dirX, dirY, speed: initialSpeed })
+
+    console.log(
+      "[Simulate] full-right launch dirX=1 dirY=0 speed=",
+      initialSpeed,
+      "tick=",
+      battleTick.frameNumber,
+    )
+  }, [speedCoefficient])
+
   const handleBack = useCallback(async () => {
     if (leaving) return
     setLeaving(true)
@@ -230,6 +252,7 @@ export function BattlePage() {
         playerY={heroY}
         zoom={zoom}
         onBack={handleBack}
+        onSimulateFullRight={handleSimulateFullRight}
       />
 
       <DebugPanel
