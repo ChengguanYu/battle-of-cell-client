@@ -8,6 +8,492 @@ export namespace BattleOfCell {
     namespace Message {
 
         /**
+         * Properties of a Vec2d.
+         * @deprecated Use BattleOfCell.Message.Vec2d.$Properties instead.
+         */
+        interface IVec2d extends BattleOfCell.Message.Vec2d.$Properties {
+        }
+
+        /** 定点数向量（单位取小数点后3位），防止平台浮点差异 */
+        class Vec2d {
+
+            /**
+             * Constructs a new Vec2d.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.Vec2d.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** Vec2d x. */
+            x: (number|Long);
+
+            /** Vec2d y. */
+            y: (number|Long);
+
+            /**
+             * Creates a new Vec2d instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns Vec2d instance
+             */
+            static create(properties: BattleOfCell.Message.Vec2d.$Shape): BattleOfCell.Message.Vec2d & BattleOfCell.Message.Vec2d.$Shape;
+            static create(properties?: BattleOfCell.Message.Vec2d.$Properties): BattleOfCell.Message.Vec2d;
+
+            /**
+             * Encodes the specified Vec2d message. Does not implicitly {@link BattleOfCell.Message.Vec2d.verify|verify} messages.
+             * @param message Vec2d message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.Vec2d.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified Vec2d message, length delimited. Does not implicitly {@link BattleOfCell.Message.Vec2d.verify|verify} messages.
+             * @param message Vec2d message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.Vec2d.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a Vec2d message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.Vec2d & BattleOfCell.Message.Vec2d.$Shape} Vec2d
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.Vec2d & BattleOfCell.Message.Vec2d.$Shape;
+
+            /**
+             * Decodes a Vec2d message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.Vec2d & BattleOfCell.Message.Vec2d.$Shape} Vec2d
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.Vec2d & BattleOfCell.Message.Vec2d.$Shape;
+
+            /**
+             * Verifies a Vec2d message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a Vec2d message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns Vec2d
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.Vec2d;
+
+            /**
+             * Creates a plain object from a Vec2d message. Also converts values to other types if specified.
+             * @param message Vec2d
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.Vec2d, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this Vec2d to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for Vec2d
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace Vec2d {
+
+            /** Properties of a Vec2d. */
+            interface $Properties {
+
+                /** Vec2d x */
+                x?: (number|Long|null);
+
+                /** Vec2d y */
+                y?: (number|Long|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a Vec2d. */
+            type $Shape = BattleOfCell.Message.Vec2d.$Properties;
+        }
+
+        /**
+         * Properties of a Position2d.
+         * @deprecated Use BattleOfCell.Message.Position2d.$Properties instead.
+         */
+        interface IPosition2d extends BattleOfCell.Message.Position2d.$Properties {
+        }
+
+        /** Represents a Position2d. */
+        class Position2d {
+
+            /**
+             * Constructs a new Position2d.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.Position2d.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** Position2d x. */
+            x: number;
+
+            /** Position2d y. */
+            y: number;
+
+            /**
+             * Creates a new Position2d instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns Position2d instance
+             */
+            static create(properties: BattleOfCell.Message.Position2d.$Shape): BattleOfCell.Message.Position2d & BattleOfCell.Message.Position2d.$Shape;
+            static create(properties?: BattleOfCell.Message.Position2d.$Properties): BattleOfCell.Message.Position2d;
+
+            /**
+             * Encodes the specified Position2d message. Does not implicitly {@link BattleOfCell.Message.Position2d.verify|verify} messages.
+             * @param message Position2d message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.Position2d.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified Position2d message, length delimited. Does not implicitly {@link BattleOfCell.Message.Position2d.verify|verify} messages.
+             * @param message Position2d message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.Position2d.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a Position2d message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.Position2d & BattleOfCell.Message.Position2d.$Shape} Position2d
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.Position2d & BattleOfCell.Message.Position2d.$Shape;
+
+            /**
+             * Decodes a Position2d message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.Position2d & BattleOfCell.Message.Position2d.$Shape} Position2d
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.Position2d & BattleOfCell.Message.Position2d.$Shape;
+
+            /**
+             * Verifies a Position2d message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a Position2d message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns Position2d
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.Position2d;
+
+            /**
+             * Creates a plain object from a Position2d message. Also converts values to other types if specified.
+             * @param message Position2d
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.Position2d, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this Position2d to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for Position2d
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace Position2d {
+
+            /** Properties of a Position2d. */
+            interface $Properties {
+
+                /** Position2d x */
+                x?: (number|null);
+
+                /** Position2d y */
+                y?: (number|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a Position2d. */
+            type $Shape = BattleOfCell.Message.Position2d.$Properties;
+        }
+
+        /**
+         * Properties of a ShapeVertex.
+         * @deprecated Use BattleOfCell.Message.ShapeVertex.$Properties instead.
+         */
+        interface IShapeVertex extends BattleOfCell.Message.ShapeVertex.$Properties {
+        }
+
+        /** 形状顶点（定点数坐标，uint 世界坐标直接以 int64 透传） */
+        class ShapeVertex {
+
+            /**
+             * Constructs a new ShapeVertex.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.ShapeVertex.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** ShapeVertex x. */
+            x: (number|Long);
+
+            /** ShapeVertex y. */
+            y: (number|Long);
+
+            /**
+             * Creates a new ShapeVertex instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ShapeVertex instance
+             */
+            static create(properties: BattleOfCell.Message.ShapeVertex.$Shape): BattleOfCell.Message.ShapeVertex & BattleOfCell.Message.ShapeVertex.$Shape;
+            static create(properties?: BattleOfCell.Message.ShapeVertex.$Properties): BattleOfCell.Message.ShapeVertex;
+
+            /**
+             * Encodes the specified ShapeVertex message. Does not implicitly {@link BattleOfCell.Message.ShapeVertex.verify|verify} messages.
+             * @param message ShapeVertex message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.ShapeVertex.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ShapeVertex message, length delimited. Does not implicitly {@link BattleOfCell.Message.ShapeVertex.verify|verify} messages.
+             * @param message ShapeVertex message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.ShapeVertex.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ShapeVertex message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.ShapeVertex & BattleOfCell.Message.ShapeVertex.$Shape} ShapeVertex
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.ShapeVertex & BattleOfCell.Message.ShapeVertex.$Shape;
+
+            /**
+             * Decodes a ShapeVertex message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.ShapeVertex & BattleOfCell.Message.ShapeVertex.$Shape} ShapeVertex
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.ShapeVertex & BattleOfCell.Message.ShapeVertex.$Shape;
+
+            /**
+             * Verifies a ShapeVertex message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ShapeVertex message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ShapeVertex
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.ShapeVertex;
+
+            /**
+             * Creates a plain object from a ShapeVertex message. Also converts values to other types if specified.
+             * @param message ShapeVertex
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.ShapeVertex, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ShapeVertex to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for ShapeVertex
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace ShapeVertex {
+
+            /** Properties of a ShapeVertex. */
+            interface $Properties {
+
+                /** ShapeVertex x */
+                x?: (number|Long|null);
+
+                /** ShapeVertex y */
+                y?: (number|Long|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a ShapeVertex. */
+            type $Shape = BattleOfCell.Message.ShapeVertex.$Properties;
+        }
+
+        /**
+         * Properties of a ShapeData.
+         * @deprecated Use BattleOfCell.Message.ShapeData.$Properties instead.
+         */
+        interface IShapeData extends BattleOfCell.Message.ShapeData.$Properties {
+        }
+
+        /** 世界中的一个形状（凸多边形顶点数组） */
+        class ShapeData {
+
+            /**
+             * Constructs a new ShapeData.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.ShapeData.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** ShapeData vertices. */
+            vertices: BattleOfCell.Message.ShapeVertex.$Properties[];
+
+            /**
+             * Creates a new ShapeData instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ShapeData instance
+             */
+            static create(properties: BattleOfCell.Message.ShapeData.$Shape): BattleOfCell.Message.ShapeData & BattleOfCell.Message.ShapeData.$Shape;
+            static create(properties?: BattleOfCell.Message.ShapeData.$Properties): BattleOfCell.Message.ShapeData;
+
+            /**
+             * Encodes the specified ShapeData message. Does not implicitly {@link BattleOfCell.Message.ShapeData.verify|verify} messages.
+             * @param message ShapeData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.ShapeData.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ShapeData message, length delimited. Does not implicitly {@link BattleOfCell.Message.ShapeData.verify|verify} messages.
+             * @param message ShapeData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.ShapeData.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ShapeData message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.ShapeData & BattleOfCell.Message.ShapeData.$Shape} ShapeData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.ShapeData & BattleOfCell.Message.ShapeData.$Shape;
+
+            /**
+             * Decodes a ShapeData message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.ShapeData & BattleOfCell.Message.ShapeData.$Shape} ShapeData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.ShapeData & BattleOfCell.Message.ShapeData.$Shape;
+
+            /**
+             * Verifies a ShapeData message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ShapeData message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ShapeData
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.ShapeData;
+
+            /**
+             * Creates a plain object from a ShapeData message. Also converts values to other types if specified.
+             * @param message ShapeData
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.ShapeData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ShapeData to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for ShapeData
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace ShapeData {
+
+            /** Properties of a ShapeData. */
+            interface $Properties {
+
+                /** ShapeData vertices */
+                vertices?: (BattleOfCell.Message.ShapeVertex.$Properties[]|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a ShapeData. */
+            type $Shape = BattleOfCell.Message.ShapeData.$Properties;
+        }
+
+        /**
          * Properties of an EntryHomeReq.
          * @deprecated Use BattleOfCell.Message.EntryHomeReq.$Properties instead.
          */
@@ -733,7 +1219,7 @@ export namespace BattleOfCell {
             type $Shape = BattleOfCell.Message.SessionHeartbeatPong.$Properties;
         }
 
-        /** Op enum. */
+        /** 客户端帧操作类型 */
         enum Op {
 
             /** SPAWN value */
@@ -741,510 +1227,6 @@ export namespace BattleOfCell {
 
             /** LAUNCH value */
             LAUNCH = 1
-        }
-
-        /**
-         * Properties of a ServerFrame.
-         * @deprecated Use BattleOfCell.Message.ServerFrame.$Properties instead.
-         */
-        interface IServerFrame extends BattleOfCell.Message.ServerFrame.$Properties {
-        }
-
-        /** Represents a ServerFrame. */
-        class ServerFrame {
-
-            /**
-             * Constructs a new ServerFrame.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: BattleOfCell.Message.ServerFrame.$Properties);
-
-            /** Unknown fields preserved while decoding when enabled */
-            $unknowns?: Uint8Array[];
-
-            /** ServerFrame frames. */
-            frames: BattleOfCell.Message.Frame.$Properties[];
-
-            /** ServerFrame frameNumber. */
-            frameNumber: (number|Long);
-
-            /** ServerFrame randomSeed. */
-            randomSeed: number;
-
-            /** ServerFrame meta. */
-            meta?: (BattleOfCell.Message.MetaData.$Properties|null);
-
-            /**
-             * Creates a new ServerFrame instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns ServerFrame instance
-             */
-            static create(properties: BattleOfCell.Message.ServerFrame.$Shape): BattleOfCell.Message.ServerFrame & BattleOfCell.Message.ServerFrame.$Shape;
-            static create(properties?: BattleOfCell.Message.ServerFrame.$Properties): BattleOfCell.Message.ServerFrame;
-
-            /**
-             * Encodes the specified ServerFrame message. Does not implicitly {@link BattleOfCell.Message.ServerFrame.verify|verify} messages.
-             * @param message ServerFrame message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encode(message: BattleOfCell.Message.ServerFrame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified ServerFrame message, length delimited. Does not implicitly {@link BattleOfCell.Message.ServerFrame.verify|verify} messages.
-             * @param message ServerFrame message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encodeDelimited(message: BattleOfCell.Message.ServerFrame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a ServerFrame message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.ServerFrame & BattleOfCell.Message.ServerFrame.$Shape} ServerFrame
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.ServerFrame & BattleOfCell.Message.ServerFrame.$Shape;
-
-            /**
-             * Decodes a ServerFrame message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.ServerFrame & BattleOfCell.Message.ServerFrame.$Shape} ServerFrame
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.ServerFrame & BattleOfCell.Message.ServerFrame.$Shape;
-
-            /**
-             * Verifies a ServerFrame message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a ServerFrame message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns ServerFrame
-             */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.ServerFrame;
-
-            /**
-             * Creates a plain object from a ServerFrame message. Also converts values to other types if specified.
-             * @param message ServerFrame
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            static toObject(message: BattleOfCell.Message.ServerFrame, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this ServerFrame to JSON.
-             * @returns JSON object
-             */
-            toJSON(): { [k: string]: any };
-
-            /**
-             * Gets the type url for ServerFrame
-             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns The type url
-             */
-            static getTypeUrl(prefix?: string): string;
-        }
-
-        namespace ServerFrame {
-
-            /** Properties of a ServerFrame. */
-            interface $Properties {
-
-                /** ServerFrame frames */
-                frames?: (BattleOfCell.Message.Frame.$Properties[]|null);
-
-                /** ServerFrame frameNumber */
-                frameNumber?: (number|Long|null);
-
-                /** ServerFrame randomSeed */
-                randomSeed?: (number|null);
-
-                /** ServerFrame meta */
-                meta?: (BattleOfCell.Message.MetaData.$Properties|null);
-
-                /** Unknown fields preserved while decoding when enabled */
-                $unknowns?: Uint8Array[];
-            }
-
-            /** Shape of a ServerFrame. */
-            type $Shape = BattleOfCell.Message.ServerFrame.$Properties;
-        }
-
-        /**
-         * Properties of a ClientFrame.
-         * @deprecated Use BattleOfCell.Message.ClientFrame.$Properties instead.
-         */
-        interface IClientFrame extends BattleOfCell.Message.ClientFrame.$Properties {
-        }
-
-        /** Represents a ClientFrame. */
-        class ClientFrame {
-
-            /**
-             * Constructs a new ClientFrame.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: BattleOfCell.Message.ClientFrame.$Properties);
-
-            /** Unknown fields preserved while decoding when enabled */
-            $unknowns?: Uint8Array[];
-
-            /** ClientFrame frames. */
-            frames: BattleOfCell.Message.Frame.$Properties[];
-
-            /** ClientFrame frameNumber. */
-            frameNumber: (number|Long);
-
-            /**
-             * Creates a new ClientFrame instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns ClientFrame instance
-             */
-            static create(properties: BattleOfCell.Message.ClientFrame.$Shape): BattleOfCell.Message.ClientFrame & BattleOfCell.Message.ClientFrame.$Shape;
-            static create(properties?: BattleOfCell.Message.ClientFrame.$Properties): BattleOfCell.Message.ClientFrame;
-
-            /**
-             * Encodes the specified ClientFrame message. Does not implicitly {@link BattleOfCell.Message.ClientFrame.verify|verify} messages.
-             * @param message ClientFrame message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encode(message: BattleOfCell.Message.ClientFrame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified ClientFrame message, length delimited. Does not implicitly {@link BattleOfCell.Message.ClientFrame.verify|verify} messages.
-             * @param message ClientFrame message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encodeDelimited(message: BattleOfCell.Message.ClientFrame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a ClientFrame message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.ClientFrame & BattleOfCell.Message.ClientFrame.$Shape} ClientFrame
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.ClientFrame & BattleOfCell.Message.ClientFrame.$Shape;
-
-            /**
-             * Decodes a ClientFrame message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.ClientFrame & BattleOfCell.Message.ClientFrame.$Shape} ClientFrame
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.ClientFrame & BattleOfCell.Message.ClientFrame.$Shape;
-
-            /**
-             * Verifies a ClientFrame message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a ClientFrame message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns ClientFrame
-             */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.ClientFrame;
-
-            /**
-             * Creates a plain object from a ClientFrame message. Also converts values to other types if specified.
-             * @param message ClientFrame
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            static toObject(message: BattleOfCell.Message.ClientFrame, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this ClientFrame to JSON.
-             * @returns JSON object
-             */
-            toJSON(): { [k: string]: any };
-
-            /**
-             * Gets the type url for ClientFrame
-             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns The type url
-             */
-            static getTypeUrl(prefix?: string): string;
-        }
-
-        namespace ClientFrame {
-
-            /** Properties of a ClientFrame. */
-            interface $Properties {
-
-                /** ClientFrame frames */
-                frames?: (BattleOfCell.Message.Frame.$Properties[]|null);
-
-                /** ClientFrame frameNumber */
-                frameNumber?: (number|Long|null);
-
-                /** Unknown fields preserved while decoding when enabled */
-                $unknowns?: Uint8Array[];
-            }
-
-            /** Shape of a ClientFrame. */
-            type $Shape = BattleOfCell.Message.ClientFrame.$Properties;
-        }
-
-        /**
-         * Properties of a Vec2d.
-         * @deprecated Use BattleOfCell.Message.Vec2d.$Properties instead.
-         */
-        interface IVec2d extends BattleOfCell.Message.Vec2d.$Properties {
-        }
-
-        /** Represents a Vec2d. */
-        class Vec2d {
-
-            /**
-             * Constructs a new Vec2d.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: BattleOfCell.Message.Vec2d.$Properties);
-
-            /** Unknown fields preserved while decoding when enabled */
-            $unknowns?: Uint8Array[];
-
-            /** Vec2d x. */
-            x: (number|Long);
-
-            /** Vec2d y. */
-            y: (number|Long);
-
-            /**
-             * Creates a new Vec2d instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns Vec2d instance
-             */
-            static create(properties: BattleOfCell.Message.Vec2d.$Shape): BattleOfCell.Message.Vec2d & BattleOfCell.Message.Vec2d.$Shape;
-            static create(properties?: BattleOfCell.Message.Vec2d.$Properties): BattleOfCell.Message.Vec2d;
-
-            /**
-             * Encodes the specified Vec2d message. Does not implicitly {@link BattleOfCell.Message.Vec2d.verify|verify} messages.
-             * @param message Vec2d message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encode(message: BattleOfCell.Message.Vec2d.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified Vec2d message, length delimited. Does not implicitly {@link BattleOfCell.Message.Vec2d.verify|verify} messages.
-             * @param message Vec2d message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encodeDelimited(message: BattleOfCell.Message.Vec2d.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a Vec2d message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.Vec2d & BattleOfCell.Message.Vec2d.$Shape} Vec2d
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.Vec2d & BattleOfCell.Message.Vec2d.$Shape;
-
-            /**
-             * Decodes a Vec2d message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.Vec2d & BattleOfCell.Message.Vec2d.$Shape} Vec2d
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.Vec2d & BattleOfCell.Message.Vec2d.$Shape;
-
-            /**
-             * Verifies a Vec2d message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a Vec2d message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns Vec2d
-             */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.Vec2d;
-
-            /**
-             * Creates a plain object from a Vec2d message. Also converts values to other types if specified.
-             * @param message Vec2d
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            static toObject(message: BattleOfCell.Message.Vec2d, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this Vec2d to JSON.
-             * @returns JSON object
-             */
-            toJSON(): { [k: string]: any };
-
-            /**
-             * Gets the type url for Vec2d
-             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns The type url
-             */
-            static getTypeUrl(prefix?: string): string;
-        }
-
-        namespace Vec2d {
-
-            /** Properties of a Vec2d. */
-            interface $Properties {
-
-                /** Vec2d x */
-                x?: (number|Long|null);
-
-                /** Vec2d y */
-                y?: (number|Long|null);
-
-                /** Unknown fields preserved while decoding when enabled */
-                $unknowns?: Uint8Array[];
-            }
-
-            /** Shape of a Vec2d. */
-            type $Shape = BattleOfCell.Message.Vec2d.$Properties;
-        }
-
-        /**
-         * Properties of a Position2d.
-         * @deprecated Use BattleOfCell.Message.Position2d.$Properties instead.
-         */
-        interface IPosition2d extends BattleOfCell.Message.Position2d.$Properties {
-        }
-
-        /** Represents a Position2d. */
-        class Position2d {
-
-            /**
-             * Constructs a new Position2d.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: BattleOfCell.Message.Position2d.$Properties);
-
-            /** Unknown fields preserved while decoding when enabled */
-            $unknowns?: Uint8Array[];
-
-            /** Position2d x. */
-            x: number;
-
-            /** Position2d y. */
-            y: number;
-
-            /**
-             * Creates a new Position2d instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns Position2d instance
-             */
-            static create(properties: BattleOfCell.Message.Position2d.$Shape): BattleOfCell.Message.Position2d & BattleOfCell.Message.Position2d.$Shape;
-            static create(properties?: BattleOfCell.Message.Position2d.$Properties): BattleOfCell.Message.Position2d;
-
-            /**
-             * Encodes the specified Position2d message. Does not implicitly {@link BattleOfCell.Message.Position2d.verify|verify} messages.
-             * @param message Position2d message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encode(message: BattleOfCell.Message.Position2d.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified Position2d message, length delimited. Does not implicitly {@link BattleOfCell.Message.Position2d.verify|verify} messages.
-             * @param message Position2d message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encodeDelimited(message: BattleOfCell.Message.Position2d.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a Position2d message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.Position2d & BattleOfCell.Message.Position2d.$Shape} Position2d
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.Position2d & BattleOfCell.Message.Position2d.$Shape;
-
-            /**
-             * Decodes a Position2d message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.Position2d & BattleOfCell.Message.Position2d.$Shape} Position2d
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.Position2d & BattleOfCell.Message.Position2d.$Shape;
-
-            /**
-             * Verifies a Position2d message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a Position2d message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns Position2d
-             */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.Position2d;
-
-            /**
-             * Creates a plain object from a Position2d message. Also converts values to other types if specified.
-             * @param message Position2d
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            static toObject(message: BattleOfCell.Message.Position2d, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this Position2d to JSON.
-             * @returns JSON object
-             */
-            toJSON(): { [k: string]: any };
-
-            /**
-             * Gets the type url for Position2d
-             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns The type url
-             */
-            static getTypeUrl(prefix?: string): string;
-        }
-
-        namespace Position2d {
-
-            /** Properties of a Position2d. */
-            interface $Properties {
-
-                /** Position2d x */
-                x?: (number|null);
-
-                /** Position2d y */
-                y?: (number|null);
-
-                /** Unknown fields preserved while decoding when enabled */
-                $unknowns?: Uint8Array[];
-            }
-
-            /** Shape of a Position2d. */
-            type $Shape = BattleOfCell.Message.Position2d.$Properties;
         }
 
         /**
@@ -1506,6 +1488,264 @@ export namespace BattleOfCell {
         }
 
         /**
+         * Properties of a ServerFrame.
+         * @deprecated Use BattleOfCell.Message.ServerFrame.$Properties instead.
+         */
+        interface IServerFrame extends BattleOfCell.Message.ServerFrame.$Properties {
+        }
+
+        /** Represents a ServerFrame. */
+        class ServerFrame {
+
+            /**
+             * Constructs a new ServerFrame.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.ServerFrame.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** ServerFrame frames. */
+            frames: BattleOfCell.Message.Frame.$Properties[];
+
+            /** ServerFrame frameNumber. */
+            frameNumber: (number|Long);
+
+            /** ServerFrame randomSeed. */
+            randomSeed: number;
+
+            /** ServerFrame meta. */
+            meta?: (BattleOfCell.Message.MetaData.$Properties|null);
+
+            /**
+             * Creates a new ServerFrame instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ServerFrame instance
+             */
+            static create(properties: BattleOfCell.Message.ServerFrame.$Shape): BattleOfCell.Message.ServerFrame & BattleOfCell.Message.ServerFrame.$Shape;
+            static create(properties?: BattleOfCell.Message.ServerFrame.$Properties): BattleOfCell.Message.ServerFrame;
+
+            /**
+             * Encodes the specified ServerFrame message. Does not implicitly {@link BattleOfCell.Message.ServerFrame.verify|verify} messages.
+             * @param message ServerFrame message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.ServerFrame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ServerFrame message, length delimited. Does not implicitly {@link BattleOfCell.Message.ServerFrame.verify|verify} messages.
+             * @param message ServerFrame message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.ServerFrame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ServerFrame message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.ServerFrame & BattleOfCell.Message.ServerFrame.$Shape} ServerFrame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.ServerFrame & BattleOfCell.Message.ServerFrame.$Shape;
+
+            /**
+             * Decodes a ServerFrame message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.ServerFrame & BattleOfCell.Message.ServerFrame.$Shape} ServerFrame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.ServerFrame & BattleOfCell.Message.ServerFrame.$Shape;
+
+            /**
+             * Verifies a ServerFrame message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ServerFrame message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ServerFrame
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.ServerFrame;
+
+            /**
+             * Creates a plain object from a ServerFrame message. Also converts values to other types if specified.
+             * @param message ServerFrame
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.ServerFrame, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ServerFrame to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for ServerFrame
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace ServerFrame {
+
+            /** Properties of a ServerFrame. */
+            interface $Properties {
+
+                /** ServerFrame frames */
+                frames?: (BattleOfCell.Message.Frame.$Properties[]|null);
+
+                /** ServerFrame frameNumber */
+                frameNumber?: (number|Long|null);
+
+                /** ServerFrame randomSeed */
+                randomSeed?: (number|null);
+
+                /** ServerFrame meta */
+                meta?: (BattleOfCell.Message.MetaData.$Properties|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a ServerFrame. */
+            type $Shape = BattleOfCell.Message.ServerFrame.$Properties;
+        }
+
+        /**
+         * Properties of a ClientFrame.
+         * @deprecated Use BattleOfCell.Message.ClientFrame.$Properties instead.
+         */
+        interface IClientFrame extends BattleOfCell.Message.ClientFrame.$Properties {
+        }
+
+        /** Represents a ClientFrame. */
+        class ClientFrame {
+
+            /**
+             * Constructs a new ClientFrame.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.ClientFrame.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** ClientFrame frames. */
+            frames: BattleOfCell.Message.Frame.$Properties[];
+
+            /** ClientFrame frameNumber. */
+            frameNumber: (number|Long);
+
+            /**
+             * Creates a new ClientFrame instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ClientFrame instance
+             */
+            static create(properties: BattleOfCell.Message.ClientFrame.$Shape): BattleOfCell.Message.ClientFrame & BattleOfCell.Message.ClientFrame.$Shape;
+            static create(properties?: BattleOfCell.Message.ClientFrame.$Properties): BattleOfCell.Message.ClientFrame;
+
+            /**
+             * Encodes the specified ClientFrame message. Does not implicitly {@link BattleOfCell.Message.ClientFrame.verify|verify} messages.
+             * @param message ClientFrame message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.ClientFrame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ClientFrame message, length delimited. Does not implicitly {@link BattleOfCell.Message.ClientFrame.verify|verify} messages.
+             * @param message ClientFrame message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.ClientFrame.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ClientFrame message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.ClientFrame & BattleOfCell.Message.ClientFrame.$Shape} ClientFrame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.ClientFrame & BattleOfCell.Message.ClientFrame.$Shape;
+
+            /**
+             * Decodes a ClientFrame message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.ClientFrame & BattleOfCell.Message.ClientFrame.$Shape} ClientFrame
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.ClientFrame & BattleOfCell.Message.ClientFrame.$Shape;
+
+            /**
+             * Verifies a ClientFrame message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ClientFrame message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ClientFrame
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.ClientFrame;
+
+            /**
+             * Creates a plain object from a ClientFrame message. Also converts values to other types if specified.
+             * @param message ClientFrame
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.ClientFrame, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ClientFrame to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for ClientFrame
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace ClientFrame {
+
+            /** Properties of a ClientFrame. */
+            interface $Properties {
+
+                /** ClientFrame frames */
+                frames?: (BattleOfCell.Message.Frame.$Properties[]|null);
+
+                /** ClientFrame frameNumber */
+                frameNumber?: (number|Long|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a ClientFrame. */
+            type $Shape = BattleOfCell.Message.ClientFrame.$Properties;
+        }
+
+        /**
          * Properties of a PlayerLeaveRoomReq.
          * @deprecated Use BattleOfCell.Message.PlayerLeaveRoomReq.$Properties instead.
          */
@@ -1641,10 +1881,10 @@ export namespace BattleOfCell {
             /** PlayerLeaveRoomResp error. */
             error: BattleOfCell.Message.RespError.$Properties[];
 
-            /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
+            /** PlayerLeaveRoomResp ok. */
             ok: boolean;
 
-            /** 离开成功后的房间 ID；失败时为 0 */
+            /** PlayerLeaveRoomResp roomId. */
             roomId: (number|Long);
 
             /**
@@ -1737,10 +1977,10 @@ export namespace BattleOfCell {
                 /** PlayerLeaveRoomResp error */
                 error?: (BattleOfCell.Message.RespError.$Properties[]|null);
 
-                /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
+                /** PlayerLeaveRoomResp ok */
                 ok?: (boolean|null);
 
-                /** 离开成功后的房间 ID；失败时为 0 */
+                /** PlayerLeaveRoomResp roomId */
                 roomId?: (number|Long|null);
 
                 /** Unknown fields preserved while decoding when enabled */
@@ -1756,6 +1996,135 @@ export namespace BattleOfCell {
 
             /** NORMAL value */
             NORMAL = 0
+        }
+
+        /**
+         * Properties of a WorldInit.
+         * @deprecated Use BattleOfCell.Message.WorldInit.$Properties instead.
+         */
+        interface IWorldInit extends BattleOfCell.Message.WorldInit.$Properties {
+        }
+
+        /** 世界初始化参数（尺寸 + 初始形状列表），作为进房响应的嵌入数据透传 */
+        class WorldInit {
+
+            /**
+             * Constructs a new WorldInit.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.WorldInit.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** WorldInit xSize. */
+            xSize: (number|Long);
+
+            /** WorldInit ySize. */
+            ySize: (number|Long);
+
+            /** WorldInit shapes. */
+            shapes: BattleOfCell.Message.ShapeData.$Properties[];
+
+            /**
+             * Creates a new WorldInit instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns WorldInit instance
+             */
+            static create(properties: BattleOfCell.Message.WorldInit.$Shape): BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape;
+            static create(properties?: BattleOfCell.Message.WorldInit.$Properties): BattleOfCell.Message.WorldInit;
+
+            /**
+             * Encodes the specified WorldInit message. Does not implicitly {@link BattleOfCell.Message.WorldInit.verify|verify} messages.
+             * @param message WorldInit message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.WorldInit.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified WorldInit message, length delimited. Does not implicitly {@link BattleOfCell.Message.WorldInit.verify|verify} messages.
+             * @param message WorldInit message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.WorldInit.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a WorldInit message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape} WorldInit
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape;
+
+            /**
+             * Decodes a WorldInit message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape} WorldInit
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape;
+
+            /**
+             * Verifies a WorldInit message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a WorldInit message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns WorldInit
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.WorldInit;
+
+            /**
+             * Creates a plain object from a WorldInit message. Also converts values to other types if specified.
+             * @param message WorldInit
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.WorldInit, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this WorldInit to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for WorldInit
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace WorldInit {
+
+            /** Properties of a WorldInit. */
+            interface $Properties {
+
+                /** WorldInit xSize */
+                xSize?: (number|Long|null);
+
+                /** WorldInit ySize */
+                ySize?: (number|Long|null);
+
+                /** WorldInit shapes */
+                shapes?: (BattleOfCell.Message.ShapeData.$Properties[]|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a WorldInit. */
+            type $Shape = BattleOfCell.Message.WorldInit.$Properties;
         }
 
         /**
@@ -2140,13 +2509,13 @@ export namespace BattleOfCell {
             /** EntryRoomResp error. */
             error: BattleOfCell.Message.RespError.$Properties[];
 
-            /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
+            /** EntryRoomResp ok. */
             ok: boolean;
 
-            /** 房间的世界参数；注意 field 6 避免与 IResponse.ErrorCode 的 ProtoMember(4) 冲突 */
+            /** 房间的世界参数 */
             world?: (BattleOfCell.Message.WorldInit.$Properties|null);
 
-            /** 进入成功后的房间 ID；失败时为 0 */
+            /** EntryRoomResp roomId. */
             roomId: (number|Long);
 
             /**
@@ -2239,13 +2608,13 @@ export namespace BattleOfCell {
                 /** EntryRoomResp error */
                 error?: (BattleOfCell.Message.RespError.$Properties[]|null);
 
-                /** 业务是否成功（与 meta 同级；true 时 LightProto 会写出该字段） */
+                /** EntryRoomResp ok */
                 ok?: (boolean|null);
 
-                /** 房间的世界参数；注意 field 6 避免与 IResponse.ErrorCode 的 ProtoMember(4) 冲突 */
+                /** 房间的世界参数 */
                 world?: (BattleOfCell.Message.WorldInit.$Properties|null);
 
-                /** 进入成功后的房间 ID；失败时为 0 */
+                /** EntryRoomResp roomId */
                 roomId?: (number|Long|null);
 
                 /** Unknown fields preserved while decoding when enabled */
@@ -2254,129 +2623,6 @@ export namespace BattleOfCell {
 
             /** Shape of an EntryRoomResp. */
             type $Shape = BattleOfCell.Message.EntryRoomResp.$Properties;
-        }
-
-        /**
-         * Properties of a WorldInit.
-         * @deprecated Use BattleOfCell.Message.WorldInit.$Properties instead.
-         */
-        interface IWorldInit extends BattleOfCell.Message.WorldInit.$Properties {
-        }
-
-        /** Represents a WorldInit. */
-        class WorldInit {
-
-            /**
-             * Constructs a new WorldInit.
-             * @param [properties] Properties to set
-             */
-            constructor(properties?: BattleOfCell.Message.WorldInit.$Properties);
-
-            /** Unknown fields preserved while decoding when enabled */
-            $unknowns?: Uint8Array[];
-
-            /** WorldInit xSize. */
-            xSize: (number|Long);
-
-            /** WorldInit ySize. */
-            ySize: (number|Long);
-
-            /**
-             * Creates a new WorldInit instance using the specified properties.
-             * @param [properties] Properties to set
-             * @returns WorldInit instance
-             */
-            static create(properties: BattleOfCell.Message.WorldInit.$Shape): BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape;
-            static create(properties?: BattleOfCell.Message.WorldInit.$Properties): BattleOfCell.Message.WorldInit;
-
-            /**
-             * Encodes the specified WorldInit message. Does not implicitly {@link BattleOfCell.Message.WorldInit.verify|verify} messages.
-             * @param message WorldInit message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encode(message: BattleOfCell.Message.WorldInit.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Encodes the specified WorldInit message, length delimited. Does not implicitly {@link BattleOfCell.Message.WorldInit.verify|verify} messages.
-             * @param message WorldInit message or plain object to encode
-             * @param [writer] Writer to encode to
-             * @returns Writer
-             */
-            static encodeDelimited(message: BattleOfCell.Message.WorldInit.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
-
-            /**
-             * Decodes a WorldInit message from the specified reader or buffer.
-             * @param reader Reader or buffer to decode from
-             * @param [length] Message length if known beforehand
-             * @returns {BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape} WorldInit
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape;
-
-            /**
-             * Decodes a WorldInit message from the specified reader or buffer, length delimited.
-             * @param reader Reader or buffer to decode from
-             * @returns {BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape} WorldInit
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.WorldInit & BattleOfCell.Message.WorldInit.$Shape;
-
-            /**
-             * Verifies a WorldInit message.
-             * @param message Plain object to verify
-             * @returns `null` if valid, otherwise the reason why it is not
-             */
-            static verify(message: { [k: string]: any }): (string|null);
-
-            /**
-             * Creates a WorldInit message from a plain object. Also converts values to their respective internal types.
-             * @param object Plain object
-             * @returns WorldInit
-             */
-            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.WorldInit;
-
-            /**
-             * Creates a plain object from a WorldInit message. Also converts values to other types if specified.
-             * @param message WorldInit
-             * @param [options] Conversion options
-             * @returns Plain object
-             */
-            static toObject(message: BattleOfCell.Message.WorldInit, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-            /**
-             * Converts this WorldInit to JSON.
-             * @returns JSON object
-             */
-            toJSON(): { [k: string]: any };
-
-            /**
-             * Gets the type url for WorldInit
-             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns The type url
-             */
-            static getTypeUrl(prefix?: string): string;
-        }
-
-        namespace WorldInit {
-
-            /** Properties of a WorldInit. */
-            interface $Properties {
-
-                /** WorldInit xSize */
-                xSize?: (number|Long|null);
-
-                /** WorldInit ySize */
-                ySize?: (number|Long|null);
-
-                /** Unknown fields preserved while decoding when enabled */
-                $unknowns?: Uint8Array[];
-            }
-
-            /** Shape of a WorldInit. */
-            type $Shape = BattleOfCell.Message.WorldInit.$Properties;
         }
     }
 }

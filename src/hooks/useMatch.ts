@@ -9,7 +9,7 @@ import { useAuth } from "./AuthContext"
 import { wsService } from "../services/wsService"
 import { frameBuffer } from "../services/frameBuffer"
 import { gameSession } from "../state/gameSession"
-import type { WorldSize } from "../state/gameSession"
+import type { WorldShapeData, WorldSize } from "../state/gameSession"
 
 function toRoomId(value: unknown): number {
   if (value == null) return 0
@@ -20,6 +20,16 @@ function toRoomId(value: unknown): number {
     if (typeof maybe.toNumber === "function") {
       return maybe.toNumber()
     }
+  }
+  return Number(value)
+}
+
+/** protobufjs 的 64 位整数可能是 number/Long/bigint，统一取 number */
+function toNumber(value: unknown): number {
+  if (typeof value === "number") return value
+  if (typeof value === "bigint") return Number(value)
+  if (value && typeof value === "object" && "toNumber" in value) {
+    return (value as { toNumber: () => number }).toNumber()
   }
   return Number(value)
 }
@@ -60,11 +70,13 @@ export interface MatchEnterResult {
   roomId: number
   firstFrameNumber: number
   worldSize: WorldSize
+  worldShapes: WorldShapeData[]
 }
 
 interface MatchResolution {
   roomId: number
   worldSize: WorldSize
+  worldShapes: WorldShapeData[]
 }
 
 /** 可替换匹配策略：产出房间初始化数据后，由共享流水线负责等首帧并入战 */
@@ -185,8 +197,18 @@ export function useMatch() {
       width: toWorldDimension(entryResp.world.xSize, "x_size"),
       height: toWorldDimension(entryResp.world.ySize, "y_size"),
     }
-    console.log("[Match] Map:", worldSize)
-    return { roomId, worldSize }
+   console.log("[Match] Map:", worldSize)
+
+    // 顶点与世界尺寸同单位（直接以 int64 透传的原始 world px），仅做数值类型转换
+    const worldShapes: WorldShapeData[] = (entryResp.world.shapes ?? []).map(
+      (shape) => ({
+        vertices: (shape.vertices ?? []).map((v) => ({
+          x: toNumber(v.x),
+          y: toNumber(v.y),
+        })),
+      }),
+    )
+    return { roomId, worldSize, worldShapes }
   }, [])
 
   /**
@@ -211,10 +233,10 @@ export function useMatch() {
         // 新一局匹配：清空旧帧，避免误把上一局首帧当成本局
         frameBuffer.clear()
 
-        const { roomId, worldSize } = await strategy(timeout)
+        const { roomId, worldSize, worldShapes } = await strategy(timeout)
 
         setPhase("waiting_first_frame")
-        gameSession.enterWaitingFirstFrame(roomId, worldSize)
+        gameSession.enterWaitingFirstFrame(roomId, worldSize, worldShapes)
 
         const firstFrameNumber = await frameBuffer.waitForFirstFrame(timeout)
         console.log(
@@ -224,8 +246,8 @@ export function useMatch() {
           roomId,
         )
 
-        gameSession.enterBattle(roomId, firstFrameNumber, worldSize)
-        return { roomId, firstFrameNumber, worldSize }
+        gameSession.enterBattle(roomId, firstFrameNumber, worldSize, worldShapes)
+        return { roomId, firstFrameNumber, worldSize, worldShapes }
       } catch (err) {
         gameSession.enterLobby()
         throw err
