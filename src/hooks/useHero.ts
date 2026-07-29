@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from "react"
 import type { Hero } from "../entities/Hero"
-import { FIXED_SCALE, toFixed, fixedMul, fixedDiv, fixedHypot } from "../lib/fixed"
+import { FIXED_SCALE, fromFixed, toFixed, fixedMul, fixedDiv, fixedHypot } from "../lib/fixed"
 
 const DEFAULT_SPEED_COEFFICIENT = 10
+/** 子步位移上限比例：单步子步位移 ≤ radius × SAFETY_FACTOR */
+const SAFETY_FACTOR = 0.5
+/** 子步绝对上限（hero 静止时的兜底值） */
+const MAX_SUB_STEP = 1 / 60
 
 export interface LaunchReleaseInfo {
   /** fixed-point unit direction x */
@@ -76,8 +80,18 @@ export function useHero(
       }
       const dt = Math.min((timestamp - prevTimeRef.current) / 1000, 0.05)
       prevTimeRef.current = timestamp
-      hero.update(dt)
-      onStepRef.current?.(dt)
+      // 动态子步：适配当前 radius 和实时速度，确保单步不位移超过半径一半
+      const radius = fromFixed(hero.radius)
+      const speed = fromFixed(hero.initSpeed)
+      const safeStep = speed > 0 ? (radius / speed) * SAFETY_FACTOR : MAX_SUB_STEP
+      const subDt = Math.min(MAX_SUB_STEP, safeStep)
+      let remaining = dt
+      while (remaining > 0) {
+        const step = Math.min(subDt, remaining)
+        hero.update(step)
+        onStepRef.current?.(step)
+        remaining -= step
+      }
       rafId = requestAnimationFrame(tick)
     }
 
