@@ -17,17 +17,17 @@ import { battleTick } from "../services/battleTick"
 import { leaveRoom } from "../services/leaveRoom"
 import { CONFIG } from "../network/config"
 import { ObstacleField } from "../entities/ObstacleField"
+import { debugWorldSize, debugWorldShapes } from "../config/debugWorld"
 
 const OUT_OF_BOUNDS = "#050805"
-const DEBUG_WORLD_SIZE = { width: 12000, height: 8000 }
 
 export function BattlePage() {
   const { roomId } = useParams()
   const navigate = useNavigate()
   const [world] = useState(() => {
     const session = gameSession.getState()
-    const worldSize = session.worldSize ?? DEBUG_WORLD_SIZE
-    const shapes = session.worldShapes ?? []
+    const worldSize = session.worldSize ?? debugWorldSize
+    const shapes = session.worldShapes ?? debugWorldShapes
     const worldShapes = shapes.map((s) => s.vertices)
     return new BattleWorld(worldSize.width, worldSize.height, worldShapes)
   })
