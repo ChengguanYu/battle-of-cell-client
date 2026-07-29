@@ -9,7 +9,6 @@ import {
 } from "./detection"
 import { velocitySpeed } from "./entityUtils"
 import {
-  FIXED_SCALE,
   type Fixed,
   toFixed,
   fixedClamp,
@@ -144,26 +143,6 @@ export abstract class Entity<TConfig extends EntityConfig = EntityConfig>
   /** True if two detection bodies' AABBs overlap. */
   intersectsEntity(other: IEntityDetection): boolean {
     return this.intersectsAABB(other.getAABB())
-  }
-
-  /**
-   * Screen-space hit test. Inputs are real screen/world floats from UI.
-   * Behavior matches the previous Hero.hitTest implementation exactly.
-   */
-  hitTest(worldX: number, worldY: number, cameraX: number, cameraY: number, zoom: number): boolean {
-    const cx = window.innerWidth / 2
-    const cy = window.innerHeight / 2
-    const hx = this._x / FIXED_SCALE
-    const hy = this._y / FIXED_SCALE
-    const hr = this._radius / FIXED_SCALE
-    const sx = (hx - cameraX - cx) * zoom + cx
-    const sy = (hy - cameraY - cy) * zoom + cy
-    const tx = (worldX - cameraX - cx) * zoom + cx
-    const ty = (worldY - cameraY - cy) * zoom + cy
-    const screenR = hr * zoom
-    const dx = sx - tx
-    const dy = sy - ty
-    return dx * dx + dy * dy <= screenR * screenR
   }
 
   /** @param x Real world X */

@@ -14,17 +14,6 @@ export interface IEntityDetection {
   intersectsAABB(other: AABB): boolean
   /** True if two detection bodies' AABBs overlap. */
   intersectsEntity(other: IEntityDetection): boolean
-  /**
-   * Screen-space hit test. Inputs are real screen/world floats from UI.
-   * Kept for interactive picking (drag start, click select, etc.).
-   */
-  hitTest(
-    worldX: number,
-    worldY: number,
-    cameraX: number,
-    cameraY: number,
-    zoom: number,
-  ): boolean
 }
 
 /** True if two AABBs overlap (inclusive edges). */
