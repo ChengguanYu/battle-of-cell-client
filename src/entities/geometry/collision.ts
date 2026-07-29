@@ -62,9 +62,15 @@ export function pointInPolygon(px: number, py: number, verts: Vec2[]): boolean {
  * obstacle wall toward where the circle center should sit) and penetration.
  *
  * Handles two regimes:
- *  - center outside, edge within r: push out by (r - dist) along outward normal.
- *  - center inside the polygon (deep overlap): push out past the nearest edge
- *    by (r + dist) along -(center->closestPoint).
+ *  - center outside, edge within r: push out by (r - dist) along outward
+ *    normal (correct for convex and concave alike; the nearest edge is the
+ *    first contact regardless of silhouette).
+ *  - center inside the polygon (deep overlap): scan every edge for the
+ *    *minimum positive exit depth* along its outward normal. Robust for
+ *    concave polygons, where the Euclidean-nearest edge may lie across a
+ *    concave bay and push the circle deeper; the true shallowest exit is
+ *    found by projecting along each per-edge outward normal and taking the
+ *    minimum.
  */
 export function circleVsPolygon(
   cx: number,
@@ -98,38 +104,57 @@ export function circleVsPolygon(
   if (d > r && !inside) return { hit: false, nx: 0, ny: 0, penetration: 0 }
 
   if (d === 0) {
-    // Degenerate: center sits exactly on the nearest edge. Fall back to the
-    // direction from the polygon centroid so we still resolve deterministically.
-    let gx = 0
-    let gy = 0
-    for (const v of verts) {
-      gx += v.x
-      gy += v.y
-    }
-    gx /= n
-    gy /= n
-    let nx = cx - gx
-    let ny = cy - gy
-    const len = Math.hypot(nx, ny)
-    if (len === 0) {
-      nx = 1
-      ny = 0
-    } else {
-      nx /= len
-      ny /= len
-    }
-    const pen = inside ? r : r
-    return { hit: true, nx, ny, penetration: pen }
+    // Degenerate: center sits exactly on the nearest edge. In the inside
+    // path below the per-edge scan handles this naturally; in the outside
+    // path the centroid fallback was meaningless for a freshly-touching
+    // circle, so treat it as a tangential contact with zero penetration.
+    if (!inside) return { hit: true, nx: 1, ny: 0, penetration: 0 }
   }
 
   if (inside) {
-    // Push out toward the nearest edge (anti-normal of center->closest).
-    return {
-      hit: true,
-      nx: -bestDx / d,
-      ny: -bestDy / d,
-      penetration: r + d,
+    // Find the shallowest exit: for each edge, project the center onto the
+    // edge's outward normal (resolved winding-independently via
+    // pointInPolygon sampling). The minimum positive exit depth gives the
+    // contact normal and penetration to move the circle just outside that
+    // edge. Robust for concave polygons where the Euclidean-nearest edge
+    // may lie across a concave bay and push the circle deeper.
+    let minExit = Infinity
+    let exitNx = 0
+    let exitNy = 0
+    const EPS_OUT = 1e-3
+    for (let i = 0; i < n; i++) {
+      const a = verts[i]
+      const b = verts[(i + 1) % n]
+      let ex = b.x - a.x
+      let ey = b.y - a.y
+      const elen = Math.hypot(ex, ey)
+      if (elen === 0) continue
+      ex /= elen
+      ey /= elen
+      // Left-hand normal candidate; flip if it points into the polygon.
+      let nx = -ey
+      let ny = ex
+      if (pointInPolygon(cx + nx * EPS_OUT, cy + ny * EPS_OUT, verts)) {
+        nx = -nx
+        ny = -ny
+      }
+      const p = closestPointOnSegment(cx, cy, a.x, a.y, b.x, b.y)
+      // Signed distance from edge to center along outward normal (negative
+      // because the center is on the interior side).
+      const signed = (p.x - cx) * nx + (p.y - cy) * ny
+      // Exit depth = |signed| + r; pick the minimum across all edges.
+      const exit = Math.abs(signed) + r
+      if (exit < minExit) {
+        minExit = exit
+        exitNx = nx
+        exitNy = ny
+      }
     }
+    if (Number.isFinite(minExit)) {
+      return { hit: true, nx: exitNx, ny: exitNy, penetration: minExit }
+    }
+    // Should not happen for a valid simple polygon, but guard against NaNs.
+    return { hit: true, nx: -bestDx || 1, ny: -bestDy || 0, penetration: r }
   }
 
   return {
