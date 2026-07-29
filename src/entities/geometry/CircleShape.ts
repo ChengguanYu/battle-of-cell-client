@@ -1,6 +1,5 @@
-import { Shape, type Collision, type ShapeAABB, NO_HIT, aabbOverlap } from "./Shape"
-import { circleVsPolygon } from "./collision"
-import { PolygonShape } from "./PolygonShape"
+import { Shape, type Collision, type ShapeAABB } from "./Shape"
+import { collideDispatch } from "./collisionDispatch"
 
 /**
  * Circle shape in real world units. Hero owns one of these and keeps it in
@@ -8,6 +7,8 @@ import { PolygonShape } from "./PolygonShape"
  * no response policy: it only answers collision queries.
  */
 export class CircleShape extends Shape {
+  readonly type = "circle" as const
+
   constructor(
     public x: number,
     public y: number,
@@ -26,23 +27,6 @@ export class CircleShape extends Shape {
   }
 
   collide(other: Shape): Collision {
-    if (!aabbOverlap(this.aabb, other.aabb)) return NO_HIT
-    if (other instanceof PolygonShape) return this.collideWithPolygon(other)
-    if (other instanceof CircleShape) return this.collideWithCircle(other)
-    return NO_HIT
-  }
-
-  private collideWithCircle(other: CircleShape): Collision {
-    const dx = this.x - other.x
-    const dy = this.y - other.y
-    const r = this.r + other.r
-    const d = Math.hypot(dx, dy)
-    if (d >= r) return NO_HIT
-    if (d === 0) return { hit: true, nx: 1, ny: 0, penetration: r }
-    return { hit: true, nx: dx / d, ny: dy / d, penetration: r - d }
-  }
-
-  private collideWithPolygon(other: PolygonShape): Collision {
-    return circleVsPolygon(this.x, this.y, this.r, other.polygon.worldVertices())
+    return collideDispatch(this, other)
   }
 }

@@ -3,7 +3,7 @@
 > 讨论结论：不为 Shape 挂 Entity 基类，走"分层 + 引用"路线。
 > 本文档记录三项当前值得做的结构优化，附改动理由与范围。
 
-## 1. 碰撞分派：instanceof 分支 -> 分派表查表
+## 1. 碰撞分派：instanceof 分支 -> 分派表查表（已落地）
 
 ### 现状
 `PolygonShape.collide` / `CircleShape.collide` 内部用 `instanceof` 判断对方类型后
@@ -25,6 +25,10 @@ collide(other: Shape): Collision {
 ### 问题
 - 违反开闭原则：扩展形状类型时被迫修改存量形状类。
 - 形状之间存在隐式双向依赖，加形状的改动面随形状数量线性增长。
+> **已落地**：Shape 加 `type` 标签，碰撞判定集中到
+> `collisionDispatch.ts` 的扁平查表。`CircleShape` / `PolygonShape` 删掉
+> `instanceof` 分支与兄弟形状 import，`collide` 退化为对 dispatch 的一行委托。
+> 加新形状只需新建类 + `registerCollision`，老形状一行不改。
 
 ### 目标
 - 新形状只往分派表注册自己的判定函数，老形状一行不改。
@@ -34,7 +38,8 @@ collide(other: Shape): Collision {
 - 给 `Shape` 加一个只读 `type` 标签（枚举或字符串字面量）。
 - 新增一个扁平分派表，键为有序类型对（如 `circle|polygon`），值为
   `(a, b) => Collision` 的判定函数；查表时处理对称调用。
-- `Shape.collide` 基类实现改为查表，查不到返回 `NO_HIT`。
+- 子类 `collide` 委托给 `collideDispatch(this, other)`（基类 collide 保持
+  abstract，避免 Shape.ts顶层 import dispatch 造成模块循环）。
 - 现有 `circleVsPolygon` 等函数式判定原封不动填进表里即可，无需把判
   定逻辑塞回类里。
 
@@ -140,7 +145,7 @@ readonly hero: Hero
 
 | 项 | 触及文件 | 量级 |
 |----|----------|------|
-| 分派表 | `Shape.ts` / `PolygonShape.ts` / `CircleShape.ts` + 新增表文件 | 中 |
+| 分派表 | `Shape.ts` / `PolygonShape.ts` / `CircleShape.ts` + 新增 `collisionDispatch.ts` / `collision.ts`（已完成） | — |
 | hitTest 剥离 | `Entity.ts` + `detection.ts`（已完成，直接删除） | — |
 | entities 注册表 | `BattleWorld.ts`（第一步已完成） | 小 |
 

@@ -1,7 +1,7 @@
-import { Shape, type Collision, type ShapeAABB, NO_HIT, aabbOverlap } from "./Shape"
-import { circleVsPolygon, type Vec2 } from "./collision"
+import { Shape, type Collision, type ShapeAABB } from "./Shape"
+import { collideDispatch } from "./collisionDispatch"
 import { Polygon } from "./Polygon"
-import { CircleShape } from "./CircleShape"
+import { type Vec2 } from "./collision"
 
 /**
  * Polygonal shape wrapping the {@link Polygon} data object. Collision hits
@@ -9,6 +9,7 @@ import { CircleShape } from "./CircleShape"
  * already points from the polygon wall toward the circle side.
  */
 export class PolygonShape extends Shape {
+  readonly type = "polygon" as const
   readonly polygon: Polygon
 
   constructor(polygon: Polygon) {
@@ -31,13 +32,6 @@ export class PolygonShape extends Shape {
   }
 
   collide(other: Shape): Collision {
-    if (!aabbOverlap(this.aabb, other.aabb)) return NO_HIT
-    if (other instanceof CircleShape) return this.collideWithCircle(other)
-    if (other instanceof PolygonShape) return NO_HIT
-    return NO_HIT
-  }
-
-  private collideWithCircle(other: CircleShape): Collision {
-    return circleVsPolygon(other.x, other.y, other.r, this.polygon.worldVertices())
+    return collideDispatch(this, other)
   }
 }

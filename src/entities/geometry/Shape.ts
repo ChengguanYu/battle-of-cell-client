@@ -14,6 +14,9 @@ export interface Collision {
 
 export const NO_HIT: Collision = { hit: false, nx: 0, ny: 0, penetration: 0 }
 
+/** Runtime type tag used by the collision dispatch table to pair algorithms. */
+export type ShapeType = "circle" | "polygon"
+
 /** Real-valued axis-aligned bounding box used by the shape layer. */
 export interface ShapeAABB {
   minX: number
@@ -36,6 +39,7 @@ export function aabbOverlap(a: ShapeAABB, b: ShapeAABB): boolean {
  * normal and by how much"; response strategy lives on the entity.
  */
 export abstract class Shape {
+  abstract readonly type: ShapeType
   abstract get aabb(): ShapeAABB
   abstract collide(other: Shape): Collision
 }

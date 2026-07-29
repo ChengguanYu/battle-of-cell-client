@@ -139,3 +139,22 @@ export function circleVsPolygon(
     penetration: r - d,
   }
 }
+
+/** Circle vs circle. Same hit contract as circleVsPolygon (normal points from
+ *  b's surface toward where a should be pushed). d===0 falls back to +X. */
+export function circleVsCircle(
+  ax: number,
+  ay: number,
+  ar: number,
+  bx: number,
+  by: number,
+  br: number,
+): CircleHit {
+  const dx = ax - bx
+  const dy = ay - by
+  const r = ar + br
+  const d = Math.hypot(dx, dy)
+  if (d >= r) return { hit: false, nx: 0, ny: 0, penetration: 0 }
+  if (d === 0) return { hit: true, nx: 1, ny: 0, penetration: r }
+  return { hit: true, nx: dx / d, ny: dy / d, penetration: r - d }
+}
