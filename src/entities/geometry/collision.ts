@@ -121,7 +121,7 @@ export function circleVsPolygon(
     let minExit = Infinity
     let exitNx = 0
     let exitNy = 0
-    const EPS_OUT = 1e-3
+    const EPS_OUT = 1e-2
     for (let i = 0; i < n; i++) {
       const a = verts[i]
       const b = verts[(i + 1) % n]
@@ -132,18 +132,25 @@ export function circleVsPolygon(
       ex /= elen
       ey /= elen
       // Left-hand normal candidate; flip if it points into the polygon.
+      // Sample from the edge midpoint (on the boundary), not the circle
+      // center (interior): an interior point offset stays interior so the
+      // flip always triggers and the normal ends up winding-dependent.
       let nx = -ey
       let ny = ex
-      if (pointInPolygon(cx + nx * EPS_OUT, cy + ny * EPS_OUT, verts)) {
+      const mx = (a.x + b.x) / 2
+      const my = (a.y + b.y) / 2
+      if (pointInPolygon(mx + nx * EPS_OUT, my + ny * EPS_OUT, verts)) {
         nx = -nx
         ny = -ny
       }
       const p = closestPointOnSegment(cx, cy, a.x, a.y, b.x, b.y)
-      // Signed distance from edge to center along outward normal (negative
-      // because the center is on the interior side).
+      // Signed distance from edge to center along outward normal.
+      // Negative = center on the interior side (valid exit edge).
+      // Positive = back-facing edge in a concave bay; skip it so it is
+      // not mistaken for the shallowest exit.
       const signed = (p.x - cx) * nx + (p.y - cy) * ny
-      // Exit depth = |signed| + r; pick the minimum across all edges.
-      const exit = Math.abs(signed) + r
+      if (signed > 0) continue
+      const exit = -signed + r
       if (exit < minExit) {
         minExit = exit
         exitNx = nx
