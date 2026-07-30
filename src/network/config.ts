@@ -16,4 +16,14 @@ export const CONFIG = {
    */
   DEBUG_MODE:
     String(import.meta.env.VITE_DEBUG_MODE ?? "false").toLowerCase() === "true",
+  /**
+   * 调试战斗自动流水线开关：当 VITE_DEBUG_MODE && VITE_IS_DEBUG_BATTLE 同时为 true，
+   * 客户端在加载后静默执行登录→匹配→入房→战斗页跳转。
+   */
+  IS_DEBUG_BATTLE:
+    String(import.meta.env.VITE_IS_DEBUG_BATTLE ?? "false").toLowerCase() === "true",
+  /** 调试战斗用的账号 */
+  DEBUG_ACCOUNT: import.meta.env.VITE_DEBUG_ACCOUNT ?? "",
+  /** 调试战斗用的密码 */
+  DEBUG_PASSWORD: import.meta.env.VITE_DEBUG_PASSWORD ?? "",
 } as const
