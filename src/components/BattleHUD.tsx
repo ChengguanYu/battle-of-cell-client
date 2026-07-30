@@ -1,14 +1,21 @@
+// 8方向网格: 几何方向符号
+const DIR_GRID: readonly (readonly [number, number, string])[] = [
+  [-1, -1, "◸"], [0, -1, "▲"], [1, -1, "◹"],
+  [-1,  0, "◀"], [0,  0, "●"], [1,  0, "▶"],
+  [-1,  1, "◺"], [0,  1, "▼"], [1,  1, "◿"],
+]
+
 interface BattleHUDProps {
   roomId: string | undefined
   playerX: number
   playerY: number
   zoom: number
   onBack: () => void
-  /** 测试：模拟蓄满力向右释放 */
-  onSimulateFullRight?: () => void
+  /** 测试：8 方向模拟发射, dx/dy 为原始方向向量 (未归一化) */
+  onSimulateLaunch?: (dx: number, dy: number) => void
 }
 
-export function BattleHUD({ roomId, playerX, playerY, zoom, onBack, onSimulateFullRight }: BattleHUDProps) {
+export function BattleHUD({ roomId, playerX, playerY, zoom, onBack, onSimulateLaunch }: BattleHUDProps) {
   return (
     <div className="pointer-events-none absolute inset-0 z-10">
       {/* 左上角：退出 + 房间号 */}
@@ -25,16 +32,25 @@ export function BattleHUD({ roomId, playerX, playerY, zoom, onBack, onSimulateFu
         </span>
       </div>
 
-      {/* 右上角：测试模拟按钮 */}
-      {onSimulateFullRight && (
+      {/* 8 方向模拟发射 */}
+      {onSimulateLaunch && (
         <div className="pointer-events-auto absolute right-4 top-4">
-          <button
-            type="button"
-            onClick={onSimulateFullRight}
-            className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-yellow-500/40 bg-yellow-500/10 px-3 py-1.5 text-xs text-yellow-400 transition-colors hover:bg-yellow-500/20"
-          >
-            ▶ 模拟发射
-          </button>
+          <div className="grid grid-cols-3 gap-0.5 rounded-lg border border-border bg-card/60 p-1 backdrop-blur-sm">
+            {DIR_GRID.map(([dx, dy, label]) => {
+              const isCenter = dx === 0 && dy === 0
+              return (
+                <button
+                  key={`${dx},${dy}`}
+                  type="button"
+                  disabled={isCenter}
+                  onClick={() => onSimulateLaunch(dx, dy)}
+                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded text-xs text-muted-foreground transition-colors hover:border hover:border-yellow-500/40 hover:text-yellow-400 disabled:cursor-default disabled:opacity-20 disabled:hover:border-transparent disabled:hover:text-muted-foreground"
+                >
+                  {label}
+                </button>
+              )
+            })}
+          </div>
         </div>
       )}
 

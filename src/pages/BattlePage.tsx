@@ -178,13 +178,15 @@ export function BattlePage() {
 
   const [leaving, setLeaving] = useState(false)
 
-  /** 测试：模拟蓄满力向右释放，走正常操作流程 */
-  const handleSimulateFullRight = useCallback(() => {
+  /** 测试：8 方向模拟发射，走正常操作流程 */
+  const handleSimulateLaunch = useCallback((rawDx: number, rawDy: number) => {
+    if (rawDx === 0 && rawDy === 0) return
     const hero = heroRef.current
     const coeffFixed = toFixed(speedCoefficient)
     const initialSpeed = fixedMul(hero.maxLaunchSpeed, coeffFixed)
-    const dirX = toFixed(1)
-    const dirY = toFixed(0)
+    const len = Math.hypot(rawDx, rawDy)
+    const dirX = toFixed(rawDx / len)
+    const dirY = toFixed(rawDy / len)
 
     // 1) 客户端本地执行
     hero.launch(dirX, dirY, initialSpeed)
@@ -193,7 +195,7 @@ export function BattlePage() {
     sendLaunchFrame({ dirX, dirY, speed: initialSpeed })
 
     console.log(
-      "[Simulate] full-right launch dirX=1 dirY=0 speed=",
+      "[Simulate] launch dir=", rawDx, rawDy, "speed=",
       initialSpeed,
       "tick=",
       battleTick.frameNumber,
@@ -259,7 +261,7 @@ export function BattlePage() {
         playerY={heroY}
         zoom={zoom}
         onBack={handleBack}
-        onSimulateFullRight={handleSimulateFullRight}
+            onSimulateLaunch={handleSimulateLaunch}
       />
 
       <DebugPanel
