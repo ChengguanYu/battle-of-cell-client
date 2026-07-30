@@ -4,7 +4,7 @@ interface CooldownRingProps {
   size: number
   /** 动画时长 (ms), 与冷却时间一致 */
   durationMs: number
-  /** 环宽度, 默认 3 */
+  /** 环宽度, 默认按直径非线性计算: 小直径比例高, 大直径比例低 */
   strokeWidth?: number
   color?: string
   /** 动画结束后回调，用于通知父组件卸载 */
@@ -19,22 +19,29 @@ interface CooldownRingProps {
 export function CooldownRing({
   size,
   durationMs,
-  strokeWidth = 3,
-  color = "rgba(255, 255, 255, 0.6)",
+  // 大直径恒定 12px, 小直径额外加粗: size=20→21px, size=40→18px, 80+→12px
+  strokeWidth = Math.max(12, 24 - size * 0.15),
+  color = "rgba(255, 255, 255, 0.5)",
   onEnd,
 }: CooldownRingProps) {
   const center = size / 2
-  const r = center - strokeWidth / 2
+  // 确保 strokeWidth 不超 size * 85%, r 不出现负值
+  const sw = Math.min(strokeWidth, size * 0.85)
+  const r = Math.max(sw / 2, center - sw / 2)
   const circumference = 2 * Math.PI * r
+  // viewBox 外扩半个 stroke, 避免描边被边界裁切成八边形
+  const pad = sw / 2
+  const vw = size + pad * 2
   const id = useId()
   const dashId = id.replace(/[:.]/g, "_")
 
   return (
     <svg
-      className="absolute inset-0 pointer-events-none"
-      width={size}
-      height={size}
-      viewBox={`0 0 ${size} ${size}`}
+      className="absolute pointer-events-none"
+      width={vw}
+      height={vw}
+      viewBox={`${-pad} ${-pad} ${vw} ${vw}`}
+      style={{ left: -pad, top: -pad }}
       onAnimationEnd={onEnd}
     >
       <defs>
@@ -51,8 +58,8 @@ export function CooldownRing({
         r={r}
         fill="none"
         stroke={color}
-        strokeWidth={strokeWidth}
-        strokeLinecap="round"
+        strokeWidth={sw}
+        strokeLinecap="butt"
         strokeDasharray={circumference}
         strokeDashoffset={0}
         transform={`rotate(-90 ${center} ${center})`}
