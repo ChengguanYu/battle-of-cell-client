@@ -1,24 +1,51 @@
+const FP = 1000
+
+/** 向零取整整数除法 */
+function idiv(a: number, b: number): number {
+  return (a / b) | 0
+}
+
+/** 定点数乘法: a * b / FP */
+function mul(a: number, b: number): number {
+  return idiv(a * b, FP)
+}
+
+/** 正整数平方根 (牛顿法) */
+function isqrt(n: number): number {
+  if (n < 2) return n
+  // 纯整数二分法：找最小 2^k 使 k² > n，再二分结果
+  let bit = 1
+  while (bit * bit <= n) bit <<= 1
+  bit >>= 1
+  let r = 0
+  while (bit > 0) {
+    const t = r + bit
+    if (t * t <= n) r = t
+    bit >>= 1
+  }
+  return r
+}
+
 /**
  * 2D collision primitives for convex / simple polygons.
  *
- * All math is in real (float) world units; callers convert to/from the
- * fixed-point entity layer via lib/fixed. Kept framework-free so the same
- * routines are usable from tests and server code without React.
+ * All values are fixed-point (×FP). Kept framework-free so the same routines
+ * are usable from tests and server code without React.
  */
 
 export interface Vec2 {
-  x: number
-  y: number
+  x: number  /** 定点数 (×1000) */
+  y: number  /** 定点数 (×1000) */
 }
 
 export interface CircleHit {
   hit: boolean
   /** Outward normal pointing from the obstacle toward where the circle
-   *  should be pushed (unit length). */
+   *  should be pushed (unit length, 定点数 ×1000). */
   nx: number
   ny: number
   /** How far the circle must travel along (nx, ny) to be just touching.
-   *  Always >= 0 on a hit. */
+   *  Always >= 0 on a hit. 定点数 ×1000. */
   penetration: number
 }
 
@@ -35,10 +62,11 @@ export function closestPointOnSegment(
   const aby = by - ay
   const abSq = abx * abx + aby * aby
   if (abSq === 0) return { x: ax, y: ay }
-  let t = ((px - ax) * abx + (py - ay) * aby) / abSq
+  const dot = (px - ax) * abx + (py - ay) * aby
+  let t = idiv(dot * FP, abSq)
   if (t < 0) t = 0
-  else if (t > 1) t = 1
-  return { x: ax + t * abx, y: ay + t * aby }
+  else if (t > FP) t = FP
+  return { x: ax + mul(t, abx), y: ay + mul(t, aby) }
 }
 
 /** Even-odd ray cast. Vertices are a closed ring (last != first). */
@@ -48,10 +76,12 @@ export function pointInPolygon(px: number, py: number, verts: Vec2[]): boolean {
   for (let i = 0, j = n - 1; i < n; j = i++) {
     const a = verts[i]
     const b = verts[j]
+    const den = b.y - a.y
+    const num = (b.x - a.x) * (py - a.y)
     const intersect =
       (ay_gt: boolean, by_gt: boolean) =>
         ay_gt !== by_gt &&
-        px < ((b.x - a.x) * (py - a.y)) / (b.y - a.y) + a.x
+        px < idiv(num, den) + a.x
     if (intersect(a.y > py, b.y > py)) inside = !inside
   }
   return inside
@@ -81,7 +111,7 @@ export function circleVsPolygon(
   const n = verts.length
   if (n < 3) return { hit: false, nx: 0, ny: 0, penetration: 0 }
 
-  let bestDSq = Infinity
+  let bestDSq = -1
   let bestDx = 0
   let bestDy = 0
   for (let i = 0; i < n; i++) {
@@ -91,14 +121,14 @@ export function circleVsPolygon(
     const dx = cx - p.x
     const dy = cy - p.y
     const dSq = dx * dx + dy * dy
-    if (dSq < bestDSq) {
+    if (bestDSq < 0 || dSq < bestDSq) {
       bestDSq = dSq
       bestDx = dx
       bestDy = dy
     }
   }
 
-  const d = Math.sqrt(bestDSq)
+  const d = isqrt(bestDSq)
   const inside = pointInPolygon(cx, cy, verts)
 
   if (d > r && !inside) return { hit: false, nx: 0, ny: 0, penetration: 0 }
@@ -108,7 +138,7 @@ export function circleVsPolygon(
     // path below the per-edge scan handles this naturally; in the outside
     // path the centroid fallback was meaningless for a freshly-touching
     // circle, so treat it as a tangential contact with zero penetration.
-    if (!inside) return { hit: true, nx: 1, ny: 0, penetration: 0 }
+    if (!inside) return { hit: true, nx: FP, ny: 0, penetration: 0 }
   }
 
  if (inside) {
@@ -125,54 +155,54 @@ export function circleVsPolygon(
     // (signed clamped to a vertex) end up with a larger value and lose the
     // min, so no explicit skip is needed; the returned normal is a unit
     // vector so downstream reflection does not blow up velocity.
-    let minExit = Infinity
+    let minExit = -1
     let exitNx = 0
     let exitNy = 0
-    const EPS_OUT = 1e-2
+    const EPS_OUT_FP = FP / 100
     for (let i = 0; i < n; i++) {
       const a = verts[i]
       const b = verts[(i + 1) % n]
       let ex = b.x - a.x
       let ey = b.y - a.y
-      const elen = Math.hypot(ex, ey)
+      const elen = isqrt(ex * ex + ey * ey)
       if (elen === 0) continue
-      ex /= elen
-      ey /= elen
+      ex = idiv(ex * FP, elen)
+      ey = idiv(ey * FP, elen)
       // Outer normal candidate (left-hand); flip if it points into the
       // polygon. Sample from the edge midpoint so the offset actually
       // crosses the boundary, keeping the result winding-independent.
-      let nx = -ey
-      let ny = ex
-      const mx = (a.x + b.x) / 2
-      const my = (a.y + b.y) / 2
-      if (pointInPolygon(mx + nx * EPS_OUT, my + ny * EPS_OUT, verts)) {
+     let nx = -ey
+     let ny = ex
+     const mx = (a.x + b.x + 1) >> 1
+     const my = (a.y + b.y + 1) >> 1
+      if (pointInPolygon(mx + idiv(nx * EPS_OUT_FP, FP), my + idiv(ny * EPS_OUT_FP, FP), verts)) {
         nx = -nx
         ny = -ny
       }
       const p = closestPointOnSegment(cx, cy, a.x, a.y, b.x, b.y)
       // Signed distance from center to edge along the outward normal.
       // Positive for an interior center; the exit depth is dist + r.
-      const signed = (p.x - cx) * nx + (p.y - cy) * ny
+      const signed = idiv((p.x - cx) * nx + (p.y - cy) * ny, FP)
       const exit = signed + r
-      if (exit < minExit) {
+      if (minExit < 0 || exit < minExit) {
         minExit = exit
         exitNx = nx
         exitNy = ny
       }
     }
-    if (Number.isFinite(minExit)) {
+    if (minExit >= 0) {
       return { hit: true, nx: exitNx, ny: exitNy, penetration: minExit }
     }
     // Fallback: every edge degenerate. Normalize the push direction so a
     // non-unit normal cannot blow up the reflection in bounce.
-    const fd = d === 0 ? 1 : d
-    return { hit: true, nx: -bestDx / fd, ny: -bestDy / fd, penetration: r + d }
+    const fd = d === 0 ? FP : d
+    return { hit: true, nx: -idiv(bestDx * FP, fd), ny: -idiv(bestDy * FP, fd), penetration: r + d }
   }
 
   return {
     hit: true,
-    nx: bestDx / d,
-    ny: bestDy / d,
+    nx: idiv(bestDx * FP, d),
+    ny: idiv(bestDy * FP, d),
     penetration: r - d,
   }
 }
@@ -190,8 +220,8 @@ export function circleVsCircle(
   const dx = ax - bx
   const dy = ay - by
   const r = ar + br
-  const d = Math.hypot(dx, dy)
+  const d = isqrt(dx * dx + dy * dy)
   if (d >= r) return { hit: false, nx: 0, ny: 0, penetration: 0 }
-  if (d === 0) return { hit: true, nx: 1, ny: 0, penetration: r }
-  return { hit: true, nx: dx / d, ny: dy / d, penetration: r - d }
+  if (d === 0) return { hit: true, nx: FP, ny: 0, penetration: r }
+  return { hit: true, nx: idiv(dx * FP, d), ny: idiv(dy * FP, d), penetration: r - d }
 }

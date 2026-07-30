@@ -3,6 +3,7 @@ import { NO_HIT, aabbOverlap } from "./Shape"
 import { circleVsCircle, circleVsPolygon } from "./collision"
 import type { CircleShape } from "./CircleShape"
 import type { PolygonShape } from "./PolygonShape"
+import { toFixed, fromFixed } from "../../lib/fixed"
 
 /**
  * Collision algorithm dispatch table.
@@ -47,11 +48,17 @@ export function collideDispatch(a: Shape, b: Shape): Collision {
 registerCollision("circle", "circle", (a, b) => {
   const c1 = a as CircleShape
   const c2 = b as CircleShape
-  return circleVsCircle(c1.x, c1.y, c1.r, c2.x, c2.y, c2.r)
+  const hit = circleVsCircle(toFixed(c1.x), toFixed(c1.y), toFixed(c1.r), toFixed(c2.x), toFixed(c2.y), toFixed(c2.r))
+  return hit.hit
+    ? { hit: true, nx: fromFixed(hit.nx), ny: fromFixed(hit.ny), penetration: fromFixed(hit.penetration) }
+    : NO_HIT
 })
 registerCollision("circle", "polygon", (a, b) => {
   const c = a as CircleShape
   const p = b as PolygonShape
-  return circleVsPolygon(c.x, c.y, c.r, p.polygon.worldVertices())
+  const hit = circleVsPolygon(toFixed(c.x), toFixed(c.y), toFixed(c.r), p.polygon.worldVertices().map(v => ({ x: toFixed(v.x), y: toFixed(v.y) })))
+  return hit.hit
+    ? { hit: true, nx: fromFixed(hit.nx), ny: fromFixed(hit.ny), penetration: fromFixed(hit.penetration) }
+    : NO_HIT
 })
 registerCollision("polygon", "polygon", () => NO_HIT)
