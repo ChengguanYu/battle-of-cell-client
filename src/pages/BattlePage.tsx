@@ -14,6 +14,8 @@ import { fromFixed, toFixed, fixedMul } from "../lib/fixed"
 import { gameSession } from "../state/gameSession"
 import { resetBattleFrameCursor, sendLaunchFrame } from "../services/battleFrame"
 import { battleTick } from "../services/battleTick"
+import { frameBuffer } from "../services/frameBuffer"
+import { runLocalFrameCatchUp } from "../services/localFrameCatchUp"
 import { leaveRoom } from "../services/leaveRoom"
 import { CONFIG } from "../network/config"
 import { ObstacleField } from "../entities/ObstacleField"
@@ -92,7 +94,7 @@ export function BattlePage() {
     // 调试模式：无真实会话也能进战斗页，方便本地看场景/HUD/操作
     if (CONFIG.DEBUG_MODE && !gameSession.isBattleReady()) {
       const debugRoomId = Number(routeRoomId) || session.roomId || 0
-      const debugFirstFrame = session.firstFrameNumber ?? 0
+      const debugFirstFrame = frameBuffer.latest ?? session.firstFrameNumber ?? 0
       console.info(
         "[Battle] DEBUG_MODE bypass session check roomId=",
         debugRoomId,
@@ -150,10 +152,25 @@ export function BattlePage() {
 
   useEffect(() => {
     if (debugPipelineRunning) return
+
+    const isDebugLocal = CONFIG.DEBUG_MODE && !gameSession.isBattleReady()
+
+    // 本地配置模式：先创建世界，再在初始化完成前追帧。
+    // 追帧会直接把帧操作应用到 Hero，结果随 Hero 事件同步到展示层。
+    if (isDebugLocal) {
+      world.create()
+      try {
+        const catchUp = runLocalFrameCatchUp(world, obstacleField)
+        resetBattleFrameCursor(catchUp.latestFrameNumber)
+      } catch (err) {
+        console.error("[Battle] local frame catch-up failed:", err)
+      }
+    }
+
     // 每次挂载都初始化；StrictMode 会先 cleanup 再二次挂载，
     // 不能用"只 init 一次"的 ref，否则 sessionOk 会被 cleanup 清掉后无法恢复。
     const ok = initBattle(roomId)
-    if (ok) world.create()
+    if (ok && !isDebugLocal) world.create()
     setSessionOk(ok)
     sessionOkRef.current = ok
 
@@ -163,7 +180,7 @@ export function BattlePage() {
       sessionOkRef.current = false
       setSessionOk(false)
     }
-  }, [roomId, initBattle, world, debugPipelineRunning])
+  }, [roomId, initBattle, world, obstacleField, debugPipelineRunning])
 
   // Render layer uses real pixels; hero business state is fixed-point.
   const heroX = fromFixed(state.x)

@@ -1,4 +1,3 @@
-import { Polygon } from "../entities/geometry/Polygon"
 import { PolygonShape } from "../entities/geometry/PolygonShape"
 import type { Shape } from "../entities/geometry/Shape"
 import type { Vec2 } from "../entities/geometry/collision"
@@ -78,6 +77,8 @@ export function createRegularPolygon(
  * Returns obstacle shapes (PolygonShape wrapping a validated Polygon). The
  * render layer reads vertices back through the shape's polygon.
  */
-export function createDemoObstacles(heroX: number, heroY: number): Shape[] {
+export function createDemoObstacles(_heroX: number, _heroY: number): Shape[] {
+  void _heroX
+  void _heroY
   return []
 }

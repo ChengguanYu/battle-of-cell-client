@@ -1,4 +1,4 @@
-import type { Vec2 } from "../../entities/geometry/collision"
+import type { Vec2 } from "../entities/geometry/collision"
 
 export interface PolygonViewProps {
   /** World-space vertices (closed ring; last != first). */

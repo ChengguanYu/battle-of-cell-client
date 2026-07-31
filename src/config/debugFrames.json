@@ -1,0 +1,22 @@
+{
+  "startFrame": 0,
+  "catchUpFrames": 6,
+  "frameSequence": [
+    {
+      "frameNumber": 1,
+      "frames": [
+        {
+          "op": "LAUNCH",
+          "data": {
+            "eid": 0,
+            "speed": 1500000,
+            "direction": {
+              "x": -1000,
+              "y": 0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

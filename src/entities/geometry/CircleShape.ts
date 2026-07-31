@@ -8,13 +8,19 @@ import { collideDispatch } from "./collisionDispatch"
  */
 export class CircleShape extends Shape {
   readonly type = "circle" as const
+  x: number
+  y: number
+  r: number
 
   constructor(
-    public x: number,
-    public y: number,
-    public r: number,
+    x: number,
+    y: number,
+    r: number,
   ) {
     super()
+    this.x = x
+    this.y = y
+    this.r = r
   }
 
   get aabb(): ShapeAABB {
