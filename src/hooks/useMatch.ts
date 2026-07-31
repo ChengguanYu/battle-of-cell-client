@@ -73,6 +73,8 @@ export interface MatchEnterResult {
   worldShapes: WorldShapeData[]
   /** 服务端分配的本局出生点（世界坐标 px），无则 fallback 到世界中心 */
   spawnPosition: { x: number; y: number } | null
+  /** 服务端分配的本局玩家 entity_id（Hero 绑定），无则 null */
+  heroEntityId: number | null
 }
 
 interface MatchResolution {
@@ -81,6 +83,8 @@ interface MatchResolution {
   worldShapes: WorldShapeData[]
   /** 服务端分配的本局出生点 */
   spawnPosition: { x: number; y: number } | null
+  /** 服务端分配的本局玩家 entity_id */
+  heroEntityId: number | null
 }
 
 /** 可替换匹配策略：产出房间初始化数据后，由共享流水线负责等首帧并入战 */
@@ -183,7 +187,7 @@ export function useMatch() {
       }),
     )
 
-    // 出生点已由 HeroInit 携带
+    // 出生点 + entity_id 已由 HeroInit 携带
     const heroInit = entryResp.heroInit
     const spawnPosition =
       heroInit?.position != null
@@ -191,7 +195,10 @@ export function useMatch() {
         : null
     console.log("[Match] Spawn position:", spawnPosition)
 
-    return { roomId, worldSize, worldShapes, spawnPosition }
+    const heroEntityId = heroInit?.entityId != null ? toNumber(heroInit.entityId) : null
+    console.log("[Match] Hero entityId:", heroEntityId)
+
+    return { roomId, worldSize, worldShapes, spawnPosition, heroEntityId }
   }, [])
 
   /**
@@ -216,10 +223,11 @@ export function useMatch() {
         // 新一局匹配：清空旧帧，避免误把上一局首帧当成本局
         frameBuffer.clear()
 
-        const { roomId, worldSize, worldShapes, spawnPosition } = await strategy(timeout)
+        const resolved = await strategy(timeout)
+        const { roomId, worldSize, worldShapes, spawnPosition, heroEntityId } = resolved
 
         setPhase("waiting_first_frame")
-        gameSession.enterWaitingFirstFrame(roomId, worldSize, worldShapes, spawnPosition ?? undefined)
+        gameSession.enterWaitingFirstFrame(roomId, worldSize, worldShapes, spawnPosition ?? undefined, heroEntityId)
 
         const firstFrameNumber = await frameBuffer.waitForFirstFrame(timeout)
         console.log(`${logPrefix} first server_frame received, frameNumber=`,
@@ -228,8 +236,8 @@ export function useMatch() {
           roomId,
         )
 
-        gameSession.enterBattle(roomId, firstFrameNumber, worldSize, worldShapes, spawnPosition ?? undefined)
-        return { roomId, firstFrameNumber, worldSize, worldShapes, spawnPosition }
+        gameSession.enterBattle(roomId, firstFrameNumber, worldSize, worldShapes, spawnPosition ?? undefined, heroEntityId)
+        return { roomId, firstFrameNumber, worldSize, worldShapes, spawnPosition, heroEntityId }
       } catch (err) {
         gameSession.enterLobby()
         throw err

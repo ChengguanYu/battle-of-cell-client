@@ -27,13 +27,13 @@ export function BattlePage() {
   const { roomId } = useParams()
   const navigate = useNavigate()
   const world = useMemo(() => {
-    const session = gameSession.getState()
-    const worldSize = session.worldSize ?? debugWorldSize
-    const shapes = session.worldShapes ?? debugWorldShapes
-    const worldShapes = shapes.map((s) => s.vertices)
-    const spawnPosition = session.spawnPosition ?? undefined
-    return new BattleWorld(worldSize.width, worldSize.height, worldShapes, spawnPosition)
-  }, [worldKey])
+   const session = gameSession.getState()
+   const worldSize = session.worldSize ?? debugWorldSize
+   const shapes = session.worldShapes ?? debugWorldShapes
+   const worldShapes = shapes.map((s) => s.vertices)
+   const spawnPosition = session.spawnPosition ?? undefined
+    return new BattleWorld(worldSize.width, worldSize.height, worldShapes, spawnPosition, session.heroEntityId)
+ }, [worldKey])
   const heroRef = useRef(world.hero)
   useEffect(() => {
     heroRef.current = world.hero
@@ -53,12 +53,13 @@ export function BattlePage() {
         return
       }
 
-      const ok = sendLaunchFrame({
-        dirX: info.dirX,
-        dirY: info.dirY,
-        speed: info.speed,
-        // 不传 frameNumber：battleFrame 内部使用 battleTick.frameNumber
-      })
+     const ok = sendLaunchFrame({
+       dirX: info.dirX,
+       dirY: info.dirY,
+       speed: info.speed,
+       // 不传 frameNumber：battleFrame 内部使用 battleTick.frameNumber
+        eid: heroRef.current.entityId ?? 0,
+     })
       console.log(
         "[Battle] launch send LAUNCH result=",
         ok,
@@ -197,8 +198,8 @@ export function BattlePage() {
     // 1) 客户端本地执行
     hero.launch(dirX, dirY, initialSpeed)
 
-    // 2) 按正常入帧逻辑发送（内部用 battleTick.frameNumber 算帧号）
-    sendLaunchFrame({ dirX, dirY, speed: initialSpeed })
+   // 2) 按正常入帧逻辑发送（内部用 battleTick.frameNumber 算帧号）
+    sendLaunchFrame({ dirX, dirY, speed: initialSpeed, eid: hero.entityId ?? 0 })
 
     console.log(
       "[Simulate] launch dir=", rawDx, rawDy, "speed=",

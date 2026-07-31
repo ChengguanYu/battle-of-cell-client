@@ -21,8 +21,10 @@ import {
  * Subclasses keep domain logic (HP, launch, bounce, events, etc.).
  */
 export abstract class Entity<TConfig extends EntityConfig = EntityConfig>
-  implements IEntityView, IEntityDetection {
-  private _isSpawned = false
+ implements IEntityView, IEntityDetection {
+ private _isSpawned = false
+  /** 服务端分配的实体 ID，未绑定为 null。 */
+  private _entityId: number | null = null
   protected _x: Fixed
   protected _y: Fixed
   protected _vx: Fixed = 0
@@ -50,8 +52,18 @@ export abstract class Entity<TConfig extends EntityConfig = EntityConfig>
   }
 
   /** Whether this entity currently belongs to the world lifecycle. */
-  get isSpawned(): boolean {
-    return this._isSpawned
+ get isSpawned(): boolean {
+   return this._isSpawned
+ }
+
+  /** 服务端分配的实体 ID，未绑定为 null。 */
+  get entityId(): number | null {
+    return this._entityId
+  }
+
+  /** 绑定/解绑服务端分配的实体 ID（由 BattleWorld 统一管理）。 */
+  setEntityId(id: number | null): void {
+    this._entityId = id
   }
 
   /**

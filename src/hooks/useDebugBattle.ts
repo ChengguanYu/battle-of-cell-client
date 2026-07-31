@@ -188,11 +188,14 @@ export function useDebugBattle(): { isRunning: boolean; worldKey: number } {
               }
             : null
 
+        const heroEntityId = heroInit?.entityId != null ? toNumber(heroInit.entityId) : null
+
         gameSession.enterWaitingFirstFrame(
           roomId,
           worldSize,
           worldShapes,
           spawnPosition ?? undefined,
+          heroEntityId,
         )
         console.log("[DebugBattle] 等待服务端首帧...")
 
@@ -205,6 +208,7 @@ export function useDebugBattle(): { isRunning: boolean; worldKey: number } {
           worldSize,
           worldShapes,
           spawnPosition ?? undefined,
+          heroEntityId,
         )
         console.log("[DebugBattle] 流水线完成，跳转到房间", roomId)
         setIsRunning(false)

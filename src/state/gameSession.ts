@@ -31,8 +31,10 @@ export interface GameSessionState {
   spawnPosition: { x: number; y: number } | null
   /** 进房下发的世界形状（顶点为真实 world px），无则 null */
   worldShapes: WorldShapeData[] | null
-  /** 进入战斗时锁定的首帧帧号；无则 null */
-  firstFrameNumber: number | null
+ /** 进入战斗时锁定的首帧帧号；无则 null */
+ firstFrameNumber: number | null
+  /** 服务端分配的本局玩家 entity_id（Hero 绑定），无则 null */
+  heroEntityId: number | null
 }
 
 const INITIAL_STATE: GameSessionState = {
@@ -42,6 +44,7 @@ const INITIAL_STATE: GameSessionState = {
   spawnPosition: null,
   worldShapes: null,
   firstFrameNumber: null,
+  heroEntityId: null,
 }
 
 type Listener = () => void
@@ -76,6 +79,7 @@ class GameSessionStore {
       worldSize: null,
       spawnPosition: null,
       firstFrameNumber: null,
+      heroEntityId: null,
     })
   }
 
@@ -88,38 +92,48 @@ class GameSessionStore {
       spawnPosition: null,
       worldShapes: null,
       firstFrameNumber: null,
+      heroEntityId: null,
     })
   }
 
-  /** 匹配响应成功，等待首帧 */
-  enterWaitingFirstFrame(roomId: number, worldSize: WorldSize, worldShapes: WorldShapeData[], spawnPosition?: { x: number; y: number }): void {
-    this.set({
-      phase: "waiting_first_frame",
-      roomId,
-      worldSize,
-      worldShapes,
-      spawnPosition: spawnPosition ?? null,
-      firstFrameNumber: null,
-    })
-  }
+ /** 匹配响应成功，等待首帧 */
+  enterWaitingFirstFrame(
+    roomId: number,
+    worldSize: WorldSize,
+    worldShapes: WorldShapeData[],
+    spawnPosition?: { x: number; y: number },
+    heroEntityId?: number | null,
+  ): void {
+   this.set({
+     phase: "waiting_first_frame",
+     roomId,
+     worldSize,
+     worldShapes,
+     spawnPosition: spawnPosition ?? null,
+     firstFrameNumber: null,
+      heroEntityId: heroEntityId ?? null,
+   })
+ }
 
-  /** 收到首帧后进入战斗态 */
+ /** 收到首帧后进入战斗态 */
   enterBattle(
     roomId: number,
     firstFrameNumber: number,
     worldSize: WorldSize,
     worldShapes: WorldShapeData[],
     spawnPosition?: { x: number; y: number },
+    heroEntityId?: number | null,
   ): void {
-    this.set({
-      phase: "in_battle",
-      roomId,
-      worldSize,
-      worldShapes,
-      spawnPosition: spawnPosition ?? null,
-      firstFrameNumber,
-    })
-  }
+   this.set({
+     phase: "in_battle",
+     roomId,
+     worldSize,
+     worldShapes,
+     spawnPosition: spawnPosition ?? null,
+     firstFrameNumber,
+      heroEntityId: heroEntityId ?? null,
+   })
+ }
 
   /** 是否具备进入 Battle 页所需的有效全局态 */
   isBattleReady(): boolean {

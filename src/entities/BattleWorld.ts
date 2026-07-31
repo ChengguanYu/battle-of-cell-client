@@ -14,20 +14,29 @@ export class BattleWorld {
   readonly width: number
   readonly height: number
   private readonly _hero: Hero
-  private readonly _entities: Entity[] = []
-  /** 世界中的静态形状（障碍物），由进房数据初始化 */
-  readonly shapes: Shape[]
+ private readonly _entities: Entity[] = []
+  /** id ↔ entity 注册表，世界层面统一管理 entity_id 绑定 */
+  private readonly _entityById = new Map<number, Entity>()
+ /** 世界中的静态形状（障碍物），由进房数据初始化 */
+ readonly shapes: Shape[]
 
-  constructor(width: number, height: number, shapeVertices: WorldShapeVertices = [], spawnPosition?: { x: number; y: number }) {
-    this.width = width
-    this.height = height
-    this.shapes = BattleWorld.buildShapes(shapeVertices)
-    this._hero = new Hero(width, height, {
-      x: spawnPosition?.x ?? width / 2,
-      y: spawnPosition?.y ?? height / 2,
-    })
-    this.addEntity(this._hero)
-  }
+  constructor(
+    width: number,
+    height: number,
+    shapeVertices: WorldShapeVertices = [],
+    spawnPosition?: { x: number; y: number },
+    heroEntityId?: number | null,
+  ) {
+  this.width = width
+  this.height = height
+  this.shapes = BattleWorld.buildShapes(shapeVertices)
+  this._hero = new Hero(width, height, {
+    x: spawnPosition?.x ?? width / 2,
+    y: spawnPosition?.y ?? height / 2,
+  })
+  this.addEntity(this._hero)
+    if (heroEntityId != null) this.bindHeroEntityId(heroEntityId)
+}
 
   /** 默认玩家的 Hero 引用（类型保留 Hero，不降级为 Entity）。 */
   get hero(): Hero {
@@ -45,9 +54,38 @@ export class BattleWorld {
   }
 
   /** 从世界移除一个动态实体（不 kill，调用方自行结束生命周期）。 */
-  removeEntity(entity: Entity): void {
-    const i = this._entities.indexOf(entity)
-    if (i >= 0) this._entities.splice(i, 1)
+ removeEntity(entity: Entity): void {
+   const i = this._entities.indexOf(entity)
+   if (i >= 0) this._entities.splice(i, 1)
+ }
+
+  /** 设置 Hero 的 entity_id 并登记到世界注册表（进房绑定）。 */
+  bindHeroEntityId(id: number): void {
+    this._hero.setEntityId(id)
+    this._entityById.set(id, this._hero)
+  }
+
+  /** 任意 entity 的绑定写入注册表。同一 id 旧引用会被覆盖。 */
+  bindEntityId(entity: Entity, id: number): void {
+    entity.setEntityId(id)
+    this._entityById.set(id, entity)
+  }
+
+  /** 按 id 查注册表，未绑定返回 undefined。 */
+  getEntityById(id: number): Entity | undefined {
+    return this._entityById.get(id)
+  }
+
+  /** 解绑：按 entity 当前 id 移除注册表项。 */
+  unbindEntity(entity: Entity): void {
+    const id = entity.entityId
+    if (id != null) this._entityById.delete(id)
+    entity.setEntityId(null)
+  }
+
+  /** 本局玩家 Hero 的 entity_id，未绑定为 null。 */
+  get heroEntityId(): number | null {
+    return this._hero.entityId
   }
 
   /** 用现有多边形创建类把顶点环转成 PolygonShape；非法形状跳过而不抛出 */
