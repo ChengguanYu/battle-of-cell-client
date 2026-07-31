@@ -43,6 +43,14 @@ export class BattleWorld {
     return this._hero
   }
 
+  /** 当前已生成的其他玩家 Hero，不含本机受控 Hero。 */
+  get remoteHeroes(): readonly Hero[] {
+    return this._entities.filter(
+      (entity): entity is Hero =>
+        entity instanceof Hero && entity !== this._hero && entity.isSpawned,
+    )
+  }
+
   /** 仿真世界中的所有动态实体，不含静态 shapes。 */
   get entities(): readonly Entity[] {
     return this._entities
@@ -69,6 +77,20 @@ export class BattleWorld {
   bindEntityId(entity: Entity, id: number): void {
     entity.setEntityId(id)
     this._entityById.set(id, entity)
+  }
+
+  /** 按服务端 eid 生成并生成一个不受本机控制的其他玩家 Hero。 */
+  spawnRemoteHero(eid: number, position: { x: number; y: number }): Hero | null {
+    if (this.getEntityById(eid) != null) return null
+
+    const hero = new Hero(this.width, this.height, {
+      x: position.x,
+      y: position.y,
+    })
+    this.addEntity(hero)
+    this.bindEntityId(hero, eid)
+    hero.spawn()
+    return hero
   }
 
   /** 按 id 查注册表，未绑定返回 undefined。 */

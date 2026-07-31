@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import { BattleWorld } from "../entities/BattleWorld"
 import { useHero } from "../hooks/useHero"
+import { useRemoteHeroes } from "../hooks/useRemoteHeroes"
 import { useCamera } from "../hooks/useCamera"
 import { GameWorld } from "../components/GameWorld"
 import { HeroView } from "../components/hero"
@@ -83,6 +84,7 @@ export function BattlePage() {
     { x: cameraX, y: cameraY, zoom },
     { onLaunch: handleLaunch, onStep: () => obstacleField.resolve(heroRef.current) },
   )
+  const remoteHeroes = useRemoteHeroes(world, obstacleField)
 
   /**
    * Battle 内部初始化：校验全局会话态、对齐帧游标，并启动 tick。
@@ -271,6 +273,17 @@ export function BattlePage() {
             width={world.width}
             height={world.height}
           />
+          {remoteHeroes.map((remoteHero, index) => {
+            const position = remoteHero.getViewPosition()
+            return (
+              <HeroView
+                key={remoteHero.entityId ?? index}
+                x={position.x}
+                y={position.y}
+                radius={remoteHero.getViewRadius()}
+              />
+            )
+          })}
           <HeroView
             x={heroX}
             y={heroY}
