@@ -18,21 +18,26 @@ import { leaveRoom } from "../services/leaveRoom"
 import { CONFIG } from "../network/config"
 import { ObstacleField } from "../entities/ObstacleField"
 import { debugWorldSize, debugWorldShapes } from "../config/debugWorld"
+import { useDebugBattle } from "../hooks/useDebugBattle"
 
 const OUT_OF_BOUNDS = "#050805"
 
 export function BattlePage() {
+  const { isRunning: debugPipelineRunning, worldKey } = useDebugBattle()
   const { roomId } = useParams()
   const navigate = useNavigate()
-  const [world] = useState(() => {
+  const world = useMemo(() => {
     const session = gameSession.getState()
     const worldSize = session.worldSize ?? debugWorldSize
     const shapes = session.worldShapes ?? debugWorldShapes
     const worldShapes = shapes.map((s) => s.vertices)
     const spawnPosition = session.spawnPosition ?? undefined
     return new BattleWorld(worldSize.width, worldSize.height, worldShapes, spawnPosition)
-  })
+  }, [worldKey])
   const heroRef = useRef(world.hero)
+  useEffect(() => {
+    heroRef.current = world.hero
+  }, [world])
   const { cameraX, cameraY, zoom, containerRef } = useCamera(heroRef, world.width, world.height)
   const [debugVisible, setDebugVisible] = useState(false)
   const obstacles = world.shapes
@@ -143,6 +148,7 @@ export function BattlePage() {
   }, [navigate])
 
   useEffect(() => {
+    if (debugPipelineRunning) return
     // 每次挂载都初始化；StrictMode 会先 cleanup 再二次挂载，
     // 不能用"只 init 一次"的 ref，否则 sessionOk 会被 cleanup 清掉后无法恢复。
     const ok = initBattle(roomId)
@@ -156,7 +162,7 @@ export function BattlePage() {
       sessionOkRef.current = false
       setSessionOk(false)
     }
-  }, [roomId, initBattle, world])
+  }, [roomId, initBattle, world, debugPipelineRunning])
 
   // Render layer uses real pixels; hero business state is fixed-point.
   const heroX = fromFixed(state.x)
@@ -217,6 +223,16 @@ export function BattlePage() {
       setLeaving(false)
     }
   }, [leaving, navigate])
+
+  // 调试流水线运行中 → 静默等待，不展示战场
+  if (debugPipelineRunning) {
+    return (
+      <div className="relative h-screen w-screen overflow-hidden select-none flex items-center justify-center"
+        style={{ background: OUT_OF_BOUNDS }}>
+        <span className="text-white/40 text-sm">正在准备战斗...</span>
+      </div>
+    )
+  }
 
   return (
     <div

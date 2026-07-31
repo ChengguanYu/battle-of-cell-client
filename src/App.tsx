@@ -6,7 +6,6 @@ import { RegisterPage } from "./pages/RegisterPage"
 import { BattlePage } from "./pages/BattlePage"
 import { ProtectedRoute } from "./components/ProtectedRoute"
 import { WsGuard } from "./components/WsGuard"
-import { useDebugBattle } from "./hooks/useDebugBattle"
 import { Toaster } from "./components/ui/toaster"
 
 function GameWindow() {
@@ -18,7 +17,6 @@ function GameWindow() {
 }
 
 function App() {
-  useDebugBattle()
   const location = useLocation()
 
   return (
