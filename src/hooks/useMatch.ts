@@ -183,10 +183,12 @@ export function useMatch() {
       }),
     )
 
-    // 提取服务端分配的出生点
-    const spawnPosition = (entryResp.position != null)
-      ? { x: toNumber(entryResp.position.x), y: toNumber(entryResp.position.y) }
-      : null
+    // 出生点已由 HeroInit 携带
+    const heroInit = entryResp.heroInit
+    const spawnPosition =
+      heroInit?.position != null
+        ? { x: toNumber(heroInit.position.x), y: toNumber(heroInit.position.y) }
+        : null
     console.log("[Match] Spawn position:", spawnPosition)
 
     return { roomId, worldSize, worldShapes, spawnPosition }

@@ -2128,6 +2128,129 @@ export namespace BattleOfCell {
         }
 
         /**
+         * Properties of a HeroInit.
+         * @deprecated Use BattleOfCell.Message.HeroInit.$Properties instead.
+         */
+        interface IHeroInit extends BattleOfCell.Message.HeroInit.$Properties {
+        }
+
+        /** 玩家进入房间后的英雄初始化信息 */
+        class HeroInit {
+
+            /**
+             * Constructs a new HeroInit.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: BattleOfCell.Message.HeroInit.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** 出生坐标 */
+            position?: (BattleOfCell.Message.Position2d.$Properties|null);
+
+            /** 实体 ID（客户端后续帧操作需携带此 entity_id） */
+            entityId: number;
+
+            /**
+             * Creates a new HeroInit instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns HeroInit instance
+             */
+            static create(properties: BattleOfCell.Message.HeroInit.$Shape): BattleOfCell.Message.HeroInit & BattleOfCell.Message.HeroInit.$Shape;
+            static create(properties?: BattleOfCell.Message.HeroInit.$Properties): BattleOfCell.Message.HeroInit;
+
+            /**
+             * Encodes the specified HeroInit message. Does not implicitly {@link BattleOfCell.Message.HeroInit.verify|verify} messages.
+             * @param message HeroInit message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: BattleOfCell.Message.HeroInit.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified HeroInit message, length delimited. Does not implicitly {@link BattleOfCell.Message.HeroInit.verify|verify} messages.
+             * @param message HeroInit message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: BattleOfCell.Message.HeroInit.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a HeroInit message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.HeroInit & BattleOfCell.Message.HeroInit.$Shape} HeroInit
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): BattleOfCell.Message.HeroInit & BattleOfCell.Message.HeroInit.$Shape;
+
+            /**
+             * Decodes a HeroInit message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.HeroInit & BattleOfCell.Message.HeroInit.$Shape} HeroInit
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): BattleOfCell.Message.HeroInit & BattleOfCell.Message.HeroInit.$Shape;
+
+            /**
+             * Verifies a HeroInit message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a HeroInit message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns HeroInit
+             */
+            static fromObject(object: { [k: string]: any }): BattleOfCell.Message.HeroInit;
+
+            /**
+             * Creates a plain object from a HeroInit message. Also converts values to other types if specified.
+             * @param message HeroInit
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: BattleOfCell.Message.HeroInit, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this HeroInit to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for HeroInit
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace HeroInit {
+
+            /** Properties of a HeroInit. */
+            interface $Properties {
+
+                /** 出生坐标 */
+                position?: (BattleOfCell.Message.Position2d.$Properties|null);
+
+                /** 实体 ID（客户端后续帧操作需携带此 entity_id） */
+                entityId?: (number|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a HeroInit. */
+            type $Shape = BattleOfCell.Message.HeroInit.$Properties;
+        }
+
+        /**
          * Properties of a MatchReq.
          * @deprecated Use BattleOfCell.Message.MatchReq.$Properties instead.
          */
@@ -2518,8 +2641,8 @@ export namespace BattleOfCell {
             /** EntryRoomResp roomId. */
             roomId: (number|Long);
 
-            /** 玩家在房间中的出生坐标 */
-            position?: (BattleOfCell.Message.Position2d.$Properties|null);
+            /** 英雄初始化信息（含位置和实体 ID） */
+            heroInit?: (BattleOfCell.Message.HeroInit.$Properties|null);
 
             /**
              * Creates a new EntryRoomResp instance using the specified properties.
@@ -2620,8 +2743,8 @@ export namespace BattleOfCell {
                 /** EntryRoomResp roomId */
                 roomId?: (number|Long|null);
 
-                /** 玩家在房间中的出生坐标 */
-                position?: (BattleOfCell.Message.Position2d.$Properties|null);
+                /** 英雄初始化信息（含位置和实体 ID） */
+                heroInit?: (BattleOfCell.Message.HeroInit.$Properties|null);
 
                 /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];

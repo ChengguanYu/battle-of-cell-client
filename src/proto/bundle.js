@@ -5366,6 +5366,297 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             return WorldInit;
         })();
 
+        Message.HeroInit = (function() {
+
+            /**
+             * Properties of a HeroInit.
+             * @typedef {Object} BattleOfCell.Message.HeroInit.$Properties
+             * @property {BattleOfCell.Message.Position2d.$Properties|null} [position] 出生坐标
+             * @property {number|null} [entityId] 实体 ID（客户端后续帧操作需携带此 entity_id）
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a HeroInit.
+             * @memberof BattleOfCell.Message
+             * @interface IHeroInit
+             * @augments BattleOfCell.Message.HeroInit.$Properties
+             * @deprecated Use BattleOfCell.Message.HeroInit.$Properties instead.
+             */
+
+            /**
+             * Shape of a HeroInit.
+             * @typedef {BattleOfCell.Message.HeroInit.$Properties} BattleOfCell.Message.HeroInit.$Shape
+             */
+
+            /**
+             * Constructs a new HeroInit.
+             * @memberof BattleOfCell.Message
+             * @classdesc 玩家进入房间后的英雄初始化信息
+             * @constructor
+             * @param {BattleOfCell.Message.HeroInit.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const HeroInit = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * 出生坐标
+             * @member {BattleOfCell.Message.Position2d.$Properties|null|undefined} position
+             * @memberof BattleOfCell.Message.HeroInit
+             * @instance
+             */
+            HeroInit.prototype.position = null;
+
+            /**
+             * 实体 ID（客户端后续帧操作需携带此 entity_id）
+             * @member {number} entityId
+             * @memberof BattleOfCell.Message.HeroInit
+             * @instance
+             */
+            HeroInit.prototype.entityId = 0;
+
+            /**
+             * Creates a new HeroInit instance using the specified properties.
+             * @function create
+             * @memberof BattleOfCell.Message.HeroInit
+             * @static
+             * @param {BattleOfCell.Message.HeroInit.$Properties=} [properties] Properties to set
+             * @returns {BattleOfCell.Message.HeroInit} HeroInit instance
+             * @type {{
+             *   (properties: BattleOfCell.Message.HeroInit.$Shape): BattleOfCell.Message.HeroInit & BattleOfCell.Message.HeroInit.$Shape;
+             *   (properties?: BattleOfCell.Message.HeroInit.$Properties): BattleOfCell.Message.HeroInit;
+             * }}
+             */
+            HeroInit.create = function(properties) {
+                return new HeroInit(properties);
+            };
+
+            /**
+             * Encodes the specified HeroInit message. Does not implicitly {@link BattleOfCell.Message.HeroInit.verify|verify} messages.
+             * @function encode
+             * @memberof BattleOfCell.Message.HeroInit
+             * @static
+             * @param {BattleOfCell.Message.HeroInit.$Properties} message HeroInit message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            HeroInit.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.position != null && $Object.hasOwnProperty.call(message, "position"))
+                    $root.BattleOfCell.Message.Position2d.encode(message.position, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+                if (message.entityId != null && $Object.hasOwnProperty.call(message, "entityId") && message.entityId !== 0)
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.entityId);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified HeroInit message, length delimited. Does not implicitly {@link BattleOfCell.Message.HeroInit.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof BattleOfCell.Message.HeroInit
+             * @static
+             * @param {BattleOfCell.Message.HeroInit.$Properties} message HeroInit message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            HeroInit.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a HeroInit message from the specified reader or buffer.
+             * @function decode
+             * @memberof BattleOfCell.Message.HeroInit
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {BattleOfCell.Message.HeroInit & BattleOfCell.Message.HeroInit.$Shape} HeroInit
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            HeroInit.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end = length === $undefined ? reader.len : reader.pos + length, message = _target || new $root.BattleOfCell.Message.HeroInit(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            message.position = $root.BattleOfCell.Message.Position2d.decode(reader, reader.uint32(), $undefined, _depth + 1, message.position);
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.uint32())
+                                message.entityId = value;
+                            else
+                                delete message.entityId;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a HeroInit message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof BattleOfCell.Message.HeroInit
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {BattleOfCell.Message.HeroInit & BattleOfCell.Message.HeroInit.$Shape} HeroInit
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            HeroInit.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a HeroInit message.
+             * @function verify
+             * @memberof BattleOfCell.Message.HeroInit
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            HeroInit.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.position != null && $Object.hasOwnProperty.call(message, "position")) {
+                    let error = $root.BattleOfCell.Message.Position2d.verify(message.position, _depth + 1);
+                    if (error)
+                        return "position." + error;
+                }
+                if (message.entityId != null && $Object.hasOwnProperty.call(message, "entityId"))
+                    if (!$util.isInteger(message.entityId))
+                        return "entityId: integer expected";
+                return null;
+            };
+
+            /**
+             * Creates a HeroInit message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof BattleOfCell.Message.HeroInit
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {BattleOfCell.Message.HeroInit} HeroInit
+             */
+            HeroInit.fromObject = function (object, _depth) {
+                if (object instanceof $root.BattleOfCell.Message.HeroInit)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".BattleOfCell.Message.HeroInit: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.BattleOfCell.Message.HeroInit();
+                if (object.position != null) {
+                    if (!$util.isObject(object.position))
+                        throw $TypeError(".BattleOfCell.Message.HeroInit.position: object expected");
+                    message.position = $root.BattleOfCell.Message.Position2d.fromObject(object.position, _depth + 1);
+                }
+                if (object.entityId != null)
+                    if ($Number(object.entityId) !== 0)
+                        message.entityId = object.entityId >>> 0;
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a HeroInit message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof BattleOfCell.Message.HeroInit
+             * @static
+             * @param {BattleOfCell.Message.HeroInit} message HeroInit
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            HeroInit.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults) {
+                    object.position = null;
+                    object.entityId = 0;
+                }
+                if (message.position != null && $Object.hasOwnProperty.call(message, "position"))
+                    object.position = $root.BattleOfCell.Message.Position2d.toObject(message.position, options, _depth + 1);
+                if (message.entityId != null && $Object.hasOwnProperty.call(message, "entityId"))
+                    object.entityId = message.entityId;
+                return object;
+            };
+
+            /**
+             * Converts this HeroInit to JSON.
+             * @function toJSON
+             * @memberof BattleOfCell.Message.HeroInit
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            HeroInit.prototype.toJSON = function() {
+                return HeroInit.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for HeroInit
+             * @function getTypeUrl
+             * @memberof BattleOfCell.Message.HeroInit
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            HeroInit.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/BattleOfCell.Message.HeroInit";
+            };
+
+            return HeroInit;
+        })();
+
         Message.MatchReq = (function() {
 
             /**
@@ -6200,7 +6491,7 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
              * @property {boolean|null} [ok] EntryRoomResp ok
              * @property {BattleOfCell.Message.WorldInit.$Properties|null} [world] 房间的世界参数
              * @property {number|Long|null} [roomId] EntryRoomResp roomId
-             * @property {BattleOfCell.Message.Position2d.$Properties|null} [position] 玩家在房间中的出生坐标
+             * @property {BattleOfCell.Message.HeroInit.$Properties|null} [heroInit] 英雄初始化信息（含位置和实体 ID）
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
@@ -6274,12 +6565,12 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
             EntryRoomResp.prototype.roomId = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
             /**
-             * 玩家在房间中的出生坐标
-             * @member {BattleOfCell.Message.Position2d.$Properties|null|undefined} position
+             * 英雄初始化信息（含位置和实体 ID）
+             * @member {BattleOfCell.Message.HeroInit.$Properties|null|undefined} heroInit
              * @memberof BattleOfCell.Message.EntryRoomResp
              * @instance
              */
-            EntryRoomResp.prototype.position = null;
+            EntryRoomResp.prototype.heroInit = null;
 
             /**
              * Creates a new EntryRoomResp instance using the specified properties.
@@ -6324,8 +6615,8 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                     $root.BattleOfCell.Message.WorldInit.encode(message.world, writer.uint32(/* id 4, wireType 2 =*/34).fork(), _depth + 1).ldelim();
                 if (message.roomId != null && $Object.hasOwnProperty.call(message, "roomId") && (typeof message.roomId === "object" ? message.roomId.low || message.roomId.high : message.roomId !== 0))
                     writer.uint32(/* id 5, wireType 0 =*/40).int64(message.roomId);
-                if (message.position != null && $Object.hasOwnProperty.call(message, "position"))
-                    $root.BattleOfCell.Message.Position2d.encode(message.position, writer.uint32(/* id 7, wireType 2 =*/58).fork(), _depth + 1).ldelim();
+                if (message.heroInit != null && $Object.hasOwnProperty.call(message, "heroInit"))
+                    $root.BattleOfCell.Message.HeroInit.encode(message.heroInit, writer.uint32(/* id 8, wireType 2 =*/66).fork(), _depth + 1).ldelim();
                 if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
@@ -6411,10 +6702,10 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                                 delete message.roomId;
                             continue;
                         }
-                    case 7: {
+                    case 8: {
                             if (wireType !== 2)
                                 break;
-                            message.position = $root.BattleOfCell.Message.Position2d.decode(reader, reader.uint32(), $undefined, _depth + 1, message.position);
+                            message.heroInit = $root.BattleOfCell.Message.HeroInit.decode(reader, reader.uint32(), $undefined, _depth + 1, message.heroInit);
                             continue;
                         }
                     }
@@ -6485,10 +6776,10 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                 if (message.roomId != null && $Object.hasOwnProperty.call(message, "roomId"))
                     if (!$util.isInteger(message.roomId) && !(message.roomId && $util.isInteger(message.roomId.low) && $util.isInteger(message.roomId.high)))
                         return "roomId: integer|Long expected";
-                if (message.position != null && $Object.hasOwnProperty.call(message, "position")) {
-                    let error = $root.BattleOfCell.Message.Position2d.verify(message.position, _depth + 1);
+                if (message.heroInit != null && $Object.hasOwnProperty.call(message, "heroInit")) {
+                    let error = $root.BattleOfCell.Message.HeroInit.verify(message.heroInit, _depth + 1);
                     if (error)
-                        return "position." + error;
+                        return "heroInit." + error;
                 }
                 return null;
             };
@@ -6544,10 +6835,10 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                             message.roomId = object.roomId;
                         else if (typeof object.roomId === "object")
                             message.roomId = new $util.LongBits(object.roomId.low >>> 0, object.roomId.high >>> 0).toNumber();
-                if (object.position != null) {
-                    if (!$util.isObject(object.position))
-                        throw $TypeError(".BattleOfCell.Message.EntryRoomResp.position: object expected");
-                    message.position = $root.BattleOfCell.Message.Position2d.fromObject(object.position, _depth + 1);
+                if (object.heroInit != null) {
+                    if (!$util.isObject(object.heroInit))
+                        throw $TypeError(".BattleOfCell.Message.EntryRoomResp.heroInit: object expected");
+                    message.heroInit = $root.BattleOfCell.Message.HeroInit.fromObject(object.heroInit, _depth + 1);
                 }
                 return message;
             };
@@ -6580,7 +6871,7 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                         object.roomId = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                     } else
                         object.roomId = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
-                    object.position = null;
+                    object.heroInit = null;
                 }
                 if (message.meta != null && $Object.hasOwnProperty.call(message, "meta"))
                     object.meta = $root.BattleOfCell.Message.MetaData.toObject(message.meta, options, _depth + 1);
@@ -6600,8 +6891,8 @@ export const BattleOfCell = $root.BattleOfCell = (() => {
                         object.roomId = options.longs === $String ? $String(message.roomId) : message.roomId;
                     else
                         object.roomId = options.longs === $String ? $util.Long.prototype.toString.call(message.roomId) : options.longs === $Number ? new $util.LongBits(message.roomId.low >>> 0, message.roomId.high >>> 0).toNumber() : message.roomId;
-                if (message.position != null && $Object.hasOwnProperty.call(message, "position"))
-                    object.position = $root.BattleOfCell.Message.Position2d.toObject(message.position, options, _depth + 1);
+                if (message.heroInit != null && $Object.hasOwnProperty.call(message, "heroInit"))
+                    object.heroInit = $root.BattleOfCell.Message.HeroInit.toObject(message.heroInit, options, _depth + 1);
                 return object;
             };
 

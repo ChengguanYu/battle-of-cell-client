@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { CONFIG } from "../network/config"
 import { useAuth } from "./AuthContext"
@@ -9,8 +9,6 @@ import { OpCode } from "../proto/OpCode"
 import { StatusCode } from "../entity/dtos"
 import { gameSession } from "../state/gameSession"
 import { frameBuffer } from "../services/frameBuffer"
-
-// ~ ~ ~ 工具函数 ~ ~ ~
 
 function toNumber(value: unknown): number {
   if (typeof value === "number") return value
@@ -34,7 +32,7 @@ function toRoomId(value: unknown): number {
 function toWorldDimension(value: unknown, fieldName: string): number {
   const dimension = Number(String(value))
   if (!Number.isSafeInteger(dimension) || dimension <= 0) {
-    throw new Error(`世界尺寸 ${fieldName} 无效: ${String(value)}`)
+    throw new Error("世界尺寸 " + fieldName + " 无效: " + String(value))
   }
   return dimension
 }
@@ -42,21 +40,22 @@ function toWorldDimension(value: unknown, fieldName: string): number {
 /**
  * 调试战斗自动流水线 hook。
  *
- * 当 `CONFIG.DEBUG_MODE === true` 且 `CONFIG.IS_DEBUG_BATTLE === true` 时，
- * 用 `CONFIG.DEBUG_ACCOUNT` / `CONFIG.DEBUG_PASSWORD` 静默登录，
- * 然后自动完成匹配→入房→等首帧→跳转 `/battle/:roomId`。
+ * 当 CONFIG.DEBUG_MODE === true 且 CONFIG.IS_DEBUG_BATTLE === true 时，
+ * 在 BattlePage 内自动执行静默登录 → 匹配 → 入房 → 等首帧 → 跳转分配的房间。
  *
- * 在 App.tsx 顶层无条件渲染即可，内部按条件短路，不影响正常流程。
+ * 仅在当前页生命周期内最多跑一次，返回 isRunning 供调用方展示加载态。
  */
-export function useDebugBattle() {
+export function useDebugBattle(): { isRunning: boolean; worldKey: number } {
   const navigate = useNavigate()
   const { login, isAuthenticated, token } = useAuth()
-  const started = useRef(false)
+  const startedRef = useRef(false)
+  const [worldKey, setWorldKey] = useState(0)
+
+  const shouldRun = CONFIG.DEBUG_MODE && CONFIG.IS_DEBUG_BATTLE && !gameSession.isBattleReady()
+  const [isRunning, setIsRunning] = useState(shouldRun)
 
   useEffect(() => {
-    // 1 — 条件检查
-    if (!CONFIG.DEBUG_MODE || !CONFIG.IS_DEBUG_BATTLE) return
-    if (started.current) return
+    if (!shouldRun) return
 
     const account = CONFIG.DEBUG_ACCOUNT
     const password = CONFIG.DEBUG_PASSWORD
@@ -67,11 +66,13 @@ export function useDebugBattle() {
       return
     }
 
-    started.current = true
+
+    if (startedRef.current) return
+    startedRef.current = true
 
     const pipeline = async () => {
       try {
-        console.log("[DebugBattle] ⚡ 启动调试战斗自动流水线", {
+        console.log("[DebugBattle] 启动调试战斗自动流水线", {
           account,
           isAuthenticated,
         })
@@ -84,17 +85,16 @@ export function useDebugBattle() {
         }
 
         // 3 — 确保 WS 连接和游戏会话
-        //     未登录时 login() 内部已建立；已登录（页面刷新/ sessionStorage 恢复）则手动重建
         if (!wsService.isConnected) {
           if (!token) {
             console.error("[DebugBattle] 无 token，无法重建 WS 会话")
-            started.current = false
+            setIsRunning(false)
             return
           }
 
           console.log("[DebugBattle] 重建 WS 连接...")
-          const wsAddress = `ws://${CONFIG.WS_HOST}:${CONFIG.WS_PORT}`
-          await wsService.connect(wsAddress)
+          const wsUrl = "ws://" + CONFIG.WS_HOST + ":" + CONFIG.WS_PORT
+          await wsService.connect(wsUrl)
 
           const homeReq = BattleOfCell.Message.EntryHomeReq.encode(
             BattleOfCell.Message.EntryHomeReq.create({ token }),
@@ -119,59 +119,43 @@ export function useDebugBattle() {
         frameBuffer.clear()
         gameSession.enterMatching()
 
-        // 4a — MatchReq
         console.log("[DebugBattle] 发送 MatchReq...")
         const matchReqBody = BattleOfCell.Message.MatchReq.encode(
           BattleOfCell.Message.MatchReq.create({
             matchType: BattleOfCell.Message.MatchType.NORMAL,
           }),
         ).finish()
-
         const matchRespBuffer = await gameNetwork.request(
           OpCode.MatchReq,
           matchReqBody,
           OpCode.MatchResp,
           30000,
         )
-
         const matchResp = BattleOfCell.Message.MatchResp.decode(
           new Uint8Array(matchRespBuffer),
         )
         console.log("[DebugBattle] MatchResp:", JSON.stringify(matchResp))
 
-        if (
-          !(
-            matchResp.ok &&
-            matchResp.meta?.statusCode === StatusCode.Ok
-          )
-        ) {
+        if (!(matchResp.ok && matchResp.meta?.statusCode === StatusCode.Ok)) {
           throw new Error("匹配失败")
         }
 
-        // 4b — EntryRoomReq
         console.log("[DebugBattle] 发送 EntryRoomReq...")
         const entryReqBody = BattleOfCell.Message.EntryRoomReq.encode(
           BattleOfCell.Message.EntryRoomReq.create({}),
         ).finish()
-
         const entryRespBuffer = await gameNetwork.request(
           OpCode.EntryRoomReq,
           entryReqBody,
           OpCode.EntryRoomResp,
           30000,
         )
-
         const entryResp = BattleOfCell.Message.EntryRoomResp.decode(
           new Uint8Array(entryRespBuffer),
         )
         console.log("[DebugBattle] EntryRoomResp:", JSON.stringify(entryResp))
 
-        if (
-          !(
-            entryResp.ok &&
-            entryResp.meta?.statusCode === StatusCode.Ok
-          )
-        ) {
+        if (!(entryResp.ok && entryResp.meta?.statusCode === StatusCode.Ok)) {
           throw new Error("进入房间失败")
         }
 
@@ -195,15 +179,15 @@ export function useDebugBattle() {
           }),
         )
 
+        const heroInit = entryResp.heroInit
         const spawnPosition =
-          entryResp.position != null
+          heroInit?.position != null
             ? {
-                x: toNumber(entryResp.position.x),
-                y: toNumber(entryResp.position.y),
+                x: toNumber(heroInit.position.x),
+                y: toNumber(heroInit.position.y),
               }
             : null
 
-        // 4c — 等首帧
         gameSession.enterWaitingFirstFrame(
           roomId,
           worldSize,
@@ -215,7 +199,6 @@ export function useDebugBattle() {
         const firstFrameNumber = await frameBuffer.waitForFirstFrame(30000)
         console.log("[DebugBattle] 收到首帧编号:", firstFrameNumber)
 
-        // 5 — 进入战斗态 + 跳转
         gameSession.enterBattle(
           roomId,
           firstFrameNumber,
@@ -223,16 +206,25 @@ export function useDebugBattle() {
           worldShapes,
           spawnPosition ?? undefined,
         )
-        console.log("[DebugBattle] ✅ 流水线完成，跳转到 /battle/", roomId)
-        // 加时间戳参数强制 BattlePage 重新挂载，避免之前已经在 /battle/:roomId 上时跳过 initBattle
-        navigate(`/battle/${roomId}?t=${Date.now()}`, { replace: true })
+        console.log("[DebugBattle] 流水线完成，跳转到房间", roomId)
+        setIsRunning(false)
+        setWorldKey(k => k + 1)
+        navigate("/battle/" + roomId, { replace: true })
       } catch (e) {
-        console.error("[DebugBattle] ❌ 流水线异常:", e)
+        console.error("[DebugBattle] 流水线异常:", e)
         gameSession.enterLobby()
-        started.current = false
+        setIsRunning(false)
       }
     }
 
     pipeline()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return {
+    isRunning,
+    worldKey,
+  }
 }
+
+
+
