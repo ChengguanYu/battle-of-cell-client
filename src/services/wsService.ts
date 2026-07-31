@@ -39,6 +39,7 @@ function registerServerFrameIngest(): void {
       const frame = BattleOfCell.Message.ServerFrame.decode(new Uint8Array(body))
       // 无论当前阶段如何，只要有新帧就写入缓冲区（按帧号索引）
       frameBuffer.push(frame)
+      if (frame.frames.length === 0) return
       const frameObj = BattleOfCell.Message.ServerFrame.toObject(frame, {
         longs: String,
         enums: String,
